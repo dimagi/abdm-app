@@ -1,0 +1,9 @@
+{
+  "meta": {
+    "code": "en"
+  },
+  "data": {
+      "L_verify_otp": "Verify OTP",
+      "L_resend_otp": "Resend OTP",
+  }
+}
