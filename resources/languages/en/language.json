@@ -1,9 +1,22 @@
 {
-  "meta": {
-    "code": "en"
-  },
-  "data": {
-      "L_verify_otp": "Verify OTP",
-      "L_resend_otp": "Resend OTP",
-  }
+	"meta": {
+		"code": "EN"
+	},
+	"data": {
+		"VERIFY": "Verify",
+		"START_VERIFICATION": "Start Verification",
+		"VERIFY_OTP": "Verify OTP",
+		"RESEND_OTP": "Resend OTP",
+		"GEN_OTP": "Generate OTP",
+		"ENTER_ADHR_OTP": "Enter Aadhaar OTP",
+		"BENF_MOB_NUM": "Beneficiary Mobile Number",
+		"BENF_ADHR_NUM": "Beneficiary Aadhaar Number",
+		"USE_ADHR_DATA_IN_COMMCARE": "Use Aadhaar data in Commcare",
+		"ADHR_DATA": "Aadhaar Data",
+		"ABHA_NUM": "ABHA Number",
+		"RETURN": "Return",
+		"STATUS": "Status",
+		"VERIFICATION_STATUS": "Verification Status",
+		"SEL_AUTH_METHOD": "Select auth method"
+	}
 }
