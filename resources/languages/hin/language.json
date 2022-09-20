@@ -1,0 +1,23 @@
+{
+	"meta": {
+		"code": "HI",
+    "name": "Hindi"
+	},
+	"data": {
+		"VERIFY": "सत्यापित करें",
+		"START_VERIFICATION": "सत्यापन शुरू करें",
+		"VERIFY_OTP": "ओटीपी सत्यापित करें",
+		"RESEND_OTP": "ओटीपी पुनः भेजें",
+		"GEN_OTP": "ओटीपी भेजें",
+		"ENTER_ADHR_OTP": "आधार ओटीपी दर्ज करें",
+		"BENF_MOB_NUM": "लाभार्थी का मोबाइल नंबर",
+		"BENF_ADHR_NUM": "लाभार्थी आधार संख्या",
+		"USE_ADHR_DATA_IN_COMMCARE": "कॉमकेयर में आधार डेटा का उपयोग करें",
+		"ADHR_DATA": "आधार डेटा",
+		"ABHA_NUM": "आभा संख्या",
+		"RETURN": "वापसी",
+		"STATUS": "स्थति",
+		"VERIFICATION_STATUS": "सत्यापन स्थिति",
+		"SEL_AUTH_METHOD": "प्रमाणीकरण विधि का चयन करें"
+	}
+}
