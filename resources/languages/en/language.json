@@ -1,47 +1,52 @@
 {
-    "meta": {
-      "code": "EN",
-      "language": "English"
-    },
-    "app_data": {
-      "VERIFY": "Verify",
-      "START_VERIFICATION": "Start Verification",
-      "VERIFY_OTP": "Verify OTP",
-      "RESEND_OTP": "Resend OTP",
-      "GEN_OTP": "Generate OTP",
-      "ENTER_ADHR_OTP": "Enter Aadhaar OTP",
-      "BENF_MOB_NUM": "Beneficiary Mobile Number",
-      "BENF_ADHR_NUM": "Beneficiary Aadhaar Number",
-      "USE_ADHR_DATA_IN_COMMCARE": "Use Aadhaar data in Commcare",
-      "ADHR_DATA": "Aadhaar Data",
-      "ABHA_NUM": "ABHA Number",
-      "RETURN": "Return",
-      "STATUS": "Status",
-      "VERIFICATION_STATUS": "Verification Status",
-      "SEL_AUTH_METHOD": "Select auth method",
-      "ABHA_VERIFICATION": "ABHA Verification",
-      "ABHA_CREATION": "ABHA Creation"
-    },
-    "abdm_health_data": {
-        "healthIdNumber": "Health ID Number",
-        "name": "Name",
-        "gender": "Gender",
-        "yearOfBirth": "Year of Birth",
-        "monthOfBirth": "Month of Birth",
-        "dayOfBirth": "Day of Birth",
-        "firstName": "First Name",
-        "healthId": "Health ID",
-        "lastName": "Last Name",
-        "middleName": "Middle Name",
-        "stateCode": "State Code",
-        "districtCode": "District Code",
-        "stateName": "State Name",
-        "email": "Email Address",
-        "kycPhoto": "KYC Photo",
-        "profilePhoto": "Profile Photo",
-        "mobile": "Mobile Number",
-        "authMethods": "Authenication Methods",
-        "pincode": "Pin Code"
-      }
+  "meta": {
+    "code": "EN",
+    "language": "English"
+  },
+  "app_data": {
+    "VERIFY": "Verify",
+    "START_VERIFICATION": "Start Verification",
+    "VERIFY_OTP": "Verify OTP",
+    "RESEND_OTP": "Resend OTP",
+    "GEN_OTP": "Generate OTP",
+    "ENTER_ADHR_OTP": "Enter Aadhaar OTP",
+    "BENF_MOB_NUM": "Beneficiary Mobile Number",
+    "BENF_ADHR_NUM": "Beneficiary Aadhaar Number",
+    "USE_ADHR_DATA_IN_COMMCARE": "Use Aadhaar data in Commcare",
+    "ADHR_DATA": "Aadhaar Data",
+    "ABHA_NUM": "ABHA Number",
+    "RETURN": "Return",
+    "STATUS": "Status",
+    "VERIFICATION_STATUS": "Verification Status",
+    "SEL_AUTH_METHOD": "Select auth method",
+    "ABHA_VERIFICATION": "ABHA Verification",
+    "ABHA_CREATION": "ABHA Creation",
+    "BENF_ABHA_NUM": "Beneficiary ABHA Number",
+    "NO_INTERNET": "No internet available"
+  },
+  "abdm_health_data": {
+    "healthIdNumber": "Health ID Number",
+    "name": "Name",
+    "gender": "Gender",
+    "yearOfBirth": "Year of Birth",
+    "monthOfBirth": "Month of Birth",
+    "dayOfBirth": "Day of Birth",
+    "firstName": "First Name",
+    "healthId": "Health ID",
+    "lastName": "Last Name",
+    "middleName": "Middle Name",
+    "stateCode": "State Code",
+    "districtCode": "District Code",
+    "stateName": "State Name",
+    "email": "Email Address",
+    "kycPhoto": "KYC Photo",
+    "profilePhoto": "Profile Photo",
+    "mobile": "Mobile Number",
+    "authMethods": "Authenication Methods",
+    "pincode": "Pin Code",
+    "AADHAAR_OTP": "Aadhar OTP",
+    "MOBILE_OTP": "Mobile OTP"
   }
+}
+
   
