@@ -25,7 +25,7 @@
 	
 "abdm_health_data": {
 "healthIdNumber": "स्वास्थ्य आईडी नंबर",
-"name": "नाम"
+"name": "नाम",
 "gender": "लिंग",
 "yearOfBirth": "जन्म का वर्ष",
 "monthOfBirth": "जन्म का महीना",
