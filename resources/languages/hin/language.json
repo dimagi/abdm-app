@@ -1,50 +1,48 @@
 {
-    "meta": {
-      "code": "HIN",
-     "language": "Hindi"
-    },
-    "app_data": {
-      "VERIFY": "सत्यापित करें",
-      "START_VERIFICATION": "सत्यापन प्रारंभ करें",
-      "VERIFY_OTP": "OTP सत्यापित करें",
-      "RESEND_OTP": "OTP को फिर से भेजें",
-   "GEN_OTP": "OTP बनाएं",
-      "ENTER_ADHR_OTP": "आधार OTP दर्ज करें",
-      "BENF_MOB_NUM": "लाभार्थी मोबाइल नंबर",
-      "BENF_ADHR_NUM": "लाभार्थी आधार संख्या",
-"USE_ADHR_DATA_IN_COMMCARE": "कॉमकेयर में आधार जानकारी का उपयोग करें",
-"ADHR_DATA": "आधार जानकारी",
-"ABHA_NUM": "ABHA नंबर",
-"RETURN": "वापसी",
-"STATUS": "स्थिति",
-"VERIFICATION_STATUS": "सत्यापन स्थिति",
-"SEL_AUTH_METHOD": "प्रमाणीकरण विधि चुनें",
-"ABHA_VERIFICATION": "ABHA सत्यापन",
-"ABHA_CREATION": "ABHA सृष्टि"
-},
-	
-"abdm_health_data": {
-"healthIdNumber": "स्वास्थ्य आईडी नंबर",
-"name": "नाम",
-"gender": "लिंग",
-"yearOfBirth": "जन्म का वर्ष",
-"monthOfBirth": "जन्म का महीना",
-"dayOfBirth": "जन्म का दिन",
-"firstName": "पहला नाम",
-"healthId": "स्वास्थ्य आईडी",
-"lastName": "अंतिम नाम",
-"middleName": "मध्य नाम",
-"stateCode": "राज्य कोड",
-"districtCode": "जिला कोड",
-"stateName": "राज्य का नाम",
-"email": "ईमेल पता",
-"kycPhoto": "KYC फोटो",
-"profilePhoto": "प्रोफाइल फोटो",
-"mobile": "मोबाइल नंबर",
-"authMethods": "प्रमाणीकरण के तरीके",
-"pincode": "पिन कोड",
-"AADHAAR_OTP": "आधार OTP",
-"MOBILE_OTP": "मोबाइल OTP"
-
-}
+   "meta":{
+      "code":"HIN",
+      "language":"Hindi"
+   },
+   "app_data":{
+      "VERIFY":"सत्यापित करें",
+      "START_VERIFICATION":"सत्यापन प्रारंभ करें",
+      "VERIFY_OTP":"OTP सत्यापित करें",
+      "RESEND_OTP":"OTP को फिर से भेजें",
+      "GEN_OTP":"OTP बनाएं",
+      "ENTER_ADHR_OTP":"आधार OTP दर्ज करें",
+      "BENF_MOB_NUM":"लाभार्थी मोबाइल नंबर",
+      "BENF_ADHR_NUM":"लाभार्थी आधार संख्या",
+      "USE_ADHR_DATA_IN_COMMCARE":"कॉमकेयर में आधार जानकारी का उपयोग करें",
+      "ADHR_DATA":"आधार जानकारी",
+      "ABHA_NUM":"ABHA नंबर",
+      "RETURN":"वापसी",
+      "STATUS":"स्थिति",
+      "VERIFICATION_STATUS":"सत्यापन स्थिति",
+      "SEL_AUTH_METHOD":"प्रमाणीकरण विधि चुनें",
+      "ABHA_VERIFICATION":"ABHA सत्यापन",
+      "ABHA_CREATION":"ABHA सृष्टि"
+   },
+   "abdm_health_data":{
+      "healthIdNumber":"स्वास्थ्य आईडी नंबर",
+      "name":"नाम",
+      "gender":"लिंग",
+      "yearOfBirth":"जन्म का वर्ष",
+      "monthOfBirth":"जन्म का महीना",
+      "dayOfBirth":"जन्म का दिन",
+      "firstName":"पहला नाम",
+      "healthId":"स्वास्थ्य आईडी",
+      "lastName":"अंतिम नाम",
+      "middleName":"मध्य नाम",
+      "stateCode":"राज्य कोड",
+      "districtCode":"जिला कोड",
+      "stateName":"राज्य का नाम",
+      "email":"ईमेल पता",
+      "kycPhoto":"KYC फोटो",
+      "profilePhoto":"प्रोफाइल फोटो",
+      "mobile":"मोबाइल नंबर",
+      "authMethods":"प्रमाणीकरण के तरीके",
+      "pincode":"पिन कोड",
+      "AADHAAR_OTP":"आधार OTP",
+      "MOBILE_OTP":"मोबाइल OTP"
+   }
 }
