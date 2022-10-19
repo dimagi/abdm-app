@@ -11,6 +11,7 @@ object LanguageManager {
             "    \"language\": \"English\"\n" +
             "  },\n" +
             "  \"app_data\": {\n" +
+            "    \"USER_ABORTED\": \"Application aborted by user.\",\n" +
             "    \"PROCEED_CLOSE\": \"Do you want to exit?\",\n" +
             "    \"VERIFY\": \"Verify\",\n" +
             "    \"START_VERIFICATION\": \"Start Verification\",\n" +
@@ -104,7 +105,6 @@ enum class TranslationKey {
     NO_INTERNET,
     TOKEN_MISSING,
     REQ_DATA_MISSING,
-    AUTH_METHODS_NOT_RECEIVED,
     PROCEED_CLOSE,
     YES,
     USER_ABORTED
