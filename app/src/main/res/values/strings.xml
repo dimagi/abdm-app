@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">ABDM App</string>
+    <string name="beneficiaryMobileNumber">Beneficiary Mobile Number</string>
+    <string name="beneficiaryAadharNumber">Beneficiary Aadhaar Number</string>
+    <string name="generateOtp">Generate OTP</string>
+    <string name="enter_mobile_otp">Enter Mobile OTP</string>
+    <string name="enter_aadhaar_otp">Enter Aadhaar OTP</string>
+    <string name="verify">Verify</string>
+    <string name="ben_mobile_num">Beneficiary Mobile Number</string>
+    <string name="ben_aadhar_num">Beneficiary Aadhaar Number</string>
+    <string name="ben_abha_num">Beneficiary ABHA Number</string>
+    <string name="gen_otp">Generate OTP</string>
+    <string name="resent_otp">Resend OTP</string>
+    <string name="abha_creation">ABHA Creation</string>
+    <string name="returnn">Return</string>
+    <string name="adhar_consent">Use Aadhaar data in Commcare</string>
+    <string name="abha_num">ABHA Number</string>
+    <string name="aadhar_data">Aadhaar Data</string>
+    <string name="start_verification">Start Verification</string>
+    <string name="select_auth">Select auth method</string>
+    <string name="verification_status">Verification Status</string>
+    <string name="status">Status</string>
+    <string name="abha_verification">ABHA verification</string>
+    <string name="mobile_start_number">Should start with 6,7,8 or 9</string>
+    <string name="cancel">Cancel</string>
+    <string name="decline">Decline</string>
+    <string name="accept">Accept</string>
+    <string name="ok">Ok</string>
+    <string name="app_blocked">OTP request blocked for %s.</string>
+    <string name="close">Close</string>
+
+</resources>

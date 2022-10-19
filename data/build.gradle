@@ -1,0 +1,37 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION
+    buildToolsVersion BUILD_TOOLS_VERSION
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE_CORE"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINE_ANDROID"
+
+    api "com.google.code.gson:gson:$GSON_VERSION"
+    api "com.squareup.retrofit2:converter-gson:$GSON_VERSION"
+    api "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
+    api "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
+    api "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    api "com.squareup.retrofit2:converter-jackson:$RETROFIT_VERSION"
+    api "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION"
+    api "com.google.dagger:hilt-android:$HILT_VERSION"
+    api "com.jakewharton.timber:timber:$TIMBER_VER"
+    api "androidx.datastore:datastore-preferences:1.0.0"
+    implementation project(path: ':domain')
+
+
+}

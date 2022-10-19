@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/abdm_navigation"
+    app:startDestination="@id/enterAbhaCreationDetailsFragment">
+
+    <fragment
+        android:id="@+id/enterAbhaCreationDetailsFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.EnterAadhaarNumberFragment"
+        >
+        <action
+            android:id="@+id/action_enterAbhaCreationDetailsFragment_to_verifyAadhaarOtpFragment"
+            app:destination="@id/verifyAadhaarOtpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyMobileOtpFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.VerifyMobileOtpFragment"
+       >
+        <action
+            android:id="@+id/action_verifyMobileOtpFragment_to_abhaDetailFragment"
+            app:destination="@id/abhaDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyAadhaarOtpFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.VerifyAadhaarOtpFragment"
+       >
+        <action
+            android:id="@+id/action_verifyAadhaarOtpFragment_to_verifyMobileOtpFragment"
+            app:destination="@id/verifyMobileOtpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/abhaDetailFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.AbhaCreationResultFragment"
+         />
+</navigation>
