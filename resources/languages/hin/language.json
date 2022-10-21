@@ -36,6 +36,7 @@
       "stateCode":"राज्य कोड",
       "districtCode":"जिला कोड",
       "stateName":"राज्य का नाम",
+      "districtName": "जिला का नाम",
       "email":"ईमेल पता",
       "kycPhoto":"KYC फोटो",
       "profilePhoto":"प्रोफाइल फोटो",
