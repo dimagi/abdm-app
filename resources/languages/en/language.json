@@ -38,6 +38,7 @@
     "stateCode": "State Code",
     "districtCode": "District Code",
     "stateName": "State Name",
+    "districtName": "District Name",
     "email": "Email Address",
     "kycPhoto": "KYC Photo",
     "profilePhoto": "Profile Photo",
