@@ -1,6 +1,5 @@
 package org.commcare.dalvik.domain.model
 
-import com.google.gson.JsonObject
 import java.io.Serializable
 
 
