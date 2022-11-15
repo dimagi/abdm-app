@@ -28,18 +28,18 @@ class TestActivity : AppCompatActivity() {
             startIntentA()
         }
 
-        HeaderInterceptor.API_KEY = "Token 01bed27f81885164999b2adc0e28b8ba8cb58eda"
+        HeaderInterceptor.API_KEY = ""
 
     }
 
     val lang = "hin"
-    private val token = "Token 109b062f806baf3b750eaec84bebd5978de095e1"
+    private val token = ""
 
     private fun startIntentA() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "abha_id" to "66543673407500",
+                    "abha_id" to "",
                     "lang_code" to lang,
                     "abdm_api_token" to token,
                 )
@@ -54,7 +54,7 @@ class TestActivity : AppCompatActivity() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "mobile_number" to "9560833229",
+                    "mobile_number" to "",
                     "abdm_api_token" to token,
                     "lang_code" to lang
                 )

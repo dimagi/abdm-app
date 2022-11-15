@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.ABDMApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/buttonColor</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/cc_brand_color</item>
+        <item name="colorPrimaryVariant">@color/cc_brand_text</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
