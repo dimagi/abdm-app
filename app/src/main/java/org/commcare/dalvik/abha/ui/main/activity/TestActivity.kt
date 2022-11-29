@@ -32,7 +32,7 @@ class TestActivity : AppCompatActivity() {
 
     }
 
-    val lang = "hin"
+    val lang = "hi"
     private val token = ""
 
     private fun startIntentA() {

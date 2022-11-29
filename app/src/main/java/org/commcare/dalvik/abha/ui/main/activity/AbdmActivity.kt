@@ -1,6 +1,7 @@
 package org.commcare.dalvik.abha.ui.main.activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -23,13 +24,14 @@ import org.commcare.dalvik.abha.application.AbdmApplication
 import org.commcare.dalvik.abha.databinding.AbdmActivityBinding
 import org.commcare.dalvik.abha.utility.DialogType
 import org.commcare.dalvik.abha.utility.DialogUtility
-import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.AbdmViewModel
+import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.data.network.HeaderInterceptor
 import org.commcare.dalvik.domain.model.LanguageManager
 import org.commcare.dalvik.domain.model.TranslationKey
 import timber.log.Timber
 import java.io.Serializable
+import java.util.*
 
 @AndroidEntryPoint
 class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::inflate) {
@@ -44,15 +46,6 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         verifyIntentData()
         mBinding?.apply {
             setSupportActionBar(this.toolbarContainer.toolbar)
-            intent.extras?.containsKey("abha_id")?.let { hasAbhaId ->
-                if (hasAbhaId) {
-                    supportActionBar?.title =
-                        LanguageManager.getTranslatedValue(TranslationKey.ABHA_VERIFICATION)
-                } else {
-                    supportActionBar?.title =
-                        LanguageManager.getTranslatedValue(TranslationKey.ABHA_CREATION)
-                }
-            }
         }
 
         navHostFragment =
@@ -71,8 +64,22 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         observeLoader()
         observeBlockedOtpRequest()
 
-        intent.extras?.getString("lang_code")?.let {
-            viewmodel.getTranslation(it)
+        intent.extras?.getString("lang_code")?.let { langId ->
+            val config = Configuration(resources.configuration)
+            config.locale = Locale(langId, "IN")
+            resources.updateConfiguration(config, resources.displayMetrics)
+
+            intent.extras?.containsKey("abha_id")?.let { hasAbhaId ->
+                if (hasAbhaId) {
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this,R.string.ABHA_VERIFICATION)
+                } else {
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this,R.string.ABHA_CREATION)
+                }
+            }
+
+//            viewmodel.getTranslation(langId)
         }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

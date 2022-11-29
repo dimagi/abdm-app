@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:helperTextEnabled="true"
-            app:translatedTextKey="@{TranslationKey.BENF_MOB_NUM}"
+            android:hint="@string/BENF_MOB_NUM"
             app:helperTextTextColor="@color/error"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                app:translatedTextKey="@{TranslationKey.BENF_MOB_NUM}"
+                android:hint="@string/BENF_MOB_NUM"
                 android:inputType="number"
                 android:maxLength="10"
                 android:text="@{model.abhaRequestModel.mobileNumber}" />
@@ -53,7 +53,7 @@
             app:counterMaxLength="12"
             app:endIconMode="clear_text"
             app:helperTextEnabled="true"
-            app:translatedTextKey="@{TranslationKey.BENF_ADHR_NUM}"
+            android:hint="@string/BENF_ADHR_NUM"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/mobileNumInputLayout">
@@ -63,7 +63,7 @@
                 style="@style/EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:translatedTextKey="@{TranslationKey.BENF_ADHR_NUM}"
+                android:hint="@string/BENF_ADHR_NUM"
                 android:inputType="number"
                 android:maxLength="12"
                 android:text="@={model.abhaRequestModel.aadhaar}" />
@@ -91,7 +91,7 @@
             android:layout_marginTop="32dp"
             android:enabled="false"
             android:onClickListener="@{clickHandler}"
-            app:translatedTextKey="@{TranslationKey.GEN_OTP}"
+            android:text="@string/GEN_OTP"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/aadharNumberInputLayout" />

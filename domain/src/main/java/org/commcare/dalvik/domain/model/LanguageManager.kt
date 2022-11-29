@@ -1,5 +1,6 @@
 package org.commcare.dalvik.domain.model
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 
@@ -70,6 +71,10 @@ object LanguageManager {
                 return it.asString
             } ?: key
         }
+    }
+
+    fun getTranslatedValue(context: Context, key: Int): String {
+        return context.resources.getString(key)
     }
 
     fun getTranslatedValue(key: TranslationKey) = translationModel.getTranslatedString(key.name)
