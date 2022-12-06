@@ -1,5 +1,6 @@
 package org.commcare.dalvik.domain.model
 
+import android.content.Context
 import com.google.gson.JsonArray
 import com.google.gson.JsonNull
 import com.google.gson.JsonObject
@@ -28,7 +29,7 @@ class AbhaDetailModel() {
     lateinit var data: JsonObject
 
 
-    fun getAadhaarDataList(): List<KeyValueModel> {
+    fun getAadhaarDataList(context: Context,abhaHealthLangKeysMap:Map<String,Int>): List<KeyValueModel> {
         val filters = mutableListOf("kycPhoto", "profilePhoto", "new", "tags")
         val aadhaarDataList = mutableListOf<KeyValueModel>()
         data.keySet().filter {
@@ -51,7 +52,10 @@ class AbhaDetailModel() {
                 }
                 aadhaarDataList.add(
                     KeyValueModel(
-                        LanguageManager.getTranslatedValue(key),
+                        abhaHealthLangKeysMap[key]?.let {
+                            context.getString(it)
+                        }?:key
+                        ,
                         value
                     )
                 )

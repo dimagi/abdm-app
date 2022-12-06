@@ -27,7 +27,7 @@
             android:layout_marginTop="16dp"
             app:endIconMode="clear_text"
             app:helperTextEnabled="true"
-            app:translatedTextKey="@{TranslationKey.ENTER_MOB_OTP}"
+            android:hint="@string/ENTER_MOBILE_OTP"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
@@ -37,10 +37,9 @@
                 android:id="@+id/mobileOtpEt"
                 style="@style/EditTextStyle"
                 android:maxLength="6"
-                app:translatedTextKey="@{TranslationKey.ENTER_MOB_OTP}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_mobile_otp"
+                android:hint="@string/ENTER_MOBILE_OTP"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,7 +85,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-
                 android:layout_marginRight="8dp"
                 android:onClickListener="@{clickHandler}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -94,7 +92,8 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:translatedTextKey="@{TranslationKey.RESEND_OTP}" />
+                android:text="@string/RESEND_OTP"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -108,7 +107,7 @@
             android:enabled="false"
             android:layout_marginTop="@dimen/_16dp"
             android:onClickListener="@{clickHandler}"
-            app:translatedTextKey="@{TranslationKey.VERIFY}"
+            android:text="@string/VERIFY"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toBottomOf="@+id/resentOtpContainer" />

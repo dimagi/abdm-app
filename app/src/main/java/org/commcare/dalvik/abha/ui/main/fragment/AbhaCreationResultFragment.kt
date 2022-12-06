@@ -12,6 +12,7 @@ import org.commcare.dalvik.abha.databinding.AbhaDetailBinding
 import org.commcare.dalvik.abha.databinding.KeyValueBinding
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.ui.main.activity.AbdmResponseCode
+import org.commcare.dalvik.abha.utility.AppConstants
 import org.commcare.dalvik.abha.viewmodel.AbdmViewModel
 
 class AbhaCreationResultFragment : BaseFragment<AbhaDetailBinding>(AbhaDetailBinding::inflate) {
@@ -40,7 +41,7 @@ class AbhaCreationResultFragment : BaseFragment<AbhaDetailBinding>(AbhaDetailBin
 
 
     private fun renderAadhaarData() {
-        viewModel.abhaDetailModel.value?.getAadhaarDataList()?.forEachIndexed { index, kvModel ->
+        viewModel.abhaDetailModel.value?.getAadhaarDataList(requireContext(),AppConstants.abhaHealthLangKeysMap)?.forEachIndexed { index, kvModel ->
             val kvBinding = KeyValueBinding.inflate(LayoutInflater.from(requireContext()))
             if (index % 2 == 0) {
                 kvBinding.tableRow.setBackgroundColor(

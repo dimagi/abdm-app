@@ -31,7 +31,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="parent"
-            app:translatedTextKey="@{TranslationKey.ENTER_ADHR_OTP}">
+            android:hint="@string/ENTER_ADHR_OTP"
+           >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/aadhaarOtpEt"
@@ -40,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:maxLength="6"
-                app:translatedTextKey="@{TranslationKey.ENTER_ADHR_OTP}" />
+                android:hint="@string/ENTER_ADHR_OTP"
+                 />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -78,7 +80,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:translatedTextKey="@{TranslationKey.RESEND_OTP}"
+                android:text="@string/RESEND_OTP"
                 tools:text="Resend" />
 
             <org.commcare.dalvik.abha.ui.main.custom.TimeProgressBar
@@ -110,7 +112,8 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toBottomOf="@+id/resentOtpContainer"
-            app:translatedTextKey="@{TranslationKey.VERIFY}" />
+            android:text="@string/VERIFY"
+             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
