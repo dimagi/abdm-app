@@ -1,0 +1,99 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id("kotlin-kapt")
+    id "dagger.hilt.android.plugin"
+    id "kotlin-parcelize"
+}
+
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdk COMPILE_SDK_VERSION
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId "org.commcare.dalvik.abha"
+        minSdk MIN_VERSION
+        targetSdk TARGET_VERSION
+        versionCode 1
+        versionName "1.4"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        dexOptions {
+            javaMaxHeapSize "2048m"
+            threadCount 5
+        }
+
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation project(path: ':domain')
+    implementation project(path: ':data')
+    
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    implementation 'com.google.android.material:material:1.8.0-alpha01'
+
+    implementation "com.google.dagger:hilt-android:$HILT_VERSION"
+    kapt("com.google.dagger:hilt-android-compiler:$HILT_VERSION")
+    implementation 'androidx.activity:activity-ktx:1.5.1'
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1'
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:converter-gson:$GSON_VERSION"
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$ANDROID_X_LIFE_CYCLE_VERSION"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$ANDROID_X_LIFE_CYCLE_VERSION"
+
+    //Nav version
+    implementation "androidx.navigation:navigation-fragment-ktx:$NAV_VERSION"
+    implementation "androidx.navigation:navigation-ui-ktx:$NAV_VERSION"
+
+    implementation "androidx.fragment:fragment-ktx:$FRAGMENT_VERSION"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE_CORE"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINE_ANDROID"
+
+    //TIMBER
+    implementation "com.jakewharton.timber:timber:$TIMBER_VER"
+
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+
+    implementation("com.squareup.okio:okio:3.2.0")
+
+}

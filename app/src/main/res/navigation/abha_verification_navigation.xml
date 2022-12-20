@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/abha_verification_navigation"
+    app:startDestination="@id/startAbhaVerificationFragment">
+
+    <fragment
+        android:id="@+id/startAbhaVerificationFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.StartAbhaVerificationFragment">
+        <action
+            android:id="@+id/action_startAbhaVerificationFragment_to_selectAuthenticationFragment"
+            app:destination="@id/selectAuthenticationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectAuthenticationFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.SelectAuthenticationFragment">
+        <action
+            android:id="@+id/action_selectAuthenticationFragment_to_verifyMobileOtpFragment"
+            app:destination="@id/verifyMobileOtpFragment" />
+        <action
+            android:id="@+id/action_selectAuthenticationFragment_to_verifyAadhaarOtpFragment"
+            app:destination="@id/verifyAadhaarOtpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyMobileOtpFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.VerifyMobileOtpFragment">
+        <action
+            android:id="@+id/action_verifyMobileOtpFragment_to_abhaVerificationResultFragment"
+            app:destination="@id/abhaVerificationResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyAadhaarOtpFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.VerifyAadhaarOtpFragment">
+        <action
+            android:id="@+id/action_verifyAadhaarOtpFragment_to_abhaVerificationResultFragment"
+            app:destination="@id/abhaVerificationResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/abhaVerificationResultFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.AbhaVerificationResultFragment" />
+</navigation>

@@ -1,0 +1,114 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.ABDMApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/cc_brand_color</item>
+        <item name="colorPrimaryVariant">@color/cc_brand_text</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:textColorSecondary">@android:color/white</item>
+
+        <item name="android:textColorPrimary">@android:color/white</item>
+
+    </style>
+
+
+    <style name="HeadlineBase" parent="TextViewStyle">
+
+    </style>
+
+    <style name="Headline1" parent="HeadlineBase">
+        <item name="android:fontFamily">@font/nunitosans_extrabold</item>
+    </style>
+
+    <style name="Headline2" parent="HeadlineBase">
+        <item name="android:fontFamily">@font/nunitosans_bold</item>
+    </style>
+
+    <style name="Headline3" parent="HeadlineBase">
+        <item name="android:fontFamily">@font/nunitosans_semibold</item>
+    </style>
+
+    <style name="Headline4" parent="HeadlineBase">
+        <item name="android:fontFamily">@font/nunitosans_extrabold</item>
+    </style>
+
+    <style name="Headline5" parent="HeadlineBase">
+        <item name="android:fontFamily">@font/nunitosans_extrabold</item>
+    </style>
+
+    <style name="Headline6" parent="HeadlineBase">
+        <item name="android:fontFamily">@font/nunitosans_extrabold</item>
+    </style>
+
+    <!-- TEXTVIEW STYLE START-->
+    <style name="ToolbarStyle">
+        <item name="android:fontFamily">@font/nunitosans_bold</item>
+    </style>
+
+    <style name="EditTextStyle">
+        <item name="android:fontFamily">@font/nunitosans_bold</item>
+    </style>
+
+    <style name="RoundStyleButton" parent="Commcare.Button.Primary">
+
+    </style>
+
+    <style name="TextViewStyle" parent="@style/Widget.MaterialComponents.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/button_primary</item>
+    </style>
+
+    <style name="DialogParent" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/bgColor</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="DialogThemeGeneral" parent="DialogParent">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="DialogThemeWarning" parent="DialogParent">
+        <item name="android:textColor">@color/warning</item>
+    </style>
+
+    <style name="DialogThemeBlocker" parent="DialogParent">
+        <item name="android:textColor">@color/error</item>
+    </style>
+
+    <style name="ScreenTheme" >
+        <item name="android:background">@color/bgColor</item>
+    </style>
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!--   COMMCARE STYLING -->
+
+    <style name="commcare_primary_button" parent="Widget.AppCompat.Button">
+        <item name="textAllCaps">true</item>
+        <item name="android:minHeight">@dimen/dp60</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/primary_button_background</item>
+        <item name="cornerRadius">@dimen/_6dp</item>
+    </style>
+
+    <style name="Commcare.Button.Primary" parent="commcare_primary_button" />
+
+    <dimen name="_6dp">6dp</dimen>
+</resources>
