@@ -1,0 +1,8 @@
+- uses: sparkfabrik/android-build-action@v1.3.4
+  with:
+    project-path: android
+    output-path: abdm.apk
+    browserstack-upload: false
+    ruby-version: "2.7.5"
+    bundler-version: "2.3.26"
+    fastlane-env: "debug"
