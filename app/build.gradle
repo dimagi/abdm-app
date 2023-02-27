@@ -10,7 +10,6 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdk COMPILE_SDK_VERSION
-    buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "org.commcare.dalvik.abha"
