@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "org.commcare.dalvik.abha"
-        minSdk MIN_VERSION
+        minSdkVersion 14
         targetSdk TARGET_VERSION
         versionCode 1
         versionName "1.4"
