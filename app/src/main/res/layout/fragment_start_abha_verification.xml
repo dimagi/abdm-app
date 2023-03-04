@@ -31,8 +31,6 @@
                 style="@style/EditTextStyle"
                 android:enabled="false"
                 android:hint="@string/ben_abha_num"
-                android:maxLength="14"
-                android:inputType="number"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
