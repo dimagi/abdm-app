@@ -12,7 +12,7 @@
     <string name="ENTER_MOBILE_OTP">मोबाइल ओटीपी दर्ज करें</string>
     <string name="USE_ADHR_DATA_IN_COMMCARE">कॉमकेयर में आधार जानकारी का उपयोग करें</string>
     <string name="ADHR_DATA">आधार जानकारी</string>
-    <string name="ABHA_NUM">ABHA संख्या</string>
+    <string name="ABHA_NUM">ABHA</string>
     <string name="RETURN">वापसी</string>
     <string name="STATUS">स्थिति</string>
     <string name="VERIFICATION_STATUS">सत्यापन स्थिति</string>
