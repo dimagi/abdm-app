@@ -90,6 +90,11 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
     }
 
+    fun setToolbarTitle(titleId:Int){
+        supportActionBar?.title =
+            LanguageManager.getTranslatedValue(this,titleId)
+    }
+
     // MENU HANDLING
     fun hideMenu() {
         showMenu = false
