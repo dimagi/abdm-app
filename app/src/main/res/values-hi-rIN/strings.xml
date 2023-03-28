@@ -12,7 +12,7 @@
     <string name="ENTER_MOBILE_OTP">मोबाइल ओटीपी दर्ज करें</string>
     <string name="USE_ADHR_DATA_IN_COMMCARE">कॉमकेयर में आधार जानकारी का उपयोग करें</string>
     <string name="ADHR_DATA">आधार जानकारी</string>
-    <string name="ABHA_NUM">ABHA</string>
+    <string name="ABHA_NUM">ABHA संख्य</string>
     <string name="RETURN">वापसी</string>
     <string name="STATUS">स्थिति</string>
     <string name="VERIFICATION_STATUS">सत्यापन स्थिति</string>
@@ -42,6 +42,17 @@
     <string name="AADHAAR_OTP">आधार OTP</string>
     <string name="MOBILE_OTP">मोबाइल OTP</string>
 
+    <string name="tnc">लाभार्थी की सहमति</string>
+    <string name="note">टिप्पणी:</string>
+    <string name="check_abha_note">नया ABHA बनाते समय आभा इनपुट वैकल्पिक है। खाली छोड़े जाने पर, एक ऑटो जनरेट किया गया ABHA बनाया जाएगा।
+यदि लाभार्थी कस्टम ABHA पते में रुचि रखता है तो कृपया इस फ़ील्ड को भरें।</string>
+    <string name="ABHA_IN_USE">ABHA पता पहले से ही उपयोग में है।</string>
+    <string name="checkABHA">ABHA की जाँच करें</string>
+    <string name="abha_to_check">जाँच करने के लिए ABHA दर्ज करें</string>
+
+    <string name="decline">अस्वीकृत</string>
+    <string name="accept">स्वीकार</string>
+    <string name="i_agree">मैं सहमत हूं</string>
 
 
 </resources>

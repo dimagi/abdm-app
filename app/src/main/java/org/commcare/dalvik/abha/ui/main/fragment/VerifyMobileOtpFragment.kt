@@ -341,7 +341,8 @@ class VerifyMobileOtpFragment :
 
     private fun getMobileOtpRequestModel() = VerifyOtpRequestModel(
         viewModel.abhaRequestModel.value!!.txnId,
-        binding.mobileOtpEt.text.toString()
+        binding.mobileOtpEt.text.toString(),
+        arguments?.getString("healthId")
     )
 
 

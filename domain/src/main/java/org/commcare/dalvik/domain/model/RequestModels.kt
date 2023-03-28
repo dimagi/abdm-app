@@ -12,7 +12,7 @@ data class MobileOtpRequestModel(
     val txn_id: String
 ) : BaseModel()
 
-data class VerifyOtpRequestModel(val txn_id: String, val otp: String)
+data class VerifyOtpRequestModel(val txn_id: String, val otp: String,@SerializedName("health_id") val healthId: String? = null)
 
 data class GenerateAuthOtpModel(
     @SerializedName("health_id") val healthId: String,
@@ -20,3 +20,6 @@ data class GenerateAuthOtpModel(
 )
 
 data class GetAuthMethodRequestModel( @SerializedName("health_id") val healthId: String)
+
+data class AbhaCardRequestModel(@SerializedName("user_token") val userToken: String)
+data class AbhaVerificationRequestModel(@SerializedName("health_id") val healthId: String)

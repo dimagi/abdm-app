@@ -69,15 +69,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
             config.locale = Locale(langId, "IN")
             resources.updateConfiguration(config, resources.displayMetrics)
 
-            intent.extras?.containsKey("abha_id")?.let { hasAbhaId ->
-                if (hasAbhaId) {
-                    supportActionBar?.title =
-                        LanguageManager.getTranslatedValue(this,R.string.ABHA_VERIFICATION)
-                } else {
-                    supportActionBar?.title =
-                        LanguageManager.getTranslatedValue(this,R.string.ABHA_CREATION)
-                }
-            }
+           setTitleFromIntent()
 
 //            viewmodel.getTranslation(langId)
         }
@@ -88,6 +80,18 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
             }
         })
 
+    }
+
+    fun setTitleFromIntent(){
+        intent.extras?.containsKey("abha_id")?.let { hasAbhaId ->
+            if (hasAbhaId) {
+                supportActionBar?.title =
+                    LanguageManager.getTranslatedValue(this,R.string.ABHA_VERIFICATION)
+            } else {
+                supportActionBar?.title =
+                    LanguageManager.getTranslatedValue(this,R.string.ABHA_CREATION)
+            }
+        }
     }
 
     fun setToolbarTitle(titleId:Int){

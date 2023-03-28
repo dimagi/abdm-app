@@ -11,7 +11,7 @@ import timber.log.Timber
 
 class NetworkUtil {
     companion object {
-        const val BASE_URL = "https://ccind.duckdns.org/abdm/api/"
+        const val BASE_URL = "https://auditabdm.duckdns.org/abdm/api/"//""https://ccind.duckdns.org/abdm/api/"
         const val TRANSLATION_BASE_URL = "https://raw.githubusercontent.com/"
         fun getTranslationEndpoint(code:String)=
             "https://raw.githubusercontent.com/dimagi/abdm-app/main/resources/languages/${code}/language.json"

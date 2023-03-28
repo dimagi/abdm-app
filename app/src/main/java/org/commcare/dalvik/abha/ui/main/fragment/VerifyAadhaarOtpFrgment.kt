@@ -398,6 +398,7 @@ class VerifyAadhaarOtpFragment :
                     viewModel.clearOtpRequestState(it)
                 }
                 val bundle = bundleOf("verificationMode" to VerificationMode.VERIFY_MOBILE_OTP)
+                bundle.putString("healthId",arguments?.getString("healthId"))
                 findNavController().navigate(
                     R.id.action_verifyAadhaarOtpFragment_to_verifyMobileOtpFragment,
                     bundle

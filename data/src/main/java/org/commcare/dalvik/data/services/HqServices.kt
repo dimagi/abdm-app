@@ -31,4 +31,12 @@ interface HqServices {
     @POST("confirm_with_mobile_otp")
     suspend fun confirmMobileOtp(@Body verifyOtpRequestModel: VerifyOtpRequestModel):Response<JsonObject>
 
+    @POST("exists_by_health_id")
+    suspend fun checkAbhaAddressAvailability(@Body abhaVerificationRequestModel: AbhaVerificationRequestModel):Response<JsonObject>
+
+    @POST("get_health_card_png")
+    suspend fun fetchAbhaCard(@Body abhaCardRequestModel: AbhaCardRequestModel):Response<JsonObject>
+
+
+
 }

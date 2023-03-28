@@ -112,7 +112,8 @@ enum class TranslationKey {
     REQ_DATA_MISSING,
     PROCEED_CLOSE,
     YES,
-    USER_ABORTED
+    USER_ABORTED,
+    CONSENT_DECLINED
 }
 
 

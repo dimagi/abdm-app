@@ -5,11 +5,18 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.gson.Gson
+import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.databinding.AbhaVerificationResultBinding
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.ui.main.activity.AbdmResponseCode
 import org.commcare.dalvik.abha.viewmodel.AbdmViewModel
+import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.domain.model.AbhaVerificationResultModel
+import org.commcare.dalvik.domain.model.HealthCardResponseModel
 
 class AbhaVerificationResultFragment :
     BaseFragment<AbhaVerificationResultBinding>(AbhaVerificationResultBinding::inflate) {
@@ -37,6 +44,8 @@ class AbhaVerificationResultFragment :
 //        viewModel.abhaRequestModel.value?.abhaId?.let {
 //            viewModel.clearOtpRequestState(it)
 //        }
+        renderAbhaCard()
+        observeUiState()
     }
 
     override fun onClick(view: View?) {
@@ -53,5 +62,32 @@ class AbhaVerificationResultFragment :
         }
 
         (activity as AbdmActivity).onAbhaNumberVerification(intent)
+    }
+
+    private fun renderAbhaCard() {
+        binding.model?.userToken?.let {
+            viewModel.fetchAbhaCard(it)
+        }
+    }
+
+    private fun observeUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    when (it) {
+                        is GenerateAbhaUiState.Success -> {
+                            binding.healthCardModel =
+                                Gson().fromJson(it.data, HealthCardResponseModel::class.java)
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                        }
+
+                        is GenerateAbhaUiState.Error -> {
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                        }
+
+                    }
+                }
+            }
+        }
     }
 }

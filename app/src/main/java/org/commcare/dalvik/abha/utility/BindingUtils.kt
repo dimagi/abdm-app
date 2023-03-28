@@ -18,12 +18,16 @@ class BindingUtils {
         @JvmStatic
         @BindingAdapter("loadImage")
         fun loadImage(view: ImageView, src: String?) {
-            val decodedString: ByteArray = Base64.decode(src, Base64.DEFAULT)
-            val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-            Glide.with(view.context)
-                .load(decodedByte)
-                .error(R.drawable.ic_baseline_person_24)
-                .into(view)
+            src?.let {
+                val decodedString: ByteArray = Base64.decode(it, Base64.DEFAULT)
+                val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                Glide.with(view.context)
+                    .load(decodedByte)
+                    .error(R.drawable.ic_baseline_account_circle_24)
+                    .placeholder(R.drawable.ic_baseline_account_circle_24)
+                    .into(view)
+            }
+
         }
 
         @JvmStatic

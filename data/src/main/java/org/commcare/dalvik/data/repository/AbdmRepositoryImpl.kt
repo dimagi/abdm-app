@@ -54,4 +54,14 @@ class AbdmRepositoryImpl @Inject constructor(val hqServices: HqServices) : AbdmR
             hqServices.verifyAadhaarOtp(verifyOtpRequestModel)
         }
 
+    override fun checkAbhaAvailability(abhaVerificationRequestModel: AbhaVerificationRequestModel): Flow<HqResponseModel> =
+        safeApiCall {
+            hqServices.checkAbhaAddressAvailability(abhaVerificationRequestModel)
+        }
+
+    override fun fetchAbhaCard(abhaCardRequestModel: AbhaCardRequestModel): Flow<HqResponseModel> =
+        safeApiCall {
+            hqServices.fetchAbhaCard(abhaCardRequestModel)
+        }
+
 }
