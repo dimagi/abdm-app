@@ -83,5 +83,6 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="abha_to_check">Enter ABHA to check</string>
     <string name="custom_abha_suffix">\@abdm</string>
     <string name="i_agree">I Agree</string>
+    <string name="skip">Skip</string>
 
 </resources>

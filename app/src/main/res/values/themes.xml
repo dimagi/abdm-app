@@ -72,9 +72,14 @@
         <item name="android:textColor">@color/button_primary</item>
     </style>
 
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/error</item>
+    </style>
+
     <style name="DialogParent" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">@color/bgColor</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>
 
     <style name="DialogThemeGeneral" parent="DialogParent">

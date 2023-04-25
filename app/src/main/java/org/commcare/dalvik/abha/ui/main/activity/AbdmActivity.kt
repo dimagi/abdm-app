@@ -203,6 +203,10 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         }
     }
 
+    fun hideLoader(){
+        binding.loader.visibility = View.GONE
+    }
+
 
     private fun inflateNavGraph() {
         val bundle = intent.extras ?: bundleOf()

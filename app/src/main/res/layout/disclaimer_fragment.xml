@@ -34,6 +34,7 @@
             android:id="@+id/disclaimerLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -148,10 +149,24 @@
                 android:layout_marginTop="32dp"
                 android:onClickListener="@{clickHandler}"
                 android:text="@string/checkABHA"
+                android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <Button
+                android:id="@+id/skipCheckABHA"
+                style="@style/RoundStyleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:onClickListener="@{clickHandler}"
+                android:text="@string/skip"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checkABHA" />
 
             <TextView
                 android:id="@+id/textView5"

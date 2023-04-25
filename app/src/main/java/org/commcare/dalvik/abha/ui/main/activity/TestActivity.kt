@@ -33,7 +33,7 @@ class TestActivity : AppCompatActivity() {
     }
 
     val lang = "hi"
-    private val token = ""
+    private val token = "72d51bf9dc7c0953ae17a0effe5fdee1284415a3"
 
     private fun startIntentA() {
         val intent = Intent(action).apply {
@@ -54,7 +54,7 @@ class TestActivity : AppCompatActivity() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "mobile_number" to "",
+                    "mobile_number" to "9560833229",
                     "abdm_api_token" to token,
                     "lang_code" to lang
                 )

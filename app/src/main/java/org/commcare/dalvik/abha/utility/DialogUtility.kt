@@ -63,6 +63,24 @@ object DialogUtility {
             }
             .show()
     }
+
+    fun showDialog(
+        context: Context,
+        msg: String,
+        actionPositive: () -> Unit,
+        actionNegative: () -> Unit,
+        type: DialogType = DialogType.General
+    ) {
+        getDialogBuilder(context, msg ,type)
+            .setPositiveButton(context.resources.getString(R.string.ok)) { dialog, which ->
+                actionPositive.invoke()
+            }
+            .setNegativeButton(context.resources.getString(R.string.cancel)){
+                    dialog, which ->
+                dialog.dismiss()
+            }
+            .show()
+    }
 }
 
 sealed class DialogType {

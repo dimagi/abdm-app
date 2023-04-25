@@ -12,6 +12,7 @@ import timber.log.Timber
 class NetworkUtil {
     companion object {
         const val BASE_URL = "https://ccind.duckdns.org/abdm/api/"
+//                           "https://auditabdm.duckdns.org/abdm/api/"//"
         const val TRANSLATION_BASE_URL = "https://raw.githubusercontent.com/"
         fun getTranslationEndpoint(code:String)=
             "https://raw.githubusercontent.com/dimagi/abdm-app/main/resources/languages/${code}/language.json"
@@ -51,7 +52,7 @@ fun <T> safeApiCall(call: suspend () -> Response<T>) = flow {
                     val errorJson = JsonObject().apply {
                         var msg = response.message()
                         if(msg.isNullOrEmpty()){
-                            msg = "Error : ${response.code()}"
+                            msg = "Error : ${response.code()}   ${response.message()}"
                         }
                         addProperty("message",msg)
                     }
