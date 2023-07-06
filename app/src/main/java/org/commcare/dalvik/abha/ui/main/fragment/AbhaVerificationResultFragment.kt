@@ -55,7 +55,8 @@ class AbhaVerificationResultFragment :
 
     private fun dispatchResult() {
         val intent = Intent().apply {
-            putExtra("abha_id", binding.model?.healthId)
+            putExtra("abha_id", binding.model?.healthIdNumber)
+            putExtra("abha_address", binding.model?.healthId)
             putExtra("code", AbdmResponseCode.SUCCESS.value)
             putExtra("verified", binding.model?.status)
             putExtra("message", "ABHA verification completed.")

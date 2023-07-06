@@ -224,9 +224,9 @@ class VerifyAadhaarOtpFragment :
                                         it.data,
                                         AbhaVerificationResultModel::class.java
                                     )
-                                    arguments?.getString("abhaId")?.let {
-                                        abhaVerificationResultModel.healthId = it
-                                    }
+//                                    arguments?.getString("abhaId")?.let {
+//                                        abhaVerificationResultModel.healthId = it
+//                                    }
 
                                     val bundle =
                                         bundleOf("resultModel" to abhaVerificationResultModel)

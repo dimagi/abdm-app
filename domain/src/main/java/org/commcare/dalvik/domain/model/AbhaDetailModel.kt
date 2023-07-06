@@ -28,6 +28,8 @@ class AbhaDetailModel() {
     var authMethods: List<String>? = null
     var pincode: String? = null
     @SerializedName("user_token") var userToken:String? = null
+    @SerializedName("exists_on_abdm") var existsOnAbdm:Boolean = false
+    @SerializedName("exists_on_hq") var existsOnHq:Boolean = false
     lateinit var data: JsonObject
 
 

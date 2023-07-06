@@ -111,9 +111,12 @@ class AbhaCreationResultFragment : BaseFragment<AbhaDetailBinding>(AbhaDetailBin
     private fun dispatchResult() {
         val intent = Intent().apply {
             putExtra("abha_id", binding.model?.healthIdNumber)
+            putExtra("abha_address", binding.model?.healthId)
             putExtra("code", AbdmResponseCode.SUCCESS.value)
             putExtra("verified", "true")
             putExtra("message", "ABHA creation completed.")
+            putExtra("exists_on_abdm", binding.model?.existsOnAbdm.toString())
+            putExtra("exists_on_hq", binding.model?.existsOnHq.toString())
             if (binding.shareWithCC.isChecked) {
                 putExtra("aadhaarData", binding.model?.data?.toString())
             }

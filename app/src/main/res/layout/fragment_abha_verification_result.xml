@@ -86,7 +86,7 @@
                         android:gravity="center"
                         android:paddingStart="2dp"
                         android:paddingLeft="2dp"
-                        android:text="@string/ABHA_NUM" />
+                        android:text="@string/abha_num" />
 
                     <TextView
                         style="@style/Headline2"
