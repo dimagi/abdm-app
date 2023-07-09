@@ -154,4 +154,6 @@
     <dimen name="dp6">6dp</dimen>
     <dimen name="dp60">60dp</dimen>
     <dimen name="dp48">48dp</dimen>
+    <dimen name="_50dp">50dp</dimen>
+    <dimen name="_48dp">48dp</dimen>
 </resources>

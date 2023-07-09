@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="ScanAbhaResultBinding">
+
+        <variable
+            name="scanModel"
+            type="org.commcare.dalvik.domain.model.AbhaScanModel" />
+
+        <variable
+            name="clickHandler"
+            type="org.commcare.dalvik.abha.ui.main.fragment.ScanAbhaResultFragment" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/guidelineMargin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/guidelineMargin" />
+
+        <Button
+            android:id="@+id/startScan"
+            style="@style/RoundStyleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:onClickListener="@{clickHandler}"
+            android:text="@string/ok"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+        <TextView
+            android:id="@+id/textView8"
+            style="@style/Headline1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/detailsCaptured"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:stretchColumns="*"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/lightest_grey"
+                    android:minHeight="@dimen/_32dp">
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|start"
+                        android:paddingStart="2dp"
+                        android:paddingLeft="2dp"
+                        android:text="@string/name" />
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|end"
+                        android:paddingEnd="2dp"
+                        android:paddingRight="2dp"
+                        android:text="@{scanModel.name}" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:minHeight="@dimen/_32dp">
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|start"
+                        android:paddingStart="2dp"
+                        android:paddingLeft="2dp"
+                        android:text="@string/abhAddress" />
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|end"
+                        android:paddingEnd="2dp"
+                        android:paddingRight="2dp"
+                        android:text="@{scanModel.hid}" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/lightest_grey"
+                    android:minHeight="@dimen/_32dp">
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|start"
+                        android:paddingStart="2dp"
+                        android:paddingLeft="2dp"
+                        android:text="@string/gender" />
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|end"
+                        android:paddingEnd="2dp"
+                        android:paddingRight="2dp"
+                        android:text="@{scanModel.gender}" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:minHeight="@dimen/_32dp">
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|start"
+                        android:paddingStart="2dp"
+                        android:paddingLeft="2dp"
+                        android:text="@string/mobile" />
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|end"
+                        android:paddingEnd="2dp"
+                        android:paddingRight="2dp"
+                        android:text="@{scanModel.mobile}" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/lightest_grey"
+                    android:minHeight="@dimen/_32dp">
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|start"
+                        android:paddingStart="2dp"
+                        android:paddingLeft="2dp"
+                        android:text="@string/status" />
+
+                    <TextView
+                        android:id="@+id/verificationStatus"
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|end"
+                        android:paddingEnd="2dp"
+                        android:paddingRight="2dp" />
+
+                </TableRow>
+
+            </TableLayout>
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

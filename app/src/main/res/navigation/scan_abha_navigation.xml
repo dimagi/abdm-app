@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scan_abha_navigation"
+    app:startDestination="@id/scanAbhaFragment">
+
+
+    <fragment
+        android:id="@+id/scanAbhaFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.ScanAbhaFragment"
+        android:label="ScanAbhaFragment" >
+        <action
+            android:id="@+id/action_scanAbhaFragment_to_scanAbhaResultFragment"
+            app:destination="@id/scanAbhaResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scanAbhaResultFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.ScanAbhaResultFragment"
+        android:label="ScanAbhaResultFragment" />
+</navigation>

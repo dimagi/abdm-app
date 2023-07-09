@@ -5,7 +5,7 @@ buildscript {
     apply from: "${projectDir}/version.gradle"
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$HILT_VERSION"
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$NAV_VERSION")
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$NAV_VERSION"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
     repositories {
@@ -23,5 +23,6 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
 
 
