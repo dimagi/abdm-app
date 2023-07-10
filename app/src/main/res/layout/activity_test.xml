@@ -7,9 +7,11 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
         <Button
             android:id="@+id/intentA"
@@ -17,23 +19,24 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:text="With -> Mobile Number"
-            app:layout_constraintBottom_toTopOf="@+id/intentB"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+         />
 
         <Button
             android:id="@+id/intentB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="With -> AbhaId"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/intentA" />
+            android:layout_marginBottom="32dp"
+          />
+
+        <Button
+            android:id="@+id/intentC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="SCAN ABHA CARD"
+       />
+
 
         <TextView
             android:id="@+id/textView"
@@ -44,5 +47,5 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>
