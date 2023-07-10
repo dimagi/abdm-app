@@ -51,6 +51,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+
         <Button
             android:id="@+id/startVerfication"
             style="@style/RoundStyleButton"
@@ -59,7 +60,7 @@
             android:layout_marginTop="32dp"
             android:enabled="false"
             android:onClickListener="@{clickHandler}"
-            android:hint="@string/GEN_OTP"
+            android:text="@string/GEN_OTP"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline2"

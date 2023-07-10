@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.JsonArray
 import com.google.gson.JsonNull
 import com.google.gson.JsonObject
+import com.google.gson.annotations.SerializedName
 import java.lang.Exception
 
 class AbhaDetailModel() {
@@ -26,6 +27,9 @@ class AbhaDetailModel() {
     var mobile: String? = null
     var authMethods: List<String>? = null
     var pincode: String? = null
+    @SerializedName("user_token") var userToken:String? = null
+    @SerializedName("exists_on_abdm") var existsOnAbdm:Boolean = false
+    @SerializedName("exists_on_hq") var existsOnHq:Boolean = false
     lateinit var data: JsonObject
 
 

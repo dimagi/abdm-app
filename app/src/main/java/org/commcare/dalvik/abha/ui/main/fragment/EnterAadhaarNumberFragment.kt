@@ -34,6 +34,7 @@ class EnterAadhaarNumberFragment : BaseFragment<EnterAadhaarBinding>(EnterAadhaa
         binding.clickHandler = this
         attachUiStateObserver()
         populateIntentData()
+        (activity as AbdmActivity).setTitleFromIntent()
     }
 
 
@@ -94,7 +95,7 @@ class EnterAadhaarNumberFragment : BaseFragment<EnterAadhaarBinding>(EnterAadhaa
                             binding.generateOtp.isEnabled = true
                             binding.aadharNumberEt.isEnabled = true
                             (activity as AbdmActivity).showBlockerDialog(it.data.getActualMessage())
-                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+
                         }
                     }
                 }
@@ -123,6 +124,7 @@ class EnterAadhaarNumberFragment : BaseFragment<EnterAadhaarBinding>(EnterAadhaa
 
     private fun navigateToAadhaarOtpVerificationScreen() {
         val bundle = bundleOf("verificationMode" to VerificationMode.VERIFY_AADHAAR_OTP)
+        bundle.putString("healthId",arguments?.getString("healthId"))
         findNavController().navigate(
             R.id.action_enterAbhaCreationDetailsFragment_to_verifyAadhaarOtpFragment,
             bundle

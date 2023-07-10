@@ -30,9 +30,12 @@ class AbdmViewModel @Inject constructor(
     private val verifyAadhaarOtpUseCase: VerifyAadhaarOtpUseCase,
     private val verifyMobileOtpUseCase: VerifyMobileOtpUseCase,
     private val confirmAadhaarOtpUsecase: ConfirmAadhaarOtpUsecase,
-    private val confirmMobileOtpUsecase: ConfirmMobileOtpUsecase
+    private val confirmMobileOtpUsecase: ConfirmMobileOtpUsecase,
+    private val abhaAvailbilityUsecase: AbhaAvailabilityUsecase,
+    private val fetchAbhaCardUseCase: FetchAbhaCardUseCase,
 ) : BaseViewModel() {
     var selectedAuthMethod: String? = null
+    var checkAbhaResponseModel:MutableLiveData<CheckAbhaResponseModel> = MutableLiveData()
     var abhaRequestModel: PropMutableLiveData<AbhaRequestModel> = PropMutableLiveData()
     val abhaDetailModel: MutableLiveData<AbhaDetailModel> = MutableLiveData()
     val uiState = MutableStateFlow<GenerateAbhaUiState>(GenerateAbhaUiState.InvalidState)
@@ -646,6 +649,68 @@ class AbdmViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Check if ABHA address is available
+     */
+    fun checkForAbhaAvailability(abhaId :String){
+       viewModelScope.launch {
+           abhaAvailbilityUsecase.execute(AbhaVerificationRequestModel(abhaId)).collect{
+               when (it) {
+                   HqResponseModel.Loading -> {
+                       uiState.emit(GenerateAbhaUiState.Loading(true))
+                   }
+                   is HqResponseModel.Success -> {
+                       uiState.emit(
+                           GenerateAbhaUiState.Success(
+                               it.value,
+                               RequestType.ABHA_AVAILABILITY
+                           )
+                       )
+                   }
+                   is HqResponseModel.Error -> {
+                       uiState.emit(
+                           GenerateAbhaUiState.Error(
+                               it.value,
+                               RequestType.ABHA_AVAILABILITY
+                           )
+                       )
+                   }
+               }
+           }
+       }
+    }
+
+    /**
+     * Fetch  ABHA Card
+     */
+    fun fetchAbhaCard(userToken :String){
+        viewModelScope.launch {
+            fetchAbhaCardUseCase.execute(AbhaCardRequestModel(userToken)).collect{
+                when (it) {
+                    HqResponseModel.Loading -> {
+                        uiState.emit(GenerateAbhaUiState.Loading(true))
+                    }
+                    is HqResponseModel.Success -> {
+                        uiState.emit(
+                            GenerateAbhaUiState.Success(
+                                it.value,
+                                RequestType.FETCH_ABHA_CARD
+                            )
+                        )
+                    }
+                    is HqResponseModel.Error -> {
+                        uiState.emit(
+                            GenerateAbhaUiState.Error(
+                                it.value,
+                                RequestType.FETCH_ABHA_CARD
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 /**
@@ -671,6 +736,7 @@ sealed class GenerateAbhaUiState {
     object VerifyAuthOtpRequested : GenerateAbhaUiState()
     object VerifyMobileOtpRequested : GenerateAbhaUiState()
     object VerifyAadhaarOtpRequested : GenerateAbhaUiState()
+    object AbhaAvailabilityRequested : GenerateAbhaUiState()
     object Blocked : GenerateAbhaUiState()
 
     data class Success(val data: JsonObject, val requestType: RequestType) :
@@ -697,5 +763,8 @@ enum class RequestType {
     VERIFY_AUTH_OTP,
 
     CONFIRM_AUTH_AADHAAR_OTP,
-    CONFIRM_AUTH_MOBILE_OTP
+    CONFIRM_AUTH_MOBILE_OTP,
+
+    ABHA_AVAILABILITY,
+    FETCH_ABHA_CARD
 }

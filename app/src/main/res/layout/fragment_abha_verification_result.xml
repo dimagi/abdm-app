@@ -8,6 +8,10 @@
         <import type="org.commcare.dalvik.domain.model.TranslationKey" />
 
         <variable
+            name="healthCardModel"
+            type="org.commcare.dalvik.domain.model.HealthCardResponseModel" />
+
+        <variable
             name="model"
             type="org.commcare.dalvik.domain.model.AbhaVerificationResultModel" />
         <variable
@@ -16,128 +20,144 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guidelineMargin" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guidelineMargin" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guidelineMargin" />
 
-        <TextView
-            android:id="@+id/verification_status"
-            style="@style/Headline1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/VERIFICATION_STATUS"
-            tools:text="Verification status" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guidelineMargin" />
 
-        <TableLayout
-            android:id="@+id/aadhaarDataTableLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="1dp"
-            android:stretchColumns="*"
-            app:layout_constraintBottom_toTopOf="@+id/returnFromVerification"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/verification_status"
-            app:layout_constraintVertical_bias="0.5"
-            android:background="@color/bright_blue_grad_start">
+            <TextView
+                android:id="@+id/verification_status"
+                style="@style/Headline1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="@string/VERIFICATION_STATUS"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/abhaCardImgView"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread_inside"
+                tools:text="Verification status" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minHeight="32dp"
-                android:background="@color/white"
-                >
+            <TableLayout
+                android:id="@+id/aadhaarDataTableLayout"
+                android:layout_width="347dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@color/bright_blue_grad_start"
+                android:orientation="vertical"
+                android:padding="1dp"
+                android:stretchColumns="*"
+                app:layout_constraintBottom_toTopOf="@+id/returnFromVerification"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/abhaCardImgView">
 
-                <TextView
-                    style="@style/Headline1"
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:minHeight="32dp">
+
+                    <TextView
+                        style="@style/Headline1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingStart="2dp"
+                        android:paddingLeft="2dp"
+                        android:text="@string/abha_num" />
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingEnd="2dp"
+                        android:paddingRight="2dp"
+                        android:text="@{model.healthId}" />
+
+                </TableRow>
+
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingStart="2dp"
-                    android:paddingLeft="2dp"
-                    android:text="@string/ABHA_NUM"
-                    />
+                    android:background="@color/bgColor"
+                    android:minHeight="32dp">
 
-                <TextView
-                    style="@style/Headline2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingEnd="2dp"
-                    android:paddingRight="2dp"
-                    android:text="@{model.healthId}" />
+                    <TextView
+                        style="@style/Headline1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingStart="2dp"
+                        android:paddingLeft="2dp"
+                        android:text="@string/STATUS" />
 
-            </TableRow>
+                    <TextView
+                        style="@style/Headline1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingEnd="2dp"
+                        android:paddingRight="2dp"
+                        android:text="@{model.status.toUpperCase()}"
+                        android:textStyle="bold"
+                        tools:text="SUCCESS" />
 
-            <TableRow
+                </TableRow>
+
+
+            </TableLayout>
+
+            <ImageView
+                android:id="@+id/abhaCardImgView"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:minHeight="32dp"
-                android:background="@color/bgColor"
-                >
+                android:layout_height="218dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintBottom_toTopOf="@+id/aadhaarDataTableLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/verification_status"
+                app:loadImage="@{healthCardModel.healthCard}"
+                app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
-                <TextView
-                    style="@style/Headline1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingStart="2dp"
-                    android:paddingLeft="2dp"
-                    android:text="@string/STATUS"
-                    />
+            <Button
+                android:id="@+id/returnFromVerification"
+                style="@style/RoundStyleButton"
+                android:layout_width="347dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:onClickListener="@{clickHandler}"
+                android:text="@string/RETURN"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/aadhaarDataTableLayout"
+                tools:text="Return" />
 
-                <TextView
-                    style="@style/Headline1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingEnd="2dp"
-                    android:paddingRight="2dp"
-                    android:textStyle = "bold"
-                    tools:text="SUCCESS"
-                    android:text="@{model.status.toUpperCase()}" />
-
-            </TableRow>
-
-
-        </TableLayout>
-
-
-
-        <Button
-            android:id="@+id/returnFromVerification"
-            style="@style/RoundStyleButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:onClickListener="@{clickHandler}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
-            android:text="@string/RETURN"
-            tools:text="Return" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

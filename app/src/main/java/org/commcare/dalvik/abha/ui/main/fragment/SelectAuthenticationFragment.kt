@@ -118,7 +118,8 @@ class SelectAuthenticationFragment :
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         parent?.getItemAtPosition(position).toString().let {
-            viewModel.selectedAuthMethod = filter[position]
+            viewModel.selectedAuthMethod = if (it.contains("mobile",true))
+                "MOBILE_OTP" else "AADHAAR_OTP"
             binding.startVerfication.isEnabled = true
         }
     }

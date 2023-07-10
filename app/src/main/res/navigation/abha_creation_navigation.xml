@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/abdm_navigation"
-    app:startDestination="@id/enterAbhaCreationDetailsFragment">
+    app:startDestination="@id/disclaimerFragment">
 
     <fragment
         android:id="@+id/enterAbhaCreationDetailsFragment"
@@ -32,4 +32,12 @@
         android:id="@+id/abhaDetailFragment"
         android:name="org.commcare.dalvik.abha.ui.main.fragment.AbhaCreationResultFragment"
          />
+    <fragment
+        android:id="@+id/disclaimerFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.AbhaDisclaimerFragment"
+        >
+        <action
+            android:id="@+id/action_disclaimerFragment_to_enterAbhaCreationDetailsFragment"
+            app:destination="@id/enterAbhaCreationDetailsFragment" />
+    </fragment>
 </navigation>

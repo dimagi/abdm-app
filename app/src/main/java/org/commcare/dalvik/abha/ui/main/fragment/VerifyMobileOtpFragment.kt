@@ -227,9 +227,9 @@ class VerifyMobileOtpFragment :
                                         it.data,
                                         AbhaVerificationResultModel::class.java
                                     )
-                                    arguments?.getString("abhaId")?.let {
-                                        abhaVerificationResultModel.healthId = it
-                                    }
+//                                    arguments?.getString("abhaId")?.let {
+//                                        abhaVerificationResultModel.healthId = it
+//                                    }
                                     val bundle =
                                         bundleOf("resultModel" to abhaVerificationResultModel)
                                     navigateToNextScreen(
@@ -341,7 +341,8 @@ class VerifyMobileOtpFragment :
 
     private fun getMobileOtpRequestModel() = VerifyOtpRequestModel(
         viewModel.abhaRequestModel.value!!.txnId,
-        binding.mobileOtpEt.text.toString()
+        binding.mobileOtpEt.text.toString(),
+        arguments?.getString("healthId")
     )
 
 

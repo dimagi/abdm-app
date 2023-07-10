@@ -13,8 +13,10 @@ class TestActivity : AppCompatActivity() {
 
     val REQ_CODE_A = 100
     val REQ_CODE_B = 101
+    val REQ_CODE_C = 102
 
     val action = "org.commcare.dalvik.abha.abdm.app"
+    val scan_abha_action = "org.commcare.dalvik.abha.abdm.app.scan"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +30,16 @@ class TestActivity : AppCompatActivity() {
             startIntentA()
         }
 
+        findViewById<Button>(R.id.intentC).setOnClickListener {
+            startIntentC()
+        }
+
         HeaderInterceptor.API_KEY = ""
 
     }
 
     val lang = "hi"
-    private val token = ""
+    private val token = "0c0a3fbbacc0922192a1b4e63be5d6f511790a31"
 
     private fun startIntentA() {
         val intent = Intent(action).apply {
@@ -54,13 +60,28 @@ class TestActivity : AppCompatActivity() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "mobile_number" to "",
+                    "mobile_number" to "9560833229",
                     "abdm_api_token" to token,
                     "lang_code" to lang
                 )
             )
         }
         startActivityForResult(intent, REQ_CODE_B)
+    }
+
+    private fun startIntentC() {
+
+        val intent = Intent(scan_abha_action).apply {
+            putExtras(
+                bundleOf(
+                    "abha_id" to "",
+                    "mobile_number" to "9560833229",
+                    "abdm_api_token" to token,
+                    "lang_code" to lang
+                )
+            )
+        }
+        startActivityForResult(intent, REQ_CODE_C)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

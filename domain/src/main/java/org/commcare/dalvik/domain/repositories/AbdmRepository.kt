@@ -12,4 +12,6 @@ interface AbdmRepository {
     fun generateAuthOtp(generateAuthOtp: GenerateAuthOtpModel):Flow<HqResponseModel>
     fun confirmMobileOtp(otpModel:VerifyOtpRequestModel):Flow<HqResponseModel>
     fun confirmAadhaarOtp(otpModel:VerifyOtpRequestModel):Flow<HqResponseModel>
+    fun checkAbhaAvailability(abhaVerificationRequestModel: AbhaVerificationRequestModel):Flow<HqResponseModel>
+    fun fetchAbhaCard(abhaCardRequestModel: AbhaCardRequestModel):Flow<HqResponseModel>
 }

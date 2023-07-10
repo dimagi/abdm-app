@@ -48,7 +48,7 @@ object AppModule {
                         .addHeader("content-type","application/json")
                         .addHeader(
                             "Authorization",
-                            AbdmApplication.API_TOKEN
+                            "Token "+AbdmApplication.API_TOKEN
                         )
                         .build()
                     chain.proceed(request)
