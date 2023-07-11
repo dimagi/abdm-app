@@ -16,7 +16,12 @@ class TestActivity : AppCompatActivity() {
     val REQ_CODE_C = 102
 
     val action = "org.commcare.dalvik.abha.abdm.app"
-    val scan_abha_action = "org.commcare.dalvik.abha.abdm.app.scan"
+
+
+    val ACTION_CREATE_ABHA = "create_abha"
+    val ACTION_VERIFY_ABHA = "verify_abha"
+    val ACTION_SCAN_ABHA = "scan_abha"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +53,7 @@ class TestActivity : AppCompatActivity() {
                     "abha_id" to "",
                     "lang_code" to lang,
                     "abdm_api_token" to token,
+                    "action" to ACTION_CREATE_ABHA
                 )
             )
         }
@@ -62,7 +68,8 @@ class TestActivity : AppCompatActivity() {
                 bundleOf(
                     "mobile_number" to "9560833229",
                     "abdm_api_token" to token,
-                    "lang_code" to lang
+                    "lang_code" to lang,
+                    "action" to ACTION_VERIFY_ABHA
                 )
             )
         }
@@ -71,13 +78,12 @@ class TestActivity : AppCompatActivity() {
 
     private fun startIntentC() {
 
-        val intent = Intent(scan_abha_action).apply {
+        val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "abha_id" to "",
-                    "mobile_number" to "9560833229",
                     "abdm_api_token" to token,
-                    "lang_code" to lang
+                    "lang_code" to lang,
+                    "action" to ACTION_SCAN_ABHA
                 )
             )
         }

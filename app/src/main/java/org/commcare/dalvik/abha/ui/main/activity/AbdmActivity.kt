@@ -1,13 +1,18 @@
 package org.commcare.dalvik.abha.ui.main.activity
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asFlow
@@ -33,12 +38,19 @@ import timber.log.Timber
 import java.io.Serializable
 import java.util.*
 
+
 @AndroidEntryPoint
 class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::inflate) {
 
     private lateinit var navHostFragment: NavHostFragment
     val viewmodel: AbdmViewModel by viewModels()
     private var showMenu = true
+
+    val ACTION_CREATE_ABHA = "create_abha"
+    val ACTION_VERIFY_ABHA = "verify_abha"
+    val ACTION_SCAN_ABHA = "scan_abha"
+
+    val CAMERA_REQUEST_CODE = 100;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +81,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
             config.locale = Locale(langId, "IN")
             resources.updateConfiguration(config, resources.displayMetrics)
 
-           setTitleFromIntent()
+            setTitleFromIntent()
 
 //            viewmodel.getTranslation(langId)
         }
@@ -82,21 +94,42 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
     }
 
-    fun setTitleFromIntent(){
-        intent.extras?.containsKey("abha_id")?.let { hasAbhaId ->
-            if (hasAbhaId) {
-                supportActionBar?.title =
-                    LanguageManager.getTranslatedValue(this,R.string.ABHA_VERIFICATION)
-            } else {
-                supportActionBar?.title =
-                    LanguageManager.getTranslatedValue(this,R.string.ABHA_CREATION)
+    fun setTitleFromIntent() {
+        intent.extras?.getString("action")?.let {
+            when (it) {
+                ACTION_CREATE_ABHA -> {
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this, R.string.ABHA_VERIFICATION)
+                }
+
+                ACTION_CREATE_ABHA -> {
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this, R.string.ABHA_CREATION)
+                }
+
+                ACTION_SCAN_ABHA -> {
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this, R.string.scanAbha)
+                }
             }
+
         }
+
+
+//        intent.extras?.containsKey("abha_id")?.let { hasAbhaId ->
+//            if (hasAbhaId) {
+//                supportActionBar?.title =
+//                    LanguageManager.getTranslatedValue(this,R.string.ABHA_VERIFICATION)
+//            } else {
+//                supportActionBar?.title =
+//                    LanguageManager.getTranslatedValue(this,R.string.ABHA_CREATION)
+//            }
+//        }
     }
 
-    fun setToolbarTitle(titleId:Int){
+    fun setToolbarTitle(titleId: Int) {
         supportActionBar?.title =
-            LanguageManager.getTranslatedValue(this,titleId)
+            LanguageManager.getTranslatedValue(this, titleId)
     }
 
     // MENU HANDLING
@@ -105,7 +138,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         invalidateOptionsMenu()
     }
 
-    fun hideBack(){
+    fun hideBack() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowHomeEnabled(false)
     }
@@ -155,8 +188,20 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
             }
         }
 
-        if (intent.extras?.containsKey("mobile_number") == false && intent.extras?.containsKey("abha_id") == false) {
-            showMessageAndDispatchResult(TranslationKey.REQ_DATA_MISSING.toString())
+        intent.extras?.getString("action")?.let {
+            when (it) {
+                ACTION_CREATE_ABHA,
+                ACTION_VERIFY_ABHA -> {
+                    if (intent.extras?.containsKey("mobile_number") == false && intent.extras?.containsKey("abha_id") == false) {
+                        showMessageAndDispatchResult(TranslationKey.REQ_DATA_MISSING.toString())
+                    }
+                 }
+
+                ACTION_SCAN_ABHA -> {
+
+                }
+            }
+
         }
 
     }
@@ -203,7 +248,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         }
     }
 
-    fun hideLoader(){
+    fun hideLoader() {
         binding.loader.visibility = View.GONE
     }
 
@@ -220,12 +265,43 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         intent.putExtras(bundle)
         val inflater = navController.navInflater
 
-        val navGraph: Int =
-            if (intent.hasExtra("abha_id")) R.navigation.abha_verification_navigation else
-                R.navigation.abha_creation_navigation
-        val graph = inflater.inflate(navGraph)
-        graph.addInDefaultArgs(intent.extras)
-        navController.setGraph(graph, bundle)
+
+
+        intent.extras?.getString("action")?.let {
+            val navGraph = when (it) {
+                ACTION_VERIFY_ABHA -> {
+                    R.navigation.abha_verification_navigation
+                }
+
+                ACTION_CREATE_ABHA -> {
+                    R.navigation.abha_creation_navigation
+                }
+
+                ACTION_SCAN_ABHA -> {
+                    R.navigation.scan_abha_navigation
+                }
+                else -> {
+                    -1
+                }
+            }
+
+            if (navGraph != -1) {
+                val graph = inflater.inflate(navGraph)
+                graph.addInDefaultArgs(intent.extras)
+                navController.setGraph(graph, bundle)
+            } else {
+                Timber.d("Action not present. Navgra ")
+            }
+
+        }
+
+
+//        val navGraph: Int =
+//            if (intent.hasExtra("abha_id")) R.navigation.abha_verification_navigation else
+//                R.navigation.abha_creation_navigation
+//        val graph = inflater.inflate(navGraph)
+//        graph.addInDefaultArgs(intent.extras)
+//        navController.setGraph(graph, bundle)
     }
 
     fun onAbhaNumberReceived(intent: Intent) {
@@ -286,6 +362,28 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
             { dispatchResult(getErrorIntent(msg)) },
             DialogType.Blocking
         )
+    }
+
+    fun checkCameraPermission(){
+        if (ContextCompat.checkSelfPermission(this@AbdmActivity, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this@AbdmActivity,  arrayOf<String> (Manifest.permission.CAMERA), CAMERA_REQUEST_CODE);
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 }

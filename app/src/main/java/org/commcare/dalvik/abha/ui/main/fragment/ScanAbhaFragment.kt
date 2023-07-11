@@ -1,11 +1,16 @@
 package org.commcare.dalvik.abha.ui.main.fragment
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
-import androidx.core.os.bundleOf
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.AutoFocusMode
@@ -15,22 +20,19 @@ import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.google.gson.Gson
 import org.commcare.dalvik.abha.R
-import org.commcare.dalvik.abha.databinding.EnterAadhaarBinding
 import org.commcare.dalvik.abha.databinding.ScanAbhaBinding
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
-import org.commcare.dalvik.abha.ui.main.activity.ScanAbhaActivity
-import org.commcare.dalvik.abha.ui.main.activity.VerificationMode
 import org.commcare.dalvik.abha.viewmodel.ScanAbhaViewModel
 import org.commcare.dalvik.domain.model.AbhaScanModel
-import org.commcare.dalvik.domain.model.AbhaVerificationResultModel
-import org.commcare.dalvik.domain.model.HealthCardResponseModel
 import org.json.JSONObject
+import timber.log.Timber
 import java.lang.RuntimeException
 
 class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate) {
 
     private lateinit var codeScanner: CodeScanner
     val viewmodel: ScanAbhaViewModel by activityViewModels()
+    lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +47,18 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
-//        (activity as ScanAbhaActivity).hideBack()
+        requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    startScanner()
+                } else {
+                    Toast.makeText(requireContext(), "Camera permission denied", Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
+
         initScanner()
     }
 
@@ -62,7 +75,7 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
                 validateScannedData(it.text)
             }
             errorCallback = ErrorCallback {
-                Log.d("scan", "===> ${it.message}")
+                Timber.d("scan===> ${it.message}")
                 releaseScanner()
             }
         }
@@ -79,7 +92,7 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
                 }
 
                 R.id.startScan -> {
-                    startScanner()
+                    beginScan()
                 }
             }
         }
@@ -92,20 +105,20 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
 
     private fun startScanner() {
         binding.scanViewHolder.visibility = View.VISIBLE
-        codeScanner?.startPreview()
+        codeScanner.startPreview()
     }
 
     private fun releaseScanner() {
-        activity?.runOnUiThread{
+        codeScanner.stopPreview()
+        codeScanner.releaseResources()
+        activity?.runOnUiThread {
             binding.scanViewHolder.visibility = View.GONE
         }
-        codeScanner?.stopPreview()
-        codeScanner?.releaseResources()
     }
 
     private fun validateScannedData(abhaData: String?) {
         abhaData?.let {
-            Log.d("scan", "===> ${abhaData}")
+            Timber.d("scan ===> ${abhaData}")
 
 //            val data =
 //                "{\"hidn\":\"91-7662-6160-6756\",\"hid\":\"91766261606756@sbx\",\"name\":\"Harish Rawat\",\"gender\":\"M\",\"statelgd\":\"7\",\"distlgd\":\"-\",\"dob\":\"23/5/1984\",\"state name\":\"DELHI\",\"district_name\":\"North West Delhi\",\"mobile\":\"9560833229\",\"address\":\"C/O Vijay Singh Rawat D - 17/355 NEAR JIMS COLLAGE SECTOR 3 Rohini\"}"
@@ -122,12 +135,17 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
                     activity?.runOnUiThread {
                         viewmodel.abhaScanModel.value = abhaScannedModel
                         navigateToAbhaScanResultScreen()
-                        Log.d("scan", "===> ${abhaScannedModel}")
+                        Timber.d("scan ===> ${abhaScannedModel}")
                     }
 
                 }
             } catch (t: Throwable) {
-                Log.d("scan", "===> INVALID JSON")
+                activity?.runOnUiThread {
+                    (activity as AbdmActivity).showBlockerDialog(
+                        resources.getText(R.string.scanAbhaErrorMsg).toString()
+                    )
+                    Timber.d("scan ===> INVALID JSON")
+                }
             }
         }
 
@@ -139,6 +157,22 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
                 R.id.action_scanAbhaFragment_to_scanAbhaResultFragment
             )
         }
+    }
+
+    private fun beginScan() {
+
+        if (ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.CAMERA) ==
+            PackageManager.PERMISSION_GRANTED) {
+            startScanner()
+        } else if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+            Toast.makeText(requireContext(), resources.getString(R.string.permission_camera_rationale_msg), Toast.LENGTH_LONG)
+                .show()
+        } else {
+            requestPermissionLauncher.launch(
+                Manifest.permission.CAMERA);
+        }
+
     }
 
 }
