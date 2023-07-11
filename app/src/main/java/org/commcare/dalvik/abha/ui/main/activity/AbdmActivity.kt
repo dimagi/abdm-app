@@ -1,18 +1,13 @@
 package org.commcare.dalvik.abha.ui.main.activity
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asFlow
@@ -36,7 +31,7 @@ import org.commcare.dalvik.domain.model.LanguageManager
 import org.commcare.dalvik.domain.model.TranslationKey
 import timber.log.Timber
 import java.io.Serializable
-import java.util.*
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -49,8 +44,6 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     val ACTION_CREATE_ABHA = "create_abha"
     val ACTION_VERIFY_ABHA = "verify_abha"
     val ACTION_SCAN_ABHA = "scan_abha"
-
-    val CAMERA_REQUEST_CODE = 100;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,16 +108,6 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
         }
 
-
-//        intent.extras?.containsKey("abha_id")?.let { hasAbhaId ->
-//            if (hasAbhaId) {
-//                supportActionBar?.title =
-//                    LanguageManager.getTranslatedValue(this,R.string.ABHA_VERIFICATION)
-//            } else {
-//                supportActionBar?.title =
-//                    LanguageManager.getTranslatedValue(this,R.string.ABHA_CREATION)
-//            }
-//        }
     }
 
     fun setToolbarTitle(titleId: Int) {
@@ -295,13 +278,6 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
         }
 
-
-//        val navGraph: Int =
-//            if (intent.hasExtra("abha_id")) R.navigation.abha_verification_navigation else
-//                R.navigation.abha_creation_navigation
-//        val graph = inflater.inflate(navGraph)
-//        graph.addInDefaultArgs(intent.extras)
-//        navController.setGraph(graph, bundle)
     }
 
     fun onAbhaNumberReceived(intent: Intent) {
@@ -364,27 +340,6 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         )
     }
 
-    fun checkCameraPermission(){
-        if (ContextCompat.checkSelfPermission(this@AbdmActivity, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this@AbdmActivity,  arrayOf<String> (Manifest.permission.CAMERA), CAMERA_REQUEST_CODE);
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String?>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
 
 }
 

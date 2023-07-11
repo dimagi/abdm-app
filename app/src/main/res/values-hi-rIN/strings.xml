@@ -64,4 +64,5 @@
     <string name="scanAbha">आभा को स्कैन करें</string>
     <string name="scanAbhaErrorMsg">अमान्य ABHA QR कोड</string>
     <string name="permission_camera_rationale_msg">CAMERA की अनुमति अस्वीकार कर दी गई थी. कृपया एप्लिकेशन सेटिंग पर जाएं और CAMERA अनुमति प्रदान करें</string>
+    <string name="camera_permission_denied">कैमरे की अनुमति अस्वीकार कर दी गई है</string>
 </resources>

@@ -3,13 +3,11 @@ package org.commcare.dalvik.abha.ui.main.fragment
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -26,7 +24,6 @@ import org.commcare.dalvik.abha.viewmodel.ScanAbhaViewModel
 import org.commcare.dalvik.domain.model.AbhaScanModel
 import org.json.JSONObject
 import timber.log.Timber
-import java.lang.RuntimeException
 
 class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate) {
 
@@ -54,7 +51,8 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
                 if (isGranted) {
                     startScanner()
                 } else {
-                    Toast.makeText(requireContext(), "Camera permission denied", Toast.LENGTH_LONG)
+
+                    Toast.makeText(requireContext(), resources.getString(R.string.camera_permission_denied), Toast.LENGTH_LONG)
                         .show()
                 }
             }
