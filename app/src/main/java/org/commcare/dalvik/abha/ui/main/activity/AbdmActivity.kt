@@ -288,6 +288,10 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         dispatchResult(intent)
     }
 
+    fun onAbhaScanCompleted(intent:Intent){
+        dispatchResult(intent)
+    }
+
     override fun getNavHostId(): Int {
         return R.id.nav_host_fragment
     }

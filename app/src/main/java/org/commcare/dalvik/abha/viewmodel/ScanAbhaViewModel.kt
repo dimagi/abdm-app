@@ -1,13 +1,13 @@
 package org.commcare.dalvik.abha.viewmodel
 
-import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.commcare.dalvik.abha.model.AbhaScanModel
 import org.commcare.dalvik.domain.model.AbdmErrorModel
-import org.commcare.dalvik.domain.model.AbhaScanModel
 import org.commcare.dalvik.domain.model.AbhaVerificationRequestModel
 import org.commcare.dalvik.domain.model.HqResponseModel
 import org.commcare.dalvik.domain.usecases.AbhaAvailabilityUsecase
@@ -16,14 +16,17 @@ import javax.inject.Inject
 @HiltViewModel
 class ScanAbhaViewModel @Inject constructor(private val abhaAvailbilityUsecase: AbhaAvailabilityUsecase) :
     BaseViewModel() {
-    var abhaScanModel: MutableLiveData<AbhaScanModel> = MutableLiveData()
+    lateinit var abhaScanModel: AbhaScanModel
     val uiState = MutableStateFlow<GenerateAbhaUiState>(GenerateAbhaUiState.InvalidState)
+    fun init(scanModel: AbhaScanModel) {
+        abhaScanModel = scanModel
+    }
 
     /**
      * Check if ABHA address is available
      */
     fun checkForAbhaAvailability() {
-       abhaScanModel.value?.getAbha()?.let {abhaId ->
+       abhaScanModel.getAbha()?.let {abhaId ->
            viewModelScope.launch {
                abhaAvailbilityUsecase.execute(AbhaVerificationRequestModel(abhaId)).collect {
                    when (it) {
