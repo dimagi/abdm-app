@@ -31,7 +31,8 @@ import org.commcare.dalvik.domain.model.LanguageManager
 import org.commcare.dalvik.domain.model.TranslationKey
 import timber.log.Timber
 import java.io.Serializable
-import java.util.*
+import java.util.Locale
+
 
 @AndroidEntryPoint
 class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::inflate) {
@@ -39,6 +40,10 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     private lateinit var navHostFragment: NavHostFragment
     val viewmodel: AbdmViewModel by viewModels()
     private var showMenu = true
+
+    val ACTION_CREATE_ABHA = "create_abha"
+    val ACTION_VERIFY_ABHA = "verify_abha"
+    val ACTION_SCAN_ABHA = "scan_abha"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +74,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
             config.locale = Locale(langId, "IN")
             resources.updateConfiguration(config, resources.displayMetrics)
 
-           setTitleFromIntent()
+            setTitleFromIntent()
 
 //            viewmodel.getTranslation(langId)
         }
@@ -82,21 +87,32 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
     }
 
-    fun setTitleFromIntent(){
-        intent.extras?.containsKey("abha_id")?.let { hasAbhaId ->
-            if (hasAbhaId) {
-                supportActionBar?.title =
-                    LanguageManager.getTranslatedValue(this,R.string.ABHA_VERIFICATION)
-            } else {
-                supportActionBar?.title =
-                    LanguageManager.getTranslatedValue(this,R.string.ABHA_CREATION)
+    fun setTitleFromIntent() {
+        intent.extras?.getString("action")?.let {
+            when (it) {
+                ACTION_CREATE_ABHA -> {
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this, R.string.ABHA_VERIFICATION)
+                }
+
+                ACTION_CREATE_ABHA -> {
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this, R.string.ABHA_CREATION)
+                }
+
+                ACTION_SCAN_ABHA -> {
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this, R.string.scanAbha)
+                }
             }
+
         }
+
     }
 
-    fun setToolbarTitle(titleId:Int){
+    fun setToolbarTitle(titleId: Int) {
         supportActionBar?.title =
-            LanguageManager.getTranslatedValue(this,titleId)
+            LanguageManager.getTranslatedValue(this, titleId)
     }
 
     // MENU HANDLING
@@ -105,7 +121,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         invalidateOptionsMenu()
     }
 
-    fun hideBack(){
+    fun hideBack() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowHomeEnabled(false)
     }
@@ -155,8 +171,20 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
             }
         }
 
-        if (intent.extras?.containsKey("mobile_number") == false && intent.extras?.containsKey("abha_id") == false) {
-            showMessageAndDispatchResult(TranslationKey.REQ_DATA_MISSING.toString())
+        intent.extras?.getString("action")?.let {
+            when (it) {
+                ACTION_CREATE_ABHA,
+                ACTION_VERIFY_ABHA -> {
+                    if (intent.extras?.containsKey("mobile_number") == false && intent.extras?.containsKey("abha_id") == false) {
+                        showMessageAndDispatchResult(TranslationKey.REQ_DATA_MISSING.toString())
+                    }
+                 }
+
+                ACTION_SCAN_ABHA -> {
+
+                }
+            }
+
         }
 
     }
@@ -203,7 +231,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         }
     }
 
-    fun hideLoader(){
+    fun hideLoader() {
         binding.loader.visibility = View.GONE
     }
 
@@ -220,12 +248,36 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         intent.putExtras(bundle)
         val inflater = navController.navInflater
 
-        val navGraph: Int =
-            if (intent.hasExtra("abha_id")) R.navigation.abha_verification_navigation else
-                R.navigation.abha_creation_navigation
-        val graph = inflater.inflate(navGraph)
-        graph.addInDefaultArgs(intent.extras)
-        navController.setGraph(graph, bundle)
+
+
+        intent.extras?.getString("action")?.let {
+            val navGraph = when (it) {
+                ACTION_VERIFY_ABHA -> {
+                    R.navigation.abha_verification_navigation
+                }
+
+                ACTION_CREATE_ABHA -> {
+                    R.navigation.abha_creation_navigation
+                }
+
+                ACTION_SCAN_ABHA -> {
+                    R.navigation.scan_abha_navigation
+                }
+                else -> {
+                    -1
+                }
+            }
+
+            if (navGraph != -1) {
+                val graph = inflater.inflate(navGraph)
+                graph.addInDefaultArgs(intent.extras)
+                navController.setGraph(graph, bundle)
+            } else {
+                Timber.d("Action not present. Navgra ")
+            }
+
+        }
+
     }
 
     fun onAbhaNumberReceived(intent: Intent) {
@@ -287,6 +339,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
             DialogType.Blocking
         )
     }
+
 
 }
 

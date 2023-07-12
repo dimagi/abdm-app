@@ -90,5 +90,9 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="detailsCaptured">Details Captured :</string>
     <string name="abhAddress">ABHA address</string>
     <string name="dateOfBirth">DOB</string>
+    <string name="scanAbha">Scan ABHA</string>
+    <string name="scanAbhaErrorMsg">Not an ABHA code</string>
+    <string name="permission_camera_rationale_msg">Camera permission was declined. Please go to application setting and provide the CAMERA permission</string>
 
+    <string name="camera_permission_denied">Camera permission denied</string>
 </resources>

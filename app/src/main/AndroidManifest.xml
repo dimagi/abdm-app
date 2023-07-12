@@ -33,16 +33,6 @@
         </activity>
 
         <activity
-            android:name=".ui.main.activity.ScanAbhaActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="org.commcare.dalvik.abha.abdm.app.scan" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".ui.main.activity.TestActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true">
