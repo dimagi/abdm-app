@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
@@ -44,6 +45,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     val ACTION_CREATE_ABHA = "create_abha"
     val ACTION_VERIFY_ABHA = "verify_abha"
     val ACTION_SCAN_ABHA = "scan_abha"
+    val ACTION_CREATE_CONSENT = "create_consent"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -262,6 +264,9 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
                 ACTION_SCAN_ABHA -> {
                     R.navigation.scan_abha_navigation
+                }
+                ACTION_CREATE_CONSENT -> {
+                    R.navigation.patient_consent_navigation
                 }
                 else -> {
                     -1

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/patient_consent_navigation"
+    app:startDestination="@id/patientConsentFragment">
+
+    <fragment
+        android:id="@+id/patientConsentFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.PatientConsentFragment"
+        android:label="PatientConsentFragment" />
+</navigation>

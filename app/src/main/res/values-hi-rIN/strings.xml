@@ -65,4 +65,24 @@
     <string name="scanAbhaErrorMsg">अमान्य ABHA QR कोड</string>
     <string name="permission_camera_rationale_msg">CAMERA की अनुमति अस्वीकार कर दी गई थी. कृपया एप्लिकेशन सेटिंग पर जाएं और CAMERA अनुमति प्रदान करें</string>
     <string name="camera_permission_denied">कैमरे की अनुमति अस्वीकार कर दी गई है</string>
+    <string name="purpose">उद्देश्य</string>
+    <string name="patientId">रोगी आईडी</string>
+    <string name="hiTypes">HI Types</string>
+    <string name="addHiType">+ Add Hi Type</string>
+    <string name="hipId">हिप आईडी</string>
+    <string name="hiuId">एचआईयू आईडी</string>
+    <string name="requester">अनुरोधकर्ता</string>
+    <string name="requesterName">अनुरोधकर्ता का नाम</string>
+    <string name="identifier">Identifier</string>
+    <string name="type">Type</string>
+    <string name="value">Value</string>
+    <string name="system">System</string>
+    <string name="permission">अनुमति</string>
+    <string name="accessMode">Access Mode</string>
+    <string name="dateRange">Consent Date Range</string>
+    <string name="addStartDate">आरंभ करने की तिथि</string>
+    <string name="addEndDate">समाप्ति तिथि</string>
+    <string name="expiryDate">समाप्ति तिथि</string>
+    <string name="select_time">Select Time</string>
+    <string name="create_consent">Create Consent</string>
 </resources>

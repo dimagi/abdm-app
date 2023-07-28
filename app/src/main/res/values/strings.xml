@@ -95,4 +95,31 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="permission_camera_rationale_msg">Camera permission was declined. Please go to application setting and provide the CAMERA permission</string>
 
     <string name="camera_permission_denied">Camera permission denied</string>
+    <string name="purpose">PURPOSE</string>
+    <string name="patientId">Patient Id</string>
+    <string name="hiTypes">HI Types</string>
+    <string name="prescription">Prescription</string>
+    <string name="diagnosticReport">Diagnostic Report</string>
+    <string name="opConsultation">OP Consultation</string>
+    <string name="dischargeSummary">Discharge Summary</string>
+    <string name="immunizationRecord">Immunization Record</string>
+    <string name="recordArtifact">Record Artifact</string>
+    <string name="wellnessRecord">Wellness Record\n</string>
+    <string name="addHiType">+ Add Hi Type</string>
+    <string name="hipId">HIP ID</string>
+    <string name="hiuId">HIU ID</string>
+    <string name="requester">Requester</string>
+    <string name="requesterName">Requester Name</string>
+    <string name="identifier">Identifier</string>
+    <string name="type">Type</string>
+    <string name="value">Value</string>
+    <string name="system">System</string>
+    <string name="permission">Permission</string>
+    <string name="accessMode">Access Mode</string>
+    <string name="dateRange">Consent Date Range</string>
+    <string name="addStartDate">Start Date</string>
+    <string name="addEndDate">End Date</string>
+    <string name="expiryDate">Expiry Date</string>
+    <string name="select_time">Select Time</string>
+    <string name="create_consent">Create Consent</string>
 </resources>

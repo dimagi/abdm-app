@@ -21,6 +21,7 @@ class TestActivity : AppCompatActivity() {
     val ACTION_CREATE_ABHA = "create_abha"
     val ACTION_VERIFY_ABHA = "verify_abha"
     val ACTION_SCAN_ABHA = "scan_abha"
+    val ACTION_CREATE_CONSENT = "create_consent"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +38,10 @@ class TestActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.intentC).setOnClickListener {
             startIntentC()
+        }
+
+        findViewById<Button>(R.id.intentD).setOnClickListener {
+            createConsentIntent()
         }
 
         HeaderInterceptor.API_KEY = ""
@@ -88,6 +93,21 @@ class TestActivity : AppCompatActivity() {
             )
         }
         startActivityForResult(intent, REQ_CODE_C)
+    }
+
+    private fun createConsentIntent(){
+
+        val intent = Intent(action).apply {
+            putExtras(
+                bundleOf(
+                    "abdm_api_token" to token,
+                    "lang_code" to lang,
+                    "action" to ACTION_CREATE_CONSENT
+                )
+            )
+        }
+        startActivityForResult(intent, REQ_CODE_C)
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

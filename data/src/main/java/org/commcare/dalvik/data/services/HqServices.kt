@@ -37,6 +37,9 @@ interface HqServices {
     @POST("get_health_card_png")
     suspend fun fetchAbhaCard(@Body abhaCardRequestModel: AbhaCardRequestModel):Response<JsonObject>
 
+    @POST("hiu/generate_consent_request")
+    suspend fun generatePatientConsent()
+
 
 
 }
