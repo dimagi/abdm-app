@@ -20,12 +20,13 @@
             android:paddingEnd="@dimen/_24dp">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/createConsentBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="24dp"
                 android:text="@string/create_consent"
+                android:onClick="@{clickHandler::onClick}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -316,7 +317,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:minHeight="@dimen/dp48"
-                app:layout_constraintBottom_toTopOf="@+id/button"
+                app:layout_constraintBottom_toTopOf="@+id/createConsentBtn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -401,31 +402,32 @@
                         <com.google.android.material.chip.Chip
                             android:id="@+id/startDateChip"
                             style="@style/Widget.MaterialComponents.Chip.Action"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:chipIcon="@drawable/round_date_range_24"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/startDate"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/startDate"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.5" />
 
                         <Button
                             android:id="@+id/startDate"
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5dp"
+                            android:layout_marginEnd="8dp"
                             android:onClick="@{clickHandler::onClick}"
                             android:text="@string/addStartDate"
                             android:textColor="@color/blue"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/startDateChip"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/startDateChip"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.5" />
+                            app:layout_constraintVertical_bias="0.0" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -441,29 +443,30 @@
                         <com.google.android.material.chip.Chip
                             android:id="@+id/endDateChip"
                             style="@style/Widget.MaterialComponents.Chip.Action"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:chipIcon="@drawable/round_date_range_24"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/endDate"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/endDate"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.5" />
 
                         <Button
                             android:id="@+id/endDate"
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5dp"
+                            android:layout_marginEnd="8dp"
                             android:onClick="@{clickHandler::onClick}"
                             android:text="@string/addEndDate"
                             android:textColor="@color/blue"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/endDateChip"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/endDateChip"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.5" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -481,29 +484,30 @@
                         <com.google.android.material.chip.Chip
                             android:id="@+id/eraseDateChip"
                             style="@style/Widget.MaterialComponents.Chip.Action"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:chipIcon="@drawable/round_date_range_24"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/expiryDate"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/expiryDate"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.5" />
 
                         <Button
                             android:id="@+id/expiryDate"
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5dp"
+                            android:layout_marginEnd="8dp"
                             android:onClick="@{clickHandler::onClick}"
                             android:text="@string/expiryDate"
                             android:textColor="@color/blue"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/eraseDateChip"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/eraseDateChip"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.5" />
                     </androidx.constraintlayout.widget.ConstraintLayout>

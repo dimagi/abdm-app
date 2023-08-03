@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CompositeDateValidator
@@ -19,9 +20,10 @@ import com.google.android.material.timepicker.TimeFormat
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.PatientConsentBinding
 import org.commcare.dalvik.abha.model.ConsentPermission
-import org.commcare.dalvik.abha.model.PatientConsentModel
-import org.commcare.dalvik.abha.model.Purpose
+import org.commcare.dalvik.abha.model.ConsentValidation
 import org.commcare.dalvik.abha.utility.CommonUtil
+import org.commcare.dalvik.abha.viewmodel.PatientViewModel
+import timber.log.Timber
 import java.util.Calendar
 import kotlin.time.Duration.Companion.days
 import kotlin.time.DurationUnit
@@ -29,14 +31,13 @@ import kotlin.time.DurationUnit
 
 class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsentBinding::inflate) {
 
-    private val selectedHiType = mutableListOf<HITYPES>()
     lateinit var timechip: Chip
-    private val patientConsentModel = PatientConsentModel(Purpose(PURPOSE.CAREMGT.displayValue))
-
+    val viewmodel: PatientViewModel by activityViewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewmodel.init()
         binding.clickHandler = this
         initConsentPurpose()
         binding.addHiType.setOnClickListener {
@@ -61,8 +62,8 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
     private fun renderSelectedHiTypes() {
         binding.chipGroup.removeAllViews()
-        selectedHiType.forEach {
-            val chip = Chip(requireContext(),null,R.style.HiTypeStyle)
+        viewmodel.patientConsentModel.hiTypes.forEach {
+            val chip = Chip(requireContext(), null, R.style.HiTypeStyle)
             chip.text = it.displayValue
             chip.setTextColor(Color.BLACK)
             binding.chipGroup.addView(chip)
@@ -74,7 +75,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
         val checkedStatus = mutableListOf<Boolean>()
         enumValues<HITYPES>().forEach {
             items.add(it.displayValue)
-            checkedStatus.add(selectedHiType.contains(it))
+            checkedStatus.add(viewmodel.patientConsentModel.hiTypes.contains(it))
         }
 
         val hiTypesItems = items.toTypedArray()
@@ -97,10 +98,11 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
                 enumValues<HITYPES>().forEach {
                     if (selectedType.equals(it.displayValue, false)) {
                         if (checked) {
-                            selectedHiType.add(it)
+                            viewmodel.patientConsentModel.hiTypes.add(it)
                         } else {
-                            selectedHiType.remove(it)
+                            viewmodel.patientConsentModel.hiTypes.remove(it)
                         }
+
                     }
                 }
 
@@ -115,6 +117,24 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
 
             when (it) {
+                R.id.createConsentBtn -> {
+
+                    val consentValidation = viewmodel.patientConsentModel.validateConsent()
+
+                    if (consentValidation == ConsentValidation.SUCCESS) {
+                        val consentJson = viewmodel.patientConsentModel.getConsentJsonData()
+
+                        Timber.d(
+                            "Consent JSON ===>  ${consentJson} "
+                        )
+                    } else {
+                        Toast.makeText(requireContext(), consentValidation.msg, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+
+                }
+
                 R.id.startDate -> {
                     timechip = binding.startDateChip
                     val dateValidator =
@@ -124,7 +144,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
                     captureDateAndTime(
                         resources.getString(R.string.addStartDate),
-                        MaterialDatePicker.todayInUtcMilliseconds() -1.days.toLong(DurationUnit.MILLISECONDS),
+                        MaterialDatePicker.todayInUtcMilliseconds() - 1.days.toLong(DurationUnit.MILLISECONDS),
                         dateValidator
                     )
                 }
@@ -133,7 +153,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
                     timechip = binding.endDateChip
                     val dateValidatorStart =
                         DateValidatorPointForward.from(
-                            patientConsentModel.getPermissionStartDate()
+                            viewmodel.patientConsentModel.getPermissionStartDate()
                         )
 
                     val dateValidatorEnd =
@@ -207,23 +227,26 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
             Log.d("", "time = ${finalTime}")
             Log.d(
                 "",
-                "Date is : ${it} --- ${CommonUtil.getFormattedDateTime(finalTime,DATE_FORMAT.SERVER.format)}"
+                "Date is : ${it} --- ${
+                    CommonUtil.getFormattedDateTime(
+                        finalTime,
+                        DATE_FORMAT.SERVER.format
+                    )
+                }"
             )
-            timechip.text = CommonUtil.getFormattedDateTime(finalTime,DATE_FORMAT.USER.format)
+            timechip.text = CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.USER.format)
 
             when (timechip.id) {
                 R.id.startDateChip -> {
-                    val consentPermission = ConsentPermission(ACCESS_MODE.VIEW.value)
-                    patientConsentModel.permission = consentPermission
-                    patientConsentModel.setPermissionStartDate(finalTime)
+                    viewmodel.patientConsentModel.setPermissionStartDate(finalTime)
                 }
 
                 R.id.endDateChip -> {
-                    patientConsentModel.setPermissionEndDate(finalTime)
+                    viewmodel.patientConsentModel.setPermissionEndDate(finalTime)
                 }
 
                 R.id.eraseDateChip -> {
-                    patientConsentModel.setPermissionExpiryDate(finalTime)
+                    viewmodel.patientConsentModel.setPermissionExpiryDate(finalTime)
                 }
             }
             // call back code
@@ -305,7 +328,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
         VIEW("VIEW")
     }
 
-    enum class DATE_FORMAT(val format:String){
+    enum class DATE_FORMAT(val format: String) {
         SERVER("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
         USER("dd MMM YYYY , hh:mm a")
     }
