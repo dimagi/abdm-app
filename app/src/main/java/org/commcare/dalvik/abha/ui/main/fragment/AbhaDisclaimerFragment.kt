@@ -83,6 +83,9 @@ class AbhaDisclaimerFragment : BaseFragment<DisclaimerBinding>(DisclaimerBinding
                             binding.skipCheckABHA.isEnabled = true
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }
+                        else -> {
+                            //exhaustive block
+                        }
                     }
                 }
             }

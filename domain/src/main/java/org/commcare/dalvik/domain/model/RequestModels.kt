@@ -25,3 +25,5 @@ data class AbhaCardRequestModel(@SerializedName("user_token") val userToken: Str
 data class AbhaVerificationRequestModel(@SerializedName("health_id") val healthId: String)
 
 
+
+

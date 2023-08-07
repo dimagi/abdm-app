@@ -5,7 +5,15 @@
     app:startDestination="@id/patientConsentFragment">
 
     <fragment
+        android:id="@+id/createPatientConsentFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.CreatePatientConsentFragment"
+        android:label="@string/create_consent" />
+    <fragment
         android:id="@+id/patientConsentFragment"
         android:name="org.commcare.dalvik.abha.ui.main.fragment.PatientConsentFragment"
-        android:label="PatientConsentFragment" />
+        android:label="@string/patient_consent" >
+        <action
+            android:id="@+id/action_patientConsentFragment_to_createPatientConsentFragment"
+            app:destination="@id/createPatientConsentFragment" />
+    </fragment>
 </navigation>

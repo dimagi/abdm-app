@@ -19,7 +19,9 @@ class AbdmApplication : Application(){
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        setupActivityListener()
+        if(!BuildConfig.DEBUG) {
+            setupActivityListener()
+        }
     }
 
 

@@ -1,18 +1,14 @@
-package org.commcare.dalvik.abha.model
+package org.commcare.dalvik.domain.model
 
-import com.google.gson.Gson
-import org.commcare.dalvik.abha.ui.main.fragment.PatientConsentFragment
-import org.commcare.dalvik.abha.utility.CommonUtil
-import org.json.JSONArray
-import org.json.JSONObject
+import com.google.gson.annotations.SerializedName
 
-data class PatientConsentModel(
-    val consentPurpose: Purpose
+data class PatientConsentDetailModel(
+    val purpose: Purpose
 ) {
     lateinit var patient: Patient
     lateinit var hiu: Hiu
     lateinit var requester: Requester
-    var hiTypes = mutableListOf<PatientConsentFragment.HITYPES>()
+    var hiTypes = mutableListOf<String>()
     lateinit var permission: ConsentPermission
 
     fun validateConsent(): ConsentValidation {
@@ -30,8 +26,6 @@ data class PatientConsentModel(
         if (permissonValidation != ConsentValidation.SUCCESS) {
             return permissonValidation
         }
-
-
 
         return ConsentValidation.SUCCESS
 
@@ -55,56 +49,13 @@ data class PatientConsentModel(
     fun getPermissionEndDate() =
         permission.dateRange.endDate
 
-
-    fun getConsentJsonData(): JSONObject {
-        val jsonData = JSONObject().apply {
-            //PURPOSE
-            val purposeJson = JSONObject()
-            purposeJson.put("code", consentPurpose.purpose.name)
-            put("purpose", purposeJson)
-
-            //PATIENT
-            put("patient", Gson().toJson(patient))
-
-            //HIU
-            put("hiu", Gson().toJson(hiu))
-
-            //HI TYPES
-            val hiTypesArr = JSONArray()
-            hiTypes.forEach {
-                hiTypesArr.put(it.displayValue)
-            }
-
-            put("hiTypes", hiTypesArr)
-
-            //PERMISSION
-            val permissionJson = JSONObject().apply {
-                put("accessMode", permission.accessMode)
-                put(
-                    "dataEraseAt", CommonUtil.getFormattedDateTime(
-                        permission.expiryDate,
-                        PatientConsentFragment.DATE_FORMAT.SERVER.format
-                    )
-                )
-
-                put("frequency", Gson().toJson(permission.frequency))
-
-                put("dateRange", permission.dateRange.getJson())
-            }
-
-            put("permission", permissionJson)
-
-            //REQUESTER
-            put("requester", Gson().toJson(requester))
-
-        }
-
-        return jsonData
-    }
-
 }
 
-data class Purpose(val purpose: PatientConsentFragment.PURPOSE)
+data class Purpose(val code:String ){
+    lateinit var text:String
+    lateinit var refUri:String
+
+}
 data class Patient(val id: String)
 
 data class Hiu(val id: String)
@@ -116,7 +67,7 @@ data class Identifier(
     val system: String = "https://www.mciindia.org"
 )
 
-data class DateRange(var startDate: Long = 0L, var endDate: Long = 0L) {
+data class DateRange(@SerializedName("from") var startDate: Long = 0L,@SerializedName("to")var endDate: Long = 0L) {
 
     fun validate(): ConsentValidation {
 
@@ -134,26 +85,27 @@ data class DateRange(var startDate: Long = 0L, var endDate: Long = 0L) {
 
     }
 
-    fun getJson() = JSONObject().apply {
-        put(
-            "from", CommonUtil.getFormattedDateTime(
-                startDate,
-                PatientConsentFragment.DATE_FORMAT.SERVER.format
-            )
-        )
-
-        put(
-            "to", CommonUtil.getFormattedDateTime(
-                endDate,
-                PatientConsentFragment.DATE_FORMAT.SERVER.format
-            )
-        )
-    }
+//    fun getJson() = JSONObject().apply {
+//        put(
+//            "from", CommonUtil.getFormattedDateTime(
+//                startDate,
+//                PatientConsentFragment.DATE_FORMAT.SERVER.format
+//            )
+//        )
+//
+//        put(
+//            "to", CommonUtil.getFormattedDateTime(
+//                endDate,
+//                PatientConsentFragment.DATE_FORMAT.SERVER.format
+//            )
+//        )
+//    }
 }
 
 data class Frequency(val unit: String = "HOUR", val value: Int = 0, val repeats: Int = 0)
 
 data class ConsentPermission(val accessMode: String) {
+    @SerializedName("dataEraseAt")
     var expiryDate: Long = 0L
     var frequency: Frequency = Frequency()
     val dateRange: DateRange = DateRange()
@@ -179,5 +131,14 @@ enum class ConsentValidation(val msg: String) {
     INVALID_START_END_DATE_RANGE("Invalid start-end date range."),
     INVALID_HI_TYPE("HI_TYPE not selected")
 }
+
+enum class DATE_FORMAT(val format: String) {
+    SERVER("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+    USER("dd MMM YYYY , hh:mm a")
+}
+
+
+
+
 
 

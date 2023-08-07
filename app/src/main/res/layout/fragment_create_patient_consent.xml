@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="PatientConsentBinding">
+    <data class="CreatePatientConsentBinding">
+        <variable
+            name="model"
+            type="org.commcare.dalvik.domain.model.PatientConsentDetailModel" />
         <variable
             name="clickHandler"
             type="android.view.View.OnClickListener" />
@@ -75,6 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
+                    android:text="@{model.patient.id}"
                     android:textColor="@color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -119,6 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
+                    android:text="@{model.hiu.id}"
                     android:textColor="@color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -420,7 +425,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:onClick="@{clickHandler::onClick}"
-                            android:text="@string/addStartDate"
+                            android:text="@string/startDate"
                             android:textColor="@color/blue"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/startDateChip"
@@ -461,7 +466,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:onClick="@{clickHandler::onClick}"
-                            android:text="@string/addEndDate"
+                            android:text="@string/endDate"
                             android:textColor="@color/blue"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/endDateChip"

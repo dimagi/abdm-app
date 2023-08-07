@@ -60,6 +60,9 @@ class VerifyAadhaarOtpFragment :
                     VerificationMode.CONFIRM_AADHAAR_OTP -> {
                         requestAadhaarAuthOtp()
                     }
+                    else -> {
+                        //exhaustive block
+                    }
                 }
             }
         }
@@ -239,6 +242,10 @@ class VerifyAadhaarOtpFragment :
                                 RequestType.AADHAAR_OTP_VERIFY -> {
                                     navigateToNextScreen(RequestType.AADHAAR_OTP_VERIFY)
                                 }
+
+                                else -> {
+                                    //exhaustive block
+                                }
                             }
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }
@@ -275,6 +282,9 @@ class VerifyAadhaarOtpFragment :
                                     if (binding.timeProgress.timeState.value != OtpTimerState.TimerStarted) {
                                         binding.resentOtp.isEnabled = true
                                     }
+                                }
+                                else -> {
+                                    //exhaustive block
                                 }
 
                             }
@@ -315,9 +325,15 @@ class VerifyAadhaarOtpFragment :
                                         binding.resentOtp.isEnabled = true
                                     }
                                 }
+                                else -> {
+                                    //exhaustive block
+                                }
                             }
                             (activity as AbdmActivity).showBlockerDialog(it.data.getActualMessage())
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                        }
+                        else -> {
+                            //exhaustive block
                         }
                     }
                 }
@@ -376,6 +392,9 @@ class VerifyAadhaarOtpFragment :
                     VerificationMode.VERIFY_AADHAAR_OTP -> {
                         viewModel.verifyAadhaarOtp(getAadhaarOtpVeriyModel())
                     }
+                    else -> {
+                        //exhaustive block
+                    }
                 }
             }
 
@@ -403,6 +422,9 @@ class VerifyAadhaarOtpFragment :
                     R.id.action_verifyAadhaarOtpFragment_to_verifyMobileOtpFragment,
                     bundle
                 )
+            }
+            else -> {
+                //exhaustive block
             }
 
         }

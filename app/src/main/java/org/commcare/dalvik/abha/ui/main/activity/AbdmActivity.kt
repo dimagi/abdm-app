@@ -227,6 +227,10 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                             DialogUtility.showDialog(this@AbdmActivity, "Too many OTP attempts.")
                         }
 
+                        else -> {
+                            //exhaustive block
+                        }
+
                     }
                 }
             }

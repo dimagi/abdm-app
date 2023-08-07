@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="PatientConsentCellBinding">
+
+        <variable
+            name="model"
+            type="org.commcare.dalvik.domain.model.PatientConsentModel" />
+
+        <variable
+            name="clickHandler"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5dp"
+        android:background="@color/border_grey">
+
+        <TextView
+            android:id="@+id/consentText"
+            style="@style/Headline1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_32dp"
+            android:background="@color/blue"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_5dp"
+            android:text="@string/healthInfo"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/statusLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TableLayout
+            android:id="@+id/statusLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_10dp"
+            android:stretchColumns="*"
+            app:layout_constraintBottom_toTopOf="@+id/healthTypeContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/consentText">
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="2dp"
+                    android:paddingLeft="2dp"
+                    android:text="@string/status" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@{model.status}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="2dp"
+                    android:paddingLeft="2dp"
+                    android:text="@string/purpose" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@{model.details.purpose.text}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="2dp"
+                    android:paddingLeft="2dp"
+                    android:text="@string/startDate" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@{model.healthInfoFromDate}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="2dp"
+                    android:paddingLeft="2dp"
+                    android:text="@string/endDate" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@{model.healthInfoToDate}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="2dp"
+                    android:paddingLeft="2dp"
+                    android:text="@string/expiryDate" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@{model.expiryDate}" />
+
+            </TableRow>
+
+
+        </TableLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/healthTypeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/button_disabled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/statusLayout"
+            app:layout_constraintVertical_bias="0.5">
+
+
+            <TextView
+                android:id="@+id/textView12"
+                style="@style/Headline1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/_10dp"
+                android:text="@string/healthInfoType"
+                app:layout_constraintBottom_toTopOf="@+id/healthTypeChipGroup"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/healthTypeChipGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5dp"
+                app:layout_constraintBottom_toTopOf="@+id/textView12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView12"
+                app:layout_constraintVertical_bias="0.5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

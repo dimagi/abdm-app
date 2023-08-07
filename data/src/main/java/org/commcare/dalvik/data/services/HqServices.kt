@@ -1,6 +1,7 @@
 package org.commcare.dalvik.data.services
 
 import com.google.gson.JsonObject
+import kotlinx.coroutines.flow.Flow
 import org.commcare.dalvik.domain.model.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -38,7 +39,15 @@ interface HqServices {
     suspend fun fetchAbhaCard(@Body abhaCardRequestModel: AbhaCardRequestModel):Response<JsonObject>
 
     @POST("hiu/generate_consent_request")
-    suspend fun generatePatientConsent()
+    suspend fun generatePatientConsent(@Body patientConsentDetailModel: PatientConsentDetailModel):Response<JsonObject>
+
+    @GET("hiu/consents")
+    suspend fun getPatientConsents(
+        @Query("abha_id") abhaId: String,
+        @Query("search") searchText: String? ,
+        @Query("from_date") fromDate: String? ,
+        @Query("to_date") toDate: String?
+    ): Response<JsonObject>
 
 
 

@@ -5,10 +5,16 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.ConnectionPool
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
+import okhttp3.Response
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.commcare.dalvik.abha.BuildConfig
 import org.commcare.dalvik.abha.application.AbdmApplication
 import org.commcare.dalvik.data.network.NetworkUtil
+import org.commcare.dalvik.data.network.getMockPatientConsentResponse
 import org.commcare.dalvik.data.services.HqServices
 import org.commcare.dalvik.data.services.TranslationService
 import retrofit2.Retrofit
@@ -35,20 +41,41 @@ object AppModule {
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
-            .connectionPool(ConnectionPool(5,50,TimeUnit.SECONDS))
-            .addInterceptor{chain ->
-                if(chain.request().url.host.contains("raw.githubusercontent.com")){
+            .connectionPool(ConnectionPool(5, 50, TimeUnit.SECONDS))
+
+            .addInterceptor { chain ->
+                if (chain.request().url.host.contains("raw.githubusercontent.com")) {
                     val request = chain.request().newBuilder()
-                        .addHeader("content-type","application/json")
+                        .addHeader("content-type", "application/json")
                         .build()
-                   val response = chain.proceed(request)
+                    val response = chain.proceed(request)
                     response
-                }else {
+                } else if (chain.request().url.toUri().path.contains("hiu/consents")) {
+                    if (BuildConfig.DEBUG) {
+                        Response.Builder()
+                            .request(chain.request())
+                            .code(200)
+                            .protocol(Protocol.HTTP_2)
+                            .message(getMockPatientConsentResponse)
+                            .body(
+                                ResponseBody.create(
+                                    "application/json".toMediaTypeOrNull(),
+                                    getMockPatientConsentResponse.toByteArray()
+                                )
+                            )
+                            .addHeader("content-type", "application/json")
+                            .build()
+                    } else {
+                        chain.proceed(chain.request())
+                    }
+
+
+                } else {
                     val request = chain.request().newBuilder()
-                        .addHeader("content-type","application/json")
+                        .addHeader("content-type", "application/json")
                         .addHeader(
                             "Authorization",
-                            "Token "+AbdmApplication.API_TOKEN
+                            "Token " + AbdmApplication.API_TOKEN
                         )
                         .build()
                     chain.proceed(request)
@@ -87,7 +114,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideTranslationService( @Named("retrofitTranslation") retrofit: Retrofit): TranslationService {
+    fun provideTranslationService(@Named("retrofitTranslation") retrofit: Retrofit): TranslationService {
         return retrofit.create(TranslationService::class.java)
     }
 

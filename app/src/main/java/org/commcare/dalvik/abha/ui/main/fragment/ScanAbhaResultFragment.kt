@@ -71,6 +71,10 @@ class ScanAbhaResultFragment : BaseFragment<ScanAbhaResultBinding>(ScanAbhaResul
                                 )
                             )
                         }
+
+                        else -> {
+                            //exhaustive block
+                        }
                     }
                 }
             }

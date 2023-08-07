@@ -71,6 +71,10 @@ class AbhaCreationResultFragment : BaseFragment<AbhaDetailBinding>(AbhaDetailBin
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }
 
+                        else -> {
+                            //exhaustive block
+                        }
+
                     }
                 }
             }

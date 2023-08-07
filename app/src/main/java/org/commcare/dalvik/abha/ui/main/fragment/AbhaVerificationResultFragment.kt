@@ -85,6 +85,9 @@ class AbhaVerificationResultFragment :
                         is GenerateAbhaUiState.Error -> {
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }
+                        else -> {
+                            //exhaustive block
+                        }
 
                     }
                 }

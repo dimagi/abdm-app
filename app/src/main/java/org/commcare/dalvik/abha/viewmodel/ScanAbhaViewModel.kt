@@ -51,6 +51,9 @@ class ScanAbhaViewModel @Inject constructor(private val abhaAvailbilityUsecase: 
                                )
                            )
                        }
+                       else -> {
+                           //exhaustive block
+                       }
                    }
                }
            }
