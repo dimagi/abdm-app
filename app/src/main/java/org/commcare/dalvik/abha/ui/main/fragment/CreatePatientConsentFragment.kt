@@ -164,7 +164,7 @@ class CreatePatientConsentFragment :
                     timechip = binding.endDateChip
                     val dateValidatorStart =
                         DateValidatorPointForward.from(
-                            viewmodel.patientConsentModel.getPermissionStartDate()
+                            viewmodel.patientConsentModel.getPermissionStartDateInMs()
                         )
 
                     val dateValidatorEnd =
@@ -284,15 +284,15 @@ class CreatePatientConsentFragment :
 
             when (timechip.id) {
                 R.id.startDateChip -> {
-                    viewmodel.patientConsentModel.setPermissionStartDate(finalTime)
+                    viewmodel.patientConsentModel.setPermissionStartDate(timechip.text.toString())
                 }
 
                 R.id.endDateChip -> {
-                    viewmodel.patientConsentModel.setPermissionEndDate(finalTime)
+                    viewmodel.patientConsentModel.setPermissionEndDate(timechip.text.toString())
                 }
 
                 R.id.eraseDateChip -> {
-                    viewmodel.patientConsentModel.setPermissionExpiryDate(finalTime)
+                    viewmodel.patientConsentModel.setPermissionExpiryDate(timechip.text.toString())
                 }
             }
             // call back code

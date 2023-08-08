@@ -4,12 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/close"
-        android:icon="@drawable/ic_baseline_close_24"
-        android:title="@string/close"
-        android:orderInCategory="2"
+        android:id="@+id/filter"
+        android:icon="@drawable/baseline_filter_list_24"
+        android:title="@string/filter"
+        android:orderInCategory="1"
         app:showAsAction="always">
     </item>
+
 
 
 </menu>

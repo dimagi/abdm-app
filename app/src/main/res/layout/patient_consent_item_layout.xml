@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data class="PatientConsentCellBinding">
 
@@ -115,13 +114,14 @@
                     android:text="@string/startDate" />
 
                 <TextView
+                    android:id="@+id/fromDate"
                     style="@style/Headline2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|end"
                     android:paddingEnd="2dp"
                     android:paddingRight="2dp"
-                    android:text="@{model.healthInfoFromDate}" />
+                    />
 
             </TableRow>
 
@@ -140,13 +140,14 @@
                     android:text="@string/endDate" />
 
                 <TextView
+                    android:id="@+id/toDate"
                     style="@style/Headline2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|end"
                     android:paddingEnd="2dp"
                     android:paddingRight="2dp"
-                    android:text="@{model.healthInfoToDate}" />
+                    />
 
             </TableRow>
 
@@ -165,13 +166,14 @@
                     android:text="@string/expiryDate" />
 
                 <TextView
+                    android:id="@+id/expiryDate"
                     style="@style/Headline2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|end"
                     android:paddingEnd="2dp"
                     android:paddingRight="2dp"
-                    android:text="@{model.expiryDate}" />
+                     />
 
             </TableRow>
 
@@ -194,14 +196,15 @@
             <TextView
                 android:id="@+id/textView12"
                 style="@style/Headline1"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/_10dp"
                 android:text="@string/healthInfoType"
                 app:layout_constraintBottom_toTopOf="@+id/healthTypeChipGroup"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

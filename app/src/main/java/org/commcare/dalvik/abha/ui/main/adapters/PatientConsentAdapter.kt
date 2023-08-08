@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.PatientConsentCellBinding
+import org.commcare.dalvik.abha.utility.CommonUtil
+import org.commcare.dalvik.domain.model.DATE_FORMAT
 import org.commcare.dalvik.domain.model.PatientConsentModel
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class PatientConsentAdapter :
     PagingDataAdapter<PatientConsentModel, PatientConsentAdapter.PatientConsentViewHolder>(
@@ -58,7 +62,21 @@ class PatientConsentAdapter :
         fun bindModel(model: PatientConsentModel){
             binding.model = model
             renderHealthInfoTypes()
+            model.healthInfoFromDate?.let {
+                binding.fromDate.text = CommonUtil.getUserFormatDate(it)
+            }
+
+            model.healthInfoToDate?.let {
+                binding.toDate.text = CommonUtil.getUserFormatDate(it)
+            }
+
+            model.expiryDate?.let {
+                binding.expiryDate.text = CommonUtil.getUserFormatDate(it)
+            }
+
+
         }
+
 
         private fun renderHealthInfoTypes(){
 

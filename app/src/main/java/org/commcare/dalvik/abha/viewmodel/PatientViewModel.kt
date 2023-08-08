@@ -6,8 +6,11 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.commcare.dalvik.abha.model.AbhaRequestModel
+import org.commcare.dalvik.abha.model.FilterModel
 import org.commcare.dalvik.abha.ui.main.fragment.ACCESS_MODE
 import org.commcare.dalvik.abha.ui.main.fragment.PURPOSE
+import org.commcare.dalvik.abha.utility.PropMutableLiveData
 import org.commcare.dalvik.domain.model.ConsentPermission
 import org.commcare.dalvik.domain.model.Hiu
 import org.commcare.dalvik.domain.model.HqResponseModel
@@ -26,6 +29,7 @@ class PatientViewModel @Inject constructor(private val submitPatientConsentUseCa
     BaseViewModel() {
     lateinit var patientConsentModel: PatientConsentDetailModel
     val uiState = MutableStateFlow<GenerateAbhaUiState>(GenerateAbhaUiState.InvalidState)
+    var filterModel: PropMutableLiveData<FilterModel> = PropMutableLiveData()
 
     fun init(patientId: String, hiuId: String) {
         this.patientConsentModel =

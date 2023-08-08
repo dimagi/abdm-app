@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data class="PatientConsentBinding">
+
+        <variable
+            name="filterModel"
+            type="org.commcare.dalvik.abha.model.FilterModel" />
+        <variable
+            name="clickHandler"
+            type="android.view.View.OnClickListener" />
 
     </data>
 
@@ -10,16 +17,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include
+            android:id="@+id/filterLayout"
+            layout="@layout/patient_consent_filter_layout"
+            android:visibility="gone"
+            app:filterHandler="@{clickHandler}"
+            app:filterModel ="@{filterModel}"
+            app:layout_constraintBottom_toTopOf="@+id/consentList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/consentList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filterLayout"
             app:layout_constraintVertical_bias="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -126,4 +126,10 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="helthInfoType">Health Info Type</string>
     <string name="healthInfoType">Health Info Type</string>
     <string name="patient_consent">Patient Consents</string>
+    <string name="filter">Filter</string>
+    <string name="searchText">Enter text to search</string>
+    <string name="search">Search</string>
+    <string name="clear">Reset</string>
+    <string name="searchFilters">Search Filters</string>
+    <string name="dateSelectionFailed">Date selection failed</string>
 </resources>

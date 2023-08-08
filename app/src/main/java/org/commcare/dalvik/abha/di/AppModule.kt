@@ -50,27 +50,7 @@ object AppModule {
                         .build()
                     val response = chain.proceed(request)
                     response
-                } else if (chain.request().url.toUri().path.contains("hiu/consents")) {
-                    if (BuildConfig.DEBUG) {
-                        Response.Builder()
-                            .request(chain.request())
-                            .code(200)
-                            .protocol(Protocol.HTTP_2)
-                            .message(getMockPatientConsentResponse)
-                            .body(
-                                ResponseBody.create(
-                                    "application/json".toMediaTypeOrNull(),
-                                    getMockPatientConsentResponse.toByteArray()
-                                )
-                            )
-                            .addHeader("content-type", "application/json")
-                            .build()
-                    } else {
-                        chain.proceed(chain.request())
-                    }
-
-
-                } else {
+                }else {
                     val request = chain.request().newBuilder()
                         .addHeader("content-type", "application/json")
                         .addHeader(

@@ -1,6 +1,8 @@
 package org.commcare.dalvik.domain.model
 
 import com.google.gson.annotations.SerializedName
+import java.text.SimpleDateFormat
+import java.util.Date
 
 data class PatientConsentDetailModel(
     val purpose: Purpose
@@ -31,15 +33,15 @@ data class PatientConsentDetailModel(
 
     }
 
-    fun setPermissionStartDate(startDate: Long) {
+    fun setPermissionStartDate(startDate: String) {
         permission.dateRange.startDate = startDate
     }
 
-    fun setPermissionEndDate(endDate: Long) {
+    fun setPermissionEndDate(endDate: String) {
         permission.dateRange.endDate = endDate
     }
 
-    fun setPermissionExpiryDate(removalDate: Long) {
+    fun setPermissionExpiryDate(removalDate: String) {
         permission.expiryDate = removalDate
     }
 
@@ -48,6 +50,21 @@ data class PatientConsentDetailModel(
 
     fun getPermissionEndDate() =
         permission.dateRange.endDate
+
+
+    fun getPermissionStartDateInMs():Long{
+        var date:Date
+        val formatter = SimpleDateFormat(DATE_FORMAT.SERVER.format)
+        date = formatter.parse(permission.dateRange.startDate)
+        return date.time
+    }
+
+    fun getPermissionEndDateInMs():Long{
+        var date:Date
+        val formatter = SimpleDateFormat(DATE_FORMAT.SERVER.format)
+        date = formatter.parse(permission.dateRange.endDate)
+        return date.time
+    }
 
 }
 
@@ -67,18 +84,15 @@ data class Identifier(
     val system: String = "https://www.mciindia.org"
 )
 
-data class DateRange(@SerializedName("from") var startDate: Long = 0L,@SerializedName("to")var endDate: Long = 0L) {
+data class DateRange(@SerializedName("from") var startDate: String? = null ,@SerializedName("to")var endDate: String?=null ) {
 
     fun validate(): ConsentValidation {
 
-        if (startDate == 0L) {
+        if (startDate == null) {
             return ConsentValidation.INVALID_START_DATE
         }
-        if (endDate == 0L) {
+        if (endDate == null) {
             return ConsentValidation.INVALID_END_DATE
-        }
-        if (endDate <= startDate) {
-            return ConsentValidation.INVALID_START_END_DATE_RANGE
         }
 
         return ConsentValidation.SUCCESS
@@ -106,7 +120,7 @@ data class Frequency(val unit: String = "HOUR", val value: Int = 0, val repeats:
 
 data class ConsentPermission(val accessMode: String) {
     @SerializedName("dataEraseAt")
-    var expiryDate: Long = 0L
+    lateinit var expiryDate: String
     var frequency: Frequency = Frequency()
     val dateRange: DateRange = DateRange()
 
@@ -116,7 +130,7 @@ data class ConsentPermission(val accessMode: String) {
         if(dateRangeValidation != ConsentValidation.SUCCESS){
             return dateRangeValidation
         }
-        if (expiryDate == 0L) {
+        if (expiryDate == null) {
             return ConsentValidation.INVALID_EXPIRY_DATE
         }
         return ConsentValidation.SUCCESS
