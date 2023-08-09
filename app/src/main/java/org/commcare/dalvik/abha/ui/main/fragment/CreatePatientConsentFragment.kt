@@ -45,7 +45,7 @@ class CreatePatientConsentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewmodel.init("test_patient_id@sbx", "test_hiu_id@sbx")
+        viewmodel.init("ajeet2040@sbx", "test_hiu_id@sbx")
         binding.model = viewmodel.patientConsentModel
         binding.clickHandler = this
         initConsentPurpose()

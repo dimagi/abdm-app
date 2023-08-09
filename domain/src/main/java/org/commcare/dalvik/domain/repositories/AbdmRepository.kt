@@ -22,11 +22,13 @@ interface AbdmRepository {
     fun submitPatientConsent(patientConsentDetailModel: PatientConsentDetailModel): Flow<HqResponseModel>
     suspend fun getPatientConsents(
         @Query("abha_id") abhaId: String,
-        @Query("search") searchText: String? ,
-        @Query("from_date") fromDate: String? ,
+        @Query("search") searchText: String?,
+        @Query("from_date") fromDate: String?,
         @Query("to_date") toDate: String?
-    ):PatientConsentList
+    ): PatientConsentList
 
-    fun getPatientConsent(fetchPatientConsentUsecase: FetchPatientConsentUsecase): LiveData<PagingData<PatientConsentModel>>
+    fun getPatientConsent(
+        fetchPatientConsentUsecase: FetchPatientConsentUsecase
+    ): LiveData<PagingData<PatientConsentModel>>
 
 }

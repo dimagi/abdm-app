@@ -24,8 +24,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class PatientViewModel @Inject constructor(private val submitPatientConsentUseCase: SubmitPatientConsentUsecase,
-                                           private val fetchPatientConsentUsecase: FetchPatientConsentUsecase) :
+class PatientViewModel @Inject constructor(
+    private val submitPatientConsentUseCase: SubmitPatientConsentUsecase,
+    private val fetchPatientConsentUsecase: FetchPatientConsentUsecase
+) :
     BaseViewModel() {
     lateinit var patientConsentModel: PatientConsentDetailModel
     val uiState = MutableStateFlow<GenerateAbhaUiState>(GenerateAbhaUiState.InvalidState)
@@ -39,6 +41,14 @@ class PatientViewModel @Inject constructor(private val submitPatientConsentUseCa
                 requester = Requester("Dr. Manju")
                 permission = ConsentPermission(ACCESS_MODE.VIEW.value)
             }
+    }
+
+    fun initFilterModel(abhaId: String) {
+        fetchPatientConsentUsecase.initFilter(abhaId)
+        filterModel.setValue(FilterModel())
+    }
+
+    fun initPatientConsentFilterModel(abhaId:String){
 
     }
 
@@ -72,6 +82,7 @@ class PatientViewModel @Inject constructor(private val submitPatientConsentUseCa
                             )
                         )
                     }
+
                     else -> {
                         //exhaustive block
                     }
@@ -80,5 +91,18 @@ class PatientViewModel @Inject constructor(private val submitPatientConsentUseCa
         }
     }
 
-    fun fetchPatientConsent() = fetchPatientConsentUsecase.getPatientConsent().cachedIn(viewModelScope)
+    fun fetchPatientConsent() =
+        fetchPatientConsentUsecase.getPatientConsent().cachedIn(viewModelScope)
+
+
+    fun updatePatientFilter() {
+        filterModel.value?.let {
+            fetchPatientConsentUsecase.updateFilter(
+                filterText = it.filterText,
+                toDate = it.toDate,
+                fromDate = it.fromDate
+            )
+        }
+    }
+
 }

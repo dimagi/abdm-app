@@ -63,7 +63,7 @@ abstract class BaseFragment<B : ViewBinding>(val bindingInflater: (layoutInflate
         callback: (selectedDate: Long?, id: Int) -> Unit,
         dateValidator: CalendarConstraints.DateValidator?,
         id: Int,
-        shouldCaptureTime: Boolean = true
+        shouldCaptureTime: Boolean
     ) {
         val builder =
             MaterialDatePicker.Builder.datePicker()

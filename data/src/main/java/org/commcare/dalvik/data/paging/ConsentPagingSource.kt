@@ -4,8 +4,14 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import org.commcare.dalvik.domain.model.PatientConsentModel
 import org.commcare.dalvik.domain.usecases.FetchPatientConsentUsecase
+import timber.log.Timber
 
-class ConsentPagingSource(var fetchPatientConsentUsecase: FetchPatientConsentUsecase) :
+
+private const val DEFAULT_FIRST_PAGE = 1;
+
+class ConsentPagingSource(
+    var fetchPatientConsentUsecase: FetchPatientConsentUsecase
+) :
     PagingSource<Int, PatientConsentModel>() {
 
 
@@ -19,12 +25,13 @@ class ConsentPagingSource(var fetchPatientConsentUsecase: FetchPatientConsentUse
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PatientConsentModel> {
         return try {
             // Start refresh at page 1 if undefined.
-            val position = params.key ?: 1
-            val response = fetchPatientConsentUsecase.execute("ajeet2040@sbx" )
+            Timber.d("PARAMs KEY = ${params.key}")
+            val position = params.key ?: DEFAULT_FIRST_PAGE
+            val response = fetchPatientConsentUsecase.execute()
             LoadResult.Page(
                 data = response.results,
-                prevKey = if (position == 1) null else -1,
-                nextKey = if (position == response.count) null else position + 1
+                prevKey = if(response.previous == null) null else position - 1,
+                nextKey = if(response.next == null) null else position + 1,
             )
         } catch (e: Exception) {
             // Handle errors in this block and return LoadResult.Error for

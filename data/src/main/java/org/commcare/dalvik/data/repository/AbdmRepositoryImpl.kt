@@ -94,7 +94,9 @@ class AbdmRepositoryImpl @Inject constructor(val hqServices: HqServices) : AbdmR
     }
 
 
-    override fun getPatientConsent(fetchPatientConsentUsecase: FetchPatientConsentUsecase) = Pager(
+    override fun getPatientConsent(
+        fetchPatientConsentUsecase: FetchPatientConsentUsecase
+    ) = Pager(
         config = PagingConfig(pageSize = 10, maxSize = 100),
         pagingSourceFactory = { ConsentPagingSource(fetchPatientConsentUsecase) }
     ).liveData

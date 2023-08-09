@@ -45,7 +45,11 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.filterModel.setValue(FilterModel())
+        viewModel.initFilterModel("ajeet2040@sbx")
+
+        viewModel.filterModel.observe(viewLifecycleOwner){
+            viewModel.updatePatientFilter()
+        }
 
         binding.clickHandler = this
         binding.filterModel = viewModel.filterModel.value
@@ -209,6 +213,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
                 }
 
                 R.id.applyFilter -> {
+                    updateFilterMenu()
                     consentAdapter.refresh()
                 }
 
