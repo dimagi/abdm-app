@@ -11,6 +11,14 @@
         app:showAsAction="always">
     </item>
 
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/baseline_refresh_24"
+        android:title="@string/refresh"
+        android:orderInCategory="0"
+        app:showAsAction="always">
+    </item>
+
 
 
 </menu>

@@ -60,11 +60,11 @@ abstract class BaseFragment<B : ViewBinding>(val bindingInflater: (layoutInflate
     fun selectDateWithTime(
         title: String,
         selectedDate: Long,
-        callback: (selectedDate: Long?,id:Int) -> Unit,
+        callback: (selectedDate: Long?, id: Int) -> Unit,
         dateValidator: CalendarConstraints.DateValidator?,
-        id:Int
+        id: Int,
+        shouldCaptureTime: Boolean = true
     ) {
-
         val builder =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(title)
@@ -97,7 +97,11 @@ abstract class BaseFragment<B : ViewBinding>(val bindingInflater: (layoutInflate
         }
 
         datePicker.addOnPositiveButtonClickListener {
-            captureTime(it,callback,id)
+            if (shouldCaptureTime) {
+                captureTime(it, callback, id)
+            } else {
+                callback.invoke(it,id)
+            }
         }
 
         datePicker.show(parentFragmentManager, datePicker.toString())
@@ -105,7 +109,11 @@ abstract class BaseFragment<B : ViewBinding>(val bindingInflater: (layoutInflate
     }
 
 
-    private fun captureTime(selectedDate: Long,callback: (selectedDate: Long?,id:Int) -> Unit,id:Int) {
+    private fun captureTime(
+        selectedDate: Long,
+        callback: (selectedDate: Long?, id: Int) -> Unit,
+        id: Int
+    ) {
 
         val timePicker =
             MaterialTimePicker.Builder()
@@ -122,18 +130,18 @@ abstract class BaseFragment<B : ViewBinding>(val bindingInflater: (layoutInflate
             val hours = timePicker.hour * 60 * 60 * 1000
 
             val finalTime = selectedDate + hours + minutes
-            callback(finalTime,id)
+            callback(finalTime, id)
 
             // call back code
         }
         timePicker.addOnNegativeButtonClickListener {
-            callback(selectedDate,id)
+            callback(selectedDate, id)
         }
         timePicker.addOnCancelListener {
-            callback(selectedDate,id)
+            callback(selectedDate, id)
         }
         timePicker.addOnDismissListener {
-            callback(selectedDate,id)
+            callback(selectedDate, id)
         }
 
     }

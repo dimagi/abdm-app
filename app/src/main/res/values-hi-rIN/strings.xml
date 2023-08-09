@@ -95,4 +95,7 @@
     <string name="clear">Reset</string>
     <string name="searchFilters">Search Filters</string>
     <string name="dateSelectionFailed">Date selection failed</string>
+    <string name="retry">Retry</string>
+    <string name="loadErrorMsg">Unable to load data. Please retry.</string>
+    <string name="refresh">Reresh</string>
 </resources>

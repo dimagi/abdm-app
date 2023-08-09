@@ -2,7 +2,6 @@ package org.commcare.dalvik.abha.ui.main.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -23,7 +22,6 @@ import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.CreatePatientConsentBinding
-import org.commcare.dalvik.abha.databinding.PatientConsentBinding
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
@@ -130,7 +128,6 @@ class CreatePatientConsentFragment :
     override fun onClick(view: View?) {
         super.onClick(view)
         view?.id?.let {
-
 
             when (it) {
                 R.id.createConsentBtn -> {
