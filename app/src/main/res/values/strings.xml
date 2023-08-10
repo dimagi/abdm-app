@@ -135,4 +135,6 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="retry">Retry</string>
     <string name="loadErrorMsg">Unable to load data. Please retry.</string>
     <string name="refresh">Reresh</string>
+    <string name="noData">No data found.</string>
+    <string name="loading">Loading...</string>
 </resources>

@@ -1,5 +1,6 @@
 package org.commcare.dalvik.abha.model
 
+import android.text.TextUtils
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import org.commcare.dalvik.abha.BR
@@ -17,7 +18,7 @@ class FilterModel : BaseObservable() {
     var filterText: String? = null
         @Bindable get
         set(value) {
-            field = value
+            field = if(TextUtils.isEmpty(value)) null else value
             notifyPropertyChanged(BR.filterText)
         }
 
@@ -49,4 +50,6 @@ class FilterModel : BaseObservable() {
     fun setFilterEndDate(date: String?) {
         toDate = date
     }
+
+    fun isFilterApplied(): Boolean = filterText != null || fromDate != null || toDate != null
 }

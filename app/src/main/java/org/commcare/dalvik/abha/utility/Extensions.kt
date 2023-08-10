@@ -1,10 +1,15 @@
 package org.commcare.dalvik.abha.utility
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.Typeface
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -29,6 +34,7 @@ fun Toolbar.changeToolbarFont(){
         }
     }
 }
+
 
 /**
  * Extension to observe text
@@ -58,3 +64,16 @@ fun TextInputEditText.observeText() =
 
         }
     }
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun Fragment.hideKeyboard() {
+    view?.let { activity?.hideKeyboard(it) }
+}
+
+fun Activity.hideKeyboard() {
+    hideKeyboard(currentFocus ?: View(this))
+}

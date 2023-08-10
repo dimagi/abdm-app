@@ -16,21 +16,33 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/grey_lighter">
+
+        <TextView
+            android:id="@+id/statusView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="@string/noData"
+            android:visibility="gone"
+            android:padding="@dimen/_8dp"
+            app:layout_constraintBottom_toTopOf="@+id/consentList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filterLayout" />
 
         <include
             android:id="@+id/filterLayout"
             layout="@layout/patient_consent_filter_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:visibility="gone"
             app:filterHandler="@{clickHandler}"
             app:filterModel="@{filterModel}"
-            app:layout_constraintBottom_toTopOf="@+id/consentList"
+            app:layout_constraintBottom_toTopOf="@+id/statusView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +58,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filterLayout"
+            app:layout_constraintTop_toBottomOf="@+id/statusView"
             app:layout_constraintVertical_bias="0.5" />
 
         <include
@@ -54,10 +66,6 @@
             layout="@layout/paging_loading_layout"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

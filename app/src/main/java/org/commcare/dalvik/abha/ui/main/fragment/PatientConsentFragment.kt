@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.MenuHost
@@ -24,10 +23,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.PatientConsentBinding
-import org.commcare.dalvik.abha.model.FilterModel
 import org.commcare.dalvik.abha.ui.main.adapters.ConsentPageLoaderAdapter
 import org.commcare.dalvik.abha.ui.main.adapters.PatientConsentAdapter
 import org.commcare.dalvik.abha.utility.CommonUtil
+import org.commcare.dalvik.abha.utility.hideKeyboard
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
 import org.commcare.dalvik.domain.model.DATE_FORMAT
 import timber.log.Timber
@@ -47,7 +46,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
         viewModel.initFilterModel("ajeet2040@sbx")
 
-        viewModel.filterModel.observe(viewLifecycleOwner){
+        viewModel.filterModel.observe(viewLifecycleOwner) {
             viewModel.updatePatientFilter()
         }
 
@@ -56,6 +55,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
         val menuHost: MenuHost = requireActivity()
 
+        //MENU
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 // Add menu items here
@@ -70,13 +70,11 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
                 return when (menuItem.itemId) {
                     R.id.filter -> {
                         updateFilterMenu()
-
                         true
                     }
 
                     R.id.refresh -> {
                         consentAdapter.refresh()
-
                         true
                     }
 
@@ -95,41 +93,67 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
             )
         }
 
+        binding.filterLayout.apply {
+            filterEndDateChip.setOnCloseIconClickListener {
+                viewModel.filterModel.value?.toDate = null
+            }
+            filterStartDateChip.setOnCloseIconClickListener {
+                viewModel.filterModel.value?.fromDate = null
+            }
+        }
 
 
         viewModel.fetchPatientConsent().observe(viewLifecycleOwner) {
             consentAdapter.submitData(lifecycle, it)
         }
 
-        //LOADING STATE
-//        lifecycleScope.launch {
-//            consentAdapter.loadStateFlow.collectLatest { loadStates ->
-//
-//                if (loadStates.refresh is LoadState.Loading) {
-//                    binding.loadingLayout.padeLoaderHolder.isVisible = true
-//                    binding.loadingLayout.errMsg.isVisible = false
-//                    binding.loadingLayout.retry.isVisible = false
-//                    binding.loadingLayout.loadingProgress.isVisible = true
-//                }
-//
-//                if (loadStates.refresh is LoadState.Error) {
-//                    binding.loadingLayout.padeLoaderHolder.isVisible = true
-//                    binding.loadingLayout.errMsg.isVisible = true
-//                    binding.loadingLayout.retry.isVisible = true
-//                    binding.loadingLayout.loadingProgress.isVisible = false
-//                }
-//
-//                if (loadStates.refresh is LoadState.NotLoading){
-//                    binding.loadingLayout.padeLoaderHolder.isVisible = false
-//                    binding.loadingLayout.loadingProgress.isVisible = false
-//                }
-//
-//            }
-//        }
+        //PAGING
+        lifecycleScope.launch {
+            consentAdapter.loadStateFlow.collectLatest { loadStates ->
+
+                if (loadStates.refresh is LoadState.Loading) {
+                    binding.loadingLayout.padeLoaderHolder.isVisible = true
+                    binding.loadingLayout.errMsg.isVisible = false
+                    binding.loadingLayout.retry.isVisible = false
+                    binding.loadingLayout.loadingProgress.isVisible = true
+                }
+
+                if (loadStates.refresh is LoadState.Error) {
+                    binding.loadingLayout.padeLoaderHolder.isVisible = true
+                    binding.loadingLayout.errMsg.isVisible = true
+                    binding.loadingLayout.retry.isVisible = true
+                    binding.loadingLayout.loadingProgress.isVisible = false
+                }
+
+                if (loadStates.refresh is LoadState.NotLoading) {
+                    binding.loadingLayout.padeLoaderHolder.isVisible = false
+                    binding.loadingLayout.loadingProgress.isVisible = false
+                }
+
+            }
+        }
 
         //PAGE RETRY
         binding.loadingLayout.retry.setOnClickListener {
             consentAdapter.refresh()
+        }
+
+        //LOAD STATE
+        consentAdapter.addLoadStateListener { loadState ->
+            if(loadState.refresh is LoadState.Loading){
+                binding.statusView.isVisible = true
+                binding.statusView.text = resources.getText(R.string.loading)
+            }
+            if (loadState.append.endOfPaginationReached) {
+                if(consentAdapter.itemCount < 1){
+                    binding.statusView.isVisible = true
+                    binding.statusView.text = resources.getText(R.string.noData)
+                }else{
+                    binding.statusView.isVisible = false
+                }
+
+            }
+
         }
     }
 
@@ -137,23 +161,22 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
         binding.filterLayout.filter.apply {
             if (visibility == View.VISIBLE) {
                 visibility = View.GONE
-                val icon = filterMenuItem.icon
-                if (icon != null) {
-                    DrawableCompat.setTint(
-                        icon,
-                        ContextCompat.getColor(requireContext(), R.color.white)
-                    )
-                }
             } else {
                 visibility = View.VISIBLE
+            }
+
+            binding.filterModel?.let {
+                val tintColor =
+                    if (it.isFilterApplied()) R.color.solid_dark_orange else R.color.white
                 val icon = filterMenuItem.icon
                 if (icon != null) {
                     DrawableCompat.setTint(
                         icon,
-                        ContextCompat.getColor(requireContext(), R.color.solid_dark_orange)
+                        ContextCompat.getColor(requireContext(), tintColor)
                     )
                 }
             }
+
         }
     }
 
@@ -213,16 +236,19 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
                 }
 
                 R.id.applyFilter -> {
+                    hideKeyboard()
                     updateFilterMenu()
                     consentAdapter.refresh()
                 }
 
                 R.id.resetFilter -> {
-                    binding.filterLayout.filterModel?.clear()
+                    binding.filterModel?.clear()
+                    viewModel.updatePatientFilter()
                 }
 
                 R.id.closeFilter -> {
                     updateFilterMenu()
+                    hideKeyboard()
                 }
 
                 else -> false
@@ -233,25 +259,27 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
     }
 
-    fun onFilterDateSelected(selectedDate: Long?, id: Int) {
+    private fun onFilterDateSelected(selectedDate: Long?, id: Int) {
 
-        Toast.makeText(requireContext(), "Time : ${selectedDate}", Toast.LENGTH_SHORT).show()
+        Timber.d("Time : ${selectedDate}")
         when (id) {
             R.id.filterStartDate -> {
                 selectedDate?.let {
-                    CommonUtil.getFormattedDateTime(selectedDate, DATE_FORMAT.ONLY_DATE.format)?.let {
-                        viewModel.filterModel.value?.fromDate = it
-                        viewModel.filterModel.value?.startDateFilterInMS = selectedDate
-                    }
+                    CommonUtil.getFormattedDateTime(selectedDate, DATE_FORMAT.ONLY_DATE.format)
+                        ?.let {
+                            viewModel.filterModel.value?.fromDate = it
+                            viewModel.filterModel.value?.startDateFilterInMS = selectedDate
+                        }
                 }
 
             }
 
             R.id.filterEndDate -> {
                 selectedDate?.let {
-                    CommonUtil.getFormattedDateTime(selectedDate, DATE_FORMAT.ONLY_DATE.format)?.let {
-                        viewModel.filterModel.value?.toDate = it
-                    }
+                    CommonUtil.getFormattedDateTime(selectedDate, DATE_FORMAT.ONLY_DATE.format)
+                        ?.let {
+                            viewModel.filterModel.value?.toDate = it
+                        }
                 }
             }
         }
