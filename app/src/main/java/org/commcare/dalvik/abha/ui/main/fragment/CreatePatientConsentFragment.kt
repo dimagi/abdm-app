@@ -2,6 +2,7 @@ package org.commcare.dalvik.abha.ui.main.fragment
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -45,7 +46,14 @@ class CreatePatientConsentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewmodel.init("ajeet2040@sbx", "test_hiu_id@sbx")
+        arguments?.let { bundle ->
+            bundle.getString("abha_id")?.let { abhaId ->
+                bundle.getString("hiu_id")?.let { hiuId ->
+                    viewmodel.init(abhaId, hiuId)
+                }
+            }
+        }
+
         binding.model = viewmodel.patientConsentModel
         binding.clickHandler = this
         initConsentPurpose()

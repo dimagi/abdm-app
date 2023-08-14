@@ -53,7 +53,7 @@ data class PatientConsentDetailModel(
 
     fun getPermissionStartDateInMs():Long{
         var date:Date
-        val formatter = SimpleDateFormat(DATE_FORMAT.SERVER.format)
+        val formatter = SimpleDateFormat(DATE_FORMAT.USER.format)
         date = formatter.parse(permission.dateRange.startDate)
         return date.time
     }

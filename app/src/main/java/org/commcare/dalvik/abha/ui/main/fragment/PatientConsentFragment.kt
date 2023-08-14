@@ -45,7 +45,9 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.initPatientFilterModel("ajeet2040@sbx")
+        arguments?.getString("abha_id")?.let {abhaId ->
+            viewModel.initPatientAbhaId(abhaId)
+        }
 
         viewModel.consentFilterModel.observe(viewLifecycleOwner) {
             viewModel.updatePatientFilter()
@@ -145,6 +147,9 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
             binding.statusLoading.isVisible = isLoading
             if(isLoading){
                 binding.statusView.isVisible = false
+                binding.createConsentBtn.shrink()
+            }else{
+                binding.createConsentBtn.extend()
             }
 
 
@@ -162,6 +167,10 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
             }
 
+        }
+
+        binding.createConsentBtn.setOnClickListener{
+            navigateToCreateConsentScreen()
         }
     }
 
@@ -312,6 +321,13 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
                     "contentRequestId" to consentReqId
                 )
             )
+        }
+    }
+
+    private fun navigateToCreateConsentScreen() {
+        activity?.runOnUiThread {
+            findNavController().navigate(
+                R.id.action_patientConsentFragment_to_createPatientConsentFragment, arguments)
         }
     }
 

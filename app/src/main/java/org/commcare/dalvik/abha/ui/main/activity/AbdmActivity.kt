@@ -45,7 +45,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     val ACTION_CREATE_ABHA = "create_abha"
     val ACTION_VERIFY_ABHA = "verify_abha"
     val ACTION_SCAN_ABHA = "scan_abha"
-    val ACTION_CREATE_CONSENT = "create_consent"
+    val ACTION_GET_CONSENT = "get_consent"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -269,7 +269,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 ACTION_SCAN_ABHA -> {
                     R.navigation.scan_abha_navigation
                 }
-                ACTION_CREATE_CONSENT -> {
+                ACTION_GET_CONSENT -> {
                     R.navigation.patient_consent_navigation
                 }
                 else -> {

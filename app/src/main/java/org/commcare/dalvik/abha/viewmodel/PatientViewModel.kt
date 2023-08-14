@@ -30,6 +30,7 @@ class PatientViewModel @Inject constructor(
     private val fetchConsentArtefactsUsecase: FetchConsentArtefactsUsecase,
 ) :
     BaseViewModel() {
+    lateinit var patientAbhaId:String
     lateinit var patientConsentModel: PatientConsentDetailModel
     val uiState = MutableStateFlow<GenerateAbhaUiState>(GenerateAbhaUiState.InvalidState)
     var consentFilterModel: PropMutableLiveData<FilterModel> = PropMutableLiveData()
@@ -109,6 +110,11 @@ class PatientViewModel @Inject constructor(
                 fromDate = it.fromDate
             )
         }
+    }
+
+    fun initPatientAbhaId(abhaId: String) {
+        patientAbhaId = abhaId
+        initPatientFilterModel(patientAbhaId)
     }
 
 }
