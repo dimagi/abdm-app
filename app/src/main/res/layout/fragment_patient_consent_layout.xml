@@ -17,22 +17,39 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey_lighter">
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:id="@+id/statusLoading"
+            style="@style/Headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/green_500"
+            android:gravity="center"
+            android:padding="@dimen/_8dp"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/statusView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/statusView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:gravity="center"
+            android:padding="@dimen/_8dp"
             android:text="@string/noData"
             android:visibility="gone"
-            android:padding="@dimen/_8dp"
             app:layout_constraintBottom_toTopOf="@+id/consentList"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filterLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/statusLoading" />
 
         <include
             android:id="@+id/filterLayout"
@@ -42,7 +59,7 @@
             android:visibility="gone"
             app:filterHandler="@{clickHandler}"
             app:filterModel="@{filterModel}"
-            app:layout_constraintBottom_toTopOf="@+id/statusView"
+            app:layout_constraintBottom_toTopOf="@+id/statusLoading"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

@@ -15,7 +15,7 @@ import org.commcare.dalvik.domain.model.PatientConsentModel
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class PatientConsentAdapter :
+class PatientConsentAdapter(val callback :(patientConsentModel:PatientConsentModel)->Unit) :
     PagingDataAdapter<PatientConsentModel, PatientConsentAdapter.PatientConsentViewHolder>(
         COMPARATOR
     ) {
@@ -39,11 +39,13 @@ class PatientConsentAdapter :
         }
     }
 
-
     override fun onBindViewHolder(holder: PatientConsentViewHolder, position: Int) {
         val item = getItem(position)
         if (item != null) {
             holder.bindModel(item)
+            holder.binding.patientContentHolder.setOnClickListener {
+                callback.invoke(item)
+            }
         }
     }
 
@@ -57,7 +59,7 @@ class PatientConsentAdapter :
     }
 
 
-    class PatientConsentViewHolder(val binding: PatientConsentCellBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PatientConsentViewHolder(val binding: PatientConsentCellBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindModel(model: PatientConsentModel){
             binding.model = model
@@ -73,7 +75,6 @@ class PatientConsentAdapter :
             model.expiryDate?.let {
                 binding.expiryDate.text = CommonUtil.getUserFormatDate(it)
             }
-
 
         }
 

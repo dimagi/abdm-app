@@ -2,18 +2,26 @@ package org.commcare.dalvik.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingSource
 import androidx.paging.liveData
 import com.google.gson.Gson
-import com.google.gson.JsonObject
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import org.commcare.dalvik.data.network.safeApiCall
+import org.commcare.dalvik.data.paging.ConsentArtefactSource
 import org.commcare.dalvik.data.paging.ConsentPagingSource
 import org.commcare.dalvik.data.services.HqServices
-import org.commcare.dalvik.domain.model.*
+import org.commcare.dalvik.domain.model.AadhaarOtpRequestModel
+import org.commcare.dalvik.domain.model.AbhaCardRequestModel
+import org.commcare.dalvik.domain.model.AbhaVerificationRequestModel
+import org.commcare.dalvik.domain.model.ConsentArtefactsList
+import org.commcare.dalvik.domain.model.GenerateAuthOtpModel
+import org.commcare.dalvik.domain.model.GetAuthMethodRequestModel
+import org.commcare.dalvik.domain.model.HqResponseModel
+import org.commcare.dalvik.domain.model.MobileOtpRequestModel
+import org.commcare.dalvik.domain.model.PatientConsentDetailModel
+import org.commcare.dalvik.domain.model.PatientConsentList
+import org.commcare.dalvik.domain.model.VerifyOtpRequestModel
 import org.commcare.dalvik.domain.repositories.AbdmRepository
+import org.commcare.dalvik.domain.usecases.FetchConsentArtefactsUsecase
 import org.commcare.dalvik.domain.usecases.FetchPatientConsentUsecase
 import timber.log.Timber
 import javax.inject.Inject
@@ -87,19 +95,32 @@ class AbdmRepositoryImpl @Inject constructor(val hqServices: HqServices) : AbdmR
     ): PatientConsentList {
         val result = hqServices.getPatientConsents(abhaId, searchText, fromDate, toDate)
         Timber.d("RESULT : ${result.body().toString()}")
-        val patientConsentList = Gson().fromJson(result.body(), PatientConsentList::class.java)
-
-        return patientConsentList
-
+        return Gson().fromJson(result.body(), PatientConsentList::class.java)
     }
 
-
-    override fun getPatientConsent(
+    override fun getPatientConsentPagerData(
         fetchPatientConsentUsecase: FetchPatientConsentUsecase
     ) = Pager(
         config = PagingConfig(pageSize = 10, maxSize = 100),
         pagingSourceFactory = { ConsentPagingSource(fetchPatientConsentUsecase) }
     ).liveData
+
+
+    override suspend fun getConsentArtefacts(
+        consentRequestId: String,
+        searchText: String?
+    ): ConsentArtefactsList {
+        val result = hqServices.getConsentArtefacts(consentRequestId, searchText)
+        Timber.d("RESULT : ${result.body().toString()}")
+        return Gson().fromJson(result.body(), ConsentArtefactsList::class.java)
+    }
+
+
+    override fun getConsentArtefactPagerData(fetchPatientConsentUsecase: FetchConsentArtefactsUsecase) =
+        Pager(
+            config = PagingConfig(pageSize = 10, maxSize = 100),
+            pagingSourceFactory = { ConsentArtefactSource(fetchPatientConsentUsecase) }
+        ).liveData
 
 
 }

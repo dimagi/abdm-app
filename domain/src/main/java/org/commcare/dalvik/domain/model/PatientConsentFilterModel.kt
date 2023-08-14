@@ -7,3 +7,10 @@ class PatientConsentFilterModel(
     var toDate: String? = null
 }
 
+
+class ConsentArtefactFilterModel(var consentRequestId: String){
+    var filterText: String? = null
+}
+
+
+

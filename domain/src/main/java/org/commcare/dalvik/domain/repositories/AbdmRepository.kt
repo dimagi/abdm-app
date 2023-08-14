@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import com.google.gson.JsonObject
 import kotlinx.coroutines.flow.Flow
 import org.commcare.dalvik.domain.model.*
+import org.commcare.dalvik.domain.usecases.FetchConsentArtefactsUsecase
 import org.commcare.dalvik.domain.usecases.FetchPatientConsentUsecase
 import retrofit2.http.Query
 
@@ -27,8 +28,18 @@ interface AbdmRepository {
         @Query("to_date") toDate: String?
     ): PatientConsentList
 
-    fun getPatientConsent(
+    fun getPatientConsentPagerData(
         fetchPatientConsentUsecase: FetchPatientConsentUsecase
     ): LiveData<PagingData<PatientConsentModel>>
+
+
+    suspend fun getConsentArtefacts(
+        @Query("consent_request_id") consentRequestId: String,
+        @Query("search") searchText: String?,
+    ): ConsentArtefactsList
+
+    fun getConsentArtefactPagerData(
+        fetchPatientConsentUsecase: FetchConsentArtefactsUsecase
+    ): LiveData<PagingData<ConsentArtefactModel>>
 
 }

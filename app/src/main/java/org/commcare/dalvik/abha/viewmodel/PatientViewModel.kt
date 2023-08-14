@@ -6,18 +6,18 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import org.commcare.dalvik.abha.model.AbhaRequestModel
 import org.commcare.dalvik.abha.model.FilterModel
 import org.commcare.dalvik.abha.ui.main.fragment.ACCESS_MODE
 import org.commcare.dalvik.abha.ui.main.fragment.PURPOSE
 import org.commcare.dalvik.abha.utility.PropMutableLiveData
 import org.commcare.dalvik.domain.model.ConsentPermission
-import org.commcare.dalvik.domain.model.Hiu
 import org.commcare.dalvik.domain.model.HqResponseModel
+import org.commcare.dalvik.domain.model.IdNameModel
 import org.commcare.dalvik.domain.model.Patient
 import org.commcare.dalvik.domain.model.PatientConsentDetailModel
 import org.commcare.dalvik.domain.model.Purpose
 import org.commcare.dalvik.domain.model.Requester
+import org.commcare.dalvik.domain.usecases.FetchConsentArtefactsUsecase
 import org.commcare.dalvik.domain.usecases.FetchPatientConsentUsecase
 import org.commcare.dalvik.domain.usecases.SubmitPatientConsentUsecase
 import timber.log.Timber
@@ -26,30 +26,33 @@ import javax.inject.Inject
 @HiltViewModel
 class PatientViewModel @Inject constructor(
     private val submitPatientConsentUseCase: SubmitPatientConsentUsecase,
-    private val fetchPatientConsentUsecase: FetchPatientConsentUsecase
+    private val fetchPatientConsentUsecase: FetchPatientConsentUsecase,
+    private val fetchConsentArtefactsUsecase: FetchConsentArtefactsUsecase,
 ) :
     BaseViewModel() {
     lateinit var patientConsentModel: PatientConsentDetailModel
     val uiState = MutableStateFlow<GenerateAbhaUiState>(GenerateAbhaUiState.InvalidState)
-    var filterModel: PropMutableLiveData<FilterModel> = PropMutableLiveData()
+    var consentFilterModel: PropMutableLiveData<FilterModel> = PropMutableLiveData()
+    var consentArtefactFilterModel: PropMutableLiveData<FilterModel> = PropMutableLiveData()
 
     fun init(patientId: String, hiuId: String) {
         this.patientConsentModel =
             PatientConsentDetailModel(Purpose(PURPOSE.CAREMGT.name)).apply {
-                hiu = Hiu(hiuId)
+                hiu = IdNameModel(hiuId)
                 patient = Patient(patientId)
                 requester = Requester("Dr. Manju")
                 permission = ConsentPermission(ACCESS_MODE.VIEW.value)
             }
     }
 
-    fun initFilterModel(abhaId: String) {
+    fun initPatientFilterModel(abhaId: String) {
         fetchPatientConsentUsecase.initFilter(abhaId)
-        filterModel.setValue(FilterModel())
+        consentFilterModel.setValue(FilterModel())
     }
 
-    fun initPatientConsentFilterModel(abhaId:String){
-
+    fun initArtefactFilterModel(consentReqId: String) {
+        fetchConsentArtefactsUsecase.initFilter(consentReqId)
+        consentFilterModel.setValue(FilterModel())
     }
 
     fun submitPatientConsent() {
@@ -92,11 +95,14 @@ class PatientViewModel @Inject constructor(
     }
 
     fun fetchPatientConsent() =
-        fetchPatientConsentUsecase.getPatientConsent().cachedIn(viewModelScope)
+        fetchPatientConsentUsecase.getPatientConsentPagerData().cachedIn(viewModelScope)
+
+    fun fetchConsentArtefacts() =
+        fetchConsentArtefactsUsecase.getConsentPagerData().cachedIn(viewModelScope)
 
 
     fun updatePatientFilter() {
-        filterModel.value?.let {
+        consentFilterModel.value?.let {
             fetchPatientConsentUsecase.updateFilter(
                 filterText = it.filterText,
                 toDate = it.toDate,

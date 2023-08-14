@@ -137,4 +137,9 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="refresh">Reresh</string>
     <string name="noData">No data found.</string>
     <string name="loading">Loading...</string>
+    <string name="artefact_detail">Artefact Detail</string>
+    <string name="hipName">HIP Name</string>
+    <string name="careContexts">Care Contexts</string>
+    <string name="notGrantedMsg">Status is not \"GRANTED\"</string>
+    <string name="artefats">Artefacts</string>
 </resources>

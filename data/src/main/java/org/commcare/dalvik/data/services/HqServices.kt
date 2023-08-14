@@ -50,5 +50,12 @@ interface HqServices {
     ): Response<JsonObject>
 
 
+    @GET("hiu/consent_artefacts")
+    suspend fun getConsentArtefacts(
+        @Query("consent_request_id") consentRequestId: String,
+        @Query("search") searchText: String?
+    ):Response<JsonObject>
+
+
 
 }

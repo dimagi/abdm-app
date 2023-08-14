@@ -8,7 +8,7 @@ data class PatientConsentDetailModel(
     val purpose: Purpose
 ) {
     lateinit var patient: Patient
-    lateinit var hiu: Hiu
+    lateinit var hiu: IdNameModel
     lateinit var requester: Requester
     var hiTypes = mutableListOf<String>()
     lateinit var permission: ConsentPermission
@@ -51,7 +51,6 @@ data class PatientConsentDetailModel(
     fun getPermissionEndDate() =
         permission.dateRange.endDate
 
-
     fun getPermissionStartDateInMs():Long{
         var date:Date
         val formatter = SimpleDateFormat(DATE_FORMAT.SERVER.format)
@@ -75,7 +74,9 @@ data class Purpose(val code:String ){
 }
 data class Patient(val id: String)
 
-data class Hiu(val id: String)
+data class IdNameModel(val id: String){
+    lateinit var name:String
+}
 data class Requester(val name: String, val identifier: Identifier = Identifier())
 
 data class Identifier(
@@ -99,21 +100,6 @@ data class DateRange(@SerializedName("from") var startDate: String? = null ,@Ser
 
     }
 
-//    fun getJson() = JSONObject().apply {
-//        put(
-//            "from", CommonUtil.getFormattedDateTime(
-//                startDate,
-//                PatientConsentFragment.DATE_FORMAT.SERVER.format
-//            )
-//        )
-//
-//        put(
-//            "to", CommonUtil.getFormattedDateTime(
-//                endDate,
-//                PatientConsentFragment.DATE_FORMAT.SERVER.format
-//            )
-//        )
-//    }
 }
 
 data class Frequency(val unit: String = "HOUR", val value: Int = 0, val repeats: Int = 0)
@@ -151,6 +137,9 @@ enum class DATE_FORMAT(val format: String) {
     USER("dd MMM YYYY , hh:mm a"),
     ONLY_DATE("YYYY-MM-dd")
 }
+
+
+
 
 
 

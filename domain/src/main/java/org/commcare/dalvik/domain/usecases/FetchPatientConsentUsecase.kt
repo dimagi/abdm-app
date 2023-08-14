@@ -29,6 +29,6 @@ class FetchPatientConsentUsecase @Inject constructor(
     suspend fun execute() =
         repository.getPatientConsents(filterModel.abhaId, filterModel.filterText, filterModel.fromDate, filterModel.toDate)
 
-    fun getPatientConsent() = repository.getPatientConsent(this)
+    fun getPatientConsentPagerData() = repository.getPatientConsentPagerData(this)
 
 }

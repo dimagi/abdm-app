@@ -8,6 +8,7 @@
         android:icon="@drawable/baseline_filter_list_24"
         android:title="@string/filter"
         android:orderInCategory="1"
+        android:visible="false"
         app:showAsAction="always">
     </item>
 

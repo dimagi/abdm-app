@@ -5,22 +5,22 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CompositeDateValidator
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.PatientConsentBinding
 import org.commcare.dalvik.abha.ui.main.adapters.ConsentPageLoaderAdapter
@@ -29,6 +29,7 @@ import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.abha.utility.hideKeyboard
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
 import org.commcare.dalvik.domain.model.DATE_FORMAT
+import org.commcare.dalvik.domain.model.PatientConsentModel
 import timber.log.Timber
 import java.util.Calendar
 import kotlin.time.Duration.Companion.days
@@ -44,14 +45,14 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.initFilterModel("ajeet2040@sbx")
+        viewModel.initPatientFilterModel("ajeet2040@sbx")
 
-        viewModel.filterModel.observe(viewLifecycleOwner) {
+        viewModel.consentFilterModel.observe(viewLifecycleOwner) {
             viewModel.updatePatientFilter()
         }
 
         binding.clickHandler = this
-        binding.filterModel = viewModel.filterModel.value
+        binding.filterModel = viewModel.consentFilterModel.value
 
         val menuHost: MenuHost = requireActivity()
 
@@ -61,8 +62,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
                 // Add menu items here
                 menuInflater.inflate(R.menu.patient_menu, menu)
                 filterMenuItem = menu.findItem(R.id.filter)
-                val refreshMenuItem = menu.findItem(R.id.refresh)
-                refreshMenuItem.isVisible = true
+                filterMenuItem.isVisible = true
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -83,7 +83,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        consentAdapter = PatientConsentAdapter()
+        consentAdapter = PatientConsentAdapter(this::onPatientConsentClicked)
 
         binding.consentList.apply {
             setHasFixedSize(true)
@@ -95,10 +95,10 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
         binding.filterLayout.apply {
             filterEndDateChip.setOnCloseIconClickListener {
-                viewModel.filterModel.value?.toDate = null
+                viewModel.consentFilterModel.value?.toDate = null
             }
             filterStartDateChip.setOnCloseIconClickListener {
-                viewModel.filterModel.value?.fromDate = null
+                viewModel.consentFilterModel.value?.fromDate = null
             }
         }
 
@@ -108,30 +108,30 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
         }
 
         //PAGING
-        lifecycleScope.launch {
-            consentAdapter.loadStateFlow.collectLatest { loadStates ->
-
-                if (loadStates.refresh is LoadState.Loading) {
-                    binding.loadingLayout.padeLoaderHolder.isVisible = true
-                    binding.loadingLayout.errMsg.isVisible = false
-                    binding.loadingLayout.retry.isVisible = false
-                    binding.loadingLayout.loadingProgress.isVisible = true
-                }
-
-                if (loadStates.refresh is LoadState.Error) {
-                    binding.loadingLayout.padeLoaderHolder.isVisible = true
-                    binding.loadingLayout.errMsg.isVisible = true
-                    binding.loadingLayout.retry.isVisible = true
-                    binding.loadingLayout.loadingProgress.isVisible = false
-                }
-
-                if (loadStates.refresh is LoadState.NotLoading) {
-                    binding.loadingLayout.padeLoaderHolder.isVisible = false
-                    binding.loadingLayout.loadingProgress.isVisible = false
-                }
-
-            }
-        }
+//        lifecycleScope.launch {
+//            consentAdapter.loadStateFlow.collectLatest { loadStates ->
+//
+//                if (loadStates.refresh is LoadState.Loading) {
+//                    binding.loadingLayout.padeLoaderHolder.isVisible = true
+//                    binding.loadingLayout.errMsg.isVisible = false
+//                    binding.loadingLayout.retry.isVisible = false
+//                    binding.loadingLayout.loadingProgress.isVisible = true
+//                }
+//
+//                if (loadStates.refresh is LoadState.Error) {
+//                    binding.loadingLayout.padeLoaderHolder.isVisible = true
+//                    binding.loadingLayout.errMsg.isVisible = true
+//                    binding.loadingLayout.retry.isVisible = true
+//                    binding.loadingLayout.loadingProgress.isVisible = false
+//                }
+//
+//                if (loadStates.refresh is LoadState.NotLoading) {
+//                    binding.loadingLayout.padeLoaderHolder.isVisible = false
+//                    binding.loadingLayout.loadingProgress.isVisible = false
+//                }
+//
+//            }
+//        }
 
         //PAGE RETRY
         binding.loadingLayout.retry.setOnClickListener {
@@ -140,15 +140,23 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
         //LOAD STATE
         consentAdapter.addLoadStateListener { loadState ->
-            if(loadState.refresh is LoadState.Loading){
+
+            val isLoading = loadState.refresh is LoadState.Loading
+            binding.statusLoading.isVisible = isLoading
+            if(isLoading){
+                binding.statusView.isVisible = false
+            }
+
+
+            if (loadState.refresh is LoadState.Error) {
                 binding.statusView.isVisible = true
-                binding.statusView.text = resources.getText(R.string.loading)
+                binding.statusView.text = resources.getText(R.string.loadErrorMsg)
             }
             if (loadState.append.endOfPaginationReached) {
-                if(consentAdapter.itemCount < 1){
+                if (consentAdapter.itemCount < 1) {
                     binding.statusView.isVisible = true
                     binding.statusView.text = resources.getText(R.string.noData)
-                }else{
+                } else {
                     binding.statusView.isVisible = false
                 }
 
@@ -267,8 +275,8 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
                 selectedDate?.let {
                     CommonUtil.getFormattedDateTime(selectedDate, DATE_FORMAT.ONLY_DATE.format)
                         ?.let {
-                            viewModel.filterModel.value?.fromDate = it
-                            viewModel.filterModel.value?.startDateFilterInMS = selectedDate
+                            viewModel.consentFilterModel.value?.fromDate = it
+                            viewModel.consentFilterModel.value?.startDateFilterInMS = selectedDate
                         }
                 }
 
@@ -278,10 +286,32 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
                 selectedDate?.let {
                     CommonUtil.getFormattedDateTime(selectedDate, DATE_FORMAT.ONLY_DATE.format)
                         ?.let {
-                            viewModel.filterModel.value?.toDate = it
+                            viewModel.consentFilterModel.value?.toDate = it
                         }
                 }
             }
+        }
+    }
+
+    private fun onPatientConsentClicked(patientConsentModel: PatientConsentModel) {
+        Timber.d("Clicked : ${patientConsentModel.id}")
+        patientConsentModel.status?.let {
+            if(it == "GRANTED") {
+                navigateToConsentArtefactScreen(patientConsentModel.consentRequestId)
+            }else{
+                Toast.makeText(requireContext(),resources.getString(R.string.notGrantedMsg),Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
+    private fun navigateToConsentArtefactScreen(consentReqId: String) {
+        activity?.runOnUiThread {
+            findNavController().navigate(
+                R.id.action_patientConsentFragment_to_consentArtefactFragment, bundleOf(
+                    "contentRequestId" to consentReqId
+                )
+            )
         }
     }
 

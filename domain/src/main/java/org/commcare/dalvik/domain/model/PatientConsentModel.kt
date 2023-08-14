@@ -6,7 +6,7 @@ data class PatientConsentModel(
     val id: Int,
 
     @SerializedName("consent_request_id")
-    val consentRequestId: String?,
+    val consentRequestId: String,
 
     @SerializedName("date_created")
     val creationDate: String?,
