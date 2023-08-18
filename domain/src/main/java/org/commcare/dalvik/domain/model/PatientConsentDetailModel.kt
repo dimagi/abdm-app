@@ -53,7 +53,7 @@ data class PatientConsentDetailModel(
 
     fun getPermissionStartDateInMs():Long{
         var date:Date
-        val formatter = SimpleDateFormat(DATE_FORMAT.USER.format)
+        val formatter = SimpleDateFormat(DATE_FORMAT.SERVER.format)
         date = formatter.parse(permission.dateRange.startDate)
         return date.time
     }
@@ -116,7 +116,7 @@ data class ConsentPermission(val accessMode: String) {
         if(dateRangeValidation != ConsentValidation.SUCCESS){
             return dateRangeValidation
         }
-        if (expiryDate == null) {
+        if (!this::expiryDate.isInitialized) {
             return ConsentValidation.INVALID_EXPIRY_DATE
         }
         return ConsentValidation.SUCCESS

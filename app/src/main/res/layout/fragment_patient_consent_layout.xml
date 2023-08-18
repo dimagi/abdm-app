@@ -21,7 +21,6 @@
 
         <TextView
             android:id="@+id/statusLoading"
-            style="@style/Headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/green_500"
@@ -69,8 +68,9 @@
             android:id="@+id/consentList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/lightest_grey"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/loadingLayout"
+            app:layout_constraintBottom_toTopOf="@+id/createConsentBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,26 +87,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/consentList"
+            app:layout_constraintTop_toBottomOf="@+id/createConsentBtn"
             app:layout_constraintVertical_bias="0.5" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <Button
             android:id="@+id/createConsentBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_gravity="end|bottom"
-
-            android:layout_margin="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_margin="@dimen/_8dp"
             android:contentDescription="@string/create_consent"
             android:text="@string/create_consent"
             android:textColor="@color/white"
-            app:icon="@drawable/round_add_24"
-            app:iconTint="@color/white"
             app:backgroundTint="@color/primary_button_background"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/loadingLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/consentList" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

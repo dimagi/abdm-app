@@ -7,8 +7,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.ConsentArtefactBinding
@@ -63,6 +65,29 @@ class ConsentArtefactFragment : BaseFragment<ConsentArtefactBinding>(ConsentArte
 
         viewModel.fetchConsentArtefacts().observe(viewLifecycleOwner) {
             arefactAdapter.submitData(lifecycle, it)
+        }
+
+        //LOAD STATE
+        arefactAdapter.addLoadStateListener { loadState ->
+
+            val isLoading = loadState.refresh is LoadState.Loading
+            binding.statusLoading.isVisible = isLoading
+            if(isLoading){
+                binding.statusView.isVisible = false
+            }
+
+            if (loadState.refresh is LoadState.Error) {
+                binding.statusView.isVisible = true
+                binding.statusView.text = resources.getText(R.string.loadErrorMsg)
+            }
+            if (loadState.append.endOfPaginationReached) {
+                if (arefactAdapter.itemCount < 1) {
+                    binding.statusView.isVisible = true
+                    binding.statusView.text = resources.getText(R.string.noData)
+                } else {
+                    binding.statusView.isVisible = false
+                }
+            }
         }
 
     }

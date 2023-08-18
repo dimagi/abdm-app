@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import org.commcare.dalvik.data.network.NetworkUtil
 import org.commcare.dalvik.data.network.safeApiCall
 import org.commcare.dalvik.data.paging.ConsentArtefactSource
 import org.commcare.dalvik.data.paging.ConsentPagingSource
@@ -23,6 +24,7 @@ import org.commcare.dalvik.domain.model.VerifyOtpRequestModel
 import org.commcare.dalvik.domain.repositories.AbdmRepository
 import org.commcare.dalvik.domain.usecases.FetchConsentArtefactsUsecase
 import org.commcare.dalvik.domain.usecases.FetchPatientConsentUsecase
+import retrofit2.http.Query
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -89,13 +91,16 @@ class AbdmRepositoryImpl @Inject constructor(val hqServices: HqServices) : AbdmR
 
     override suspend fun getPatientConsents(
         abhaId: String,
+        page:Int?,
         searchText: String?,
         fromDate: String?,
         toDate: String?
-    ): PatientConsentList {
-        val result = hqServices.getPatientConsents(abhaId, searchText, fromDate, toDate)
-        Timber.d("RESULT : ${result.body().toString()}")
-        return Gson().fromJson(result.body(), PatientConsentList::class.java)
+    ): HqResponseModel {
+        val result = hqServices.getPatientConsents(abhaId, page,searchText, fromDate, toDate)
+        return NetworkUtil.handleResponse(result)
+        //TODO : Remove once Paging source is stable. Else revert to this impl
+//        Timber.d("RESULT : ${response}")
+//        return Gson().fromJson(result.body(), PatientConsentList::class.java)
     }
 
     override fun getPatientConsentPagerData(
@@ -108,9 +113,10 @@ class AbdmRepositoryImpl @Inject constructor(val hqServices: HqServices) : AbdmR
 
     override suspend fun getConsentArtefacts(
         consentRequestId: String,
-        searchText: String?
+        searchText: String?,
+        page:Int?
     ): ConsentArtefactsList {
-        val result = hqServices.getConsentArtefacts(consentRequestId, searchText)
+        val result = hqServices.getConsentArtefacts(consentRequestId, searchText,page)
         Timber.d("RESULT : ${result.body().toString()}")
         return Gson().fromJson(result.body(), ConsentArtefactsList::class.java)
     }

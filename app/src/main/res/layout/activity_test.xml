@@ -37,6 +37,14 @@
             android:text="SCAN ABHA CARD"
        />
 
+        <Button
+            android:id="@+id/intentD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="Patient CONSENT"
+            />
+
 
         <TextView
             android:id="@+id/textView"

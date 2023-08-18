@@ -24,7 +24,8 @@ class ConsentArtefactSource(var fetchConsentArtefactsUsecase: FetchConsentArtefa
             // Start refresh at page 1 if undefined.
             Timber.d("PARAMs KEY = ${params.key}")
             val position = params.key ?: DEFAULT_FIRST_PAGE
-            val response = fetchConsentArtefactsUsecase.execute()
+            val page = if(position == DEFAULT_FIRST_PAGE) null else position
+            val response = fetchConsentArtefactsUsecase.execute(page)
             LoadResult.Page(
                 data = response.results,
                 prevKey = if(response.previous == null) null else position - 1,

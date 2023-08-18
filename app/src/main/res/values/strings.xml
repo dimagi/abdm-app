@@ -121,7 +121,7 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="endDate">End Date</string>
     <string name="expiryDate">Expiry Date</string>
     <string name="select_time">Select Time</string>
-    <string name="create_consent">CREATE CONSENT</string>
+    <string name="create_consent">Create Consent</string>
     <string name="healthInfo">Health Info</string>
     <string name="helthInfoType">Health Info Type</string>
     <string name="healthInfoType">Health Info Type</string>
@@ -142,4 +142,5 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="careContexts">Care Contexts</string>
     <string name="notGrantedMsg">Status is not \"GRANTED\"</string>
     <string name="artefats">Artefacts</string>
+    <string name="get_health_data">HEALTH DATA</string>
 </resources>

@@ -44,6 +44,7 @@ interface HqServices {
     @GET("hiu/consents")
     suspend fun getPatientConsents(
         @Query("abha_id") abhaId: String,
+        @Query("page") page: Int?,
         @Query("search") searchText: String? ,
         @Query("from_date") fromDate: String? ,
         @Query("to_date") toDate: String?
@@ -53,7 +54,8 @@ interface HqServices {
     @GET("hiu/consent_artefacts")
     suspend fun getConsentArtefacts(
         @Query("consent_request_id") consentRequestId: String,
-        @Query("search") searchText: String?
+        @Query("search") searchText: String?,
+        @Query("page") page: Int?,
     ):Response<JsonObject>
 
 

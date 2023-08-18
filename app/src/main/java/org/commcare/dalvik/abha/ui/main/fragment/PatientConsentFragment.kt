@@ -147,9 +147,6 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
             binding.statusLoading.isVisible = isLoading
             if(isLoading){
                 binding.statusView.isVisible = false
-                binding.createConsentBtn.shrink()
-            }else{
-                binding.createConsentBtn.extend()
             }
 
 

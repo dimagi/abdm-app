@@ -24,8 +24,8 @@ class FetchConsentArtefactsUsecase @Inject constructor(
     }
 
 
-    suspend fun execute() =
-        repository.getConsentArtefacts(filterModel.consentRequestId,filterModel.filterText)
+    suspend fun execute(page:Int?) =
+        repository.getConsentArtefacts(filterModel.consentRequestId,filterModel.filterText ,page)
 
     fun getConsentPagerData() = repository.getConsentArtefactPagerData(this)
 

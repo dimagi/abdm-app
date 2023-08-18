@@ -2,7 +2,6 @@ package org.commcare.dalvik.abha.ui.main.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -11,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CompositeDateValidator
@@ -25,6 +25,8 @@ import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.CreatePatientConsentBinding
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.utility.CommonUtil
+import org.commcare.dalvik.abha.utility.DialogType
+import org.commcare.dalvik.abha.utility.DialogUtility
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
 import org.commcare.dalvik.abha.viewmodel.RequestType
@@ -99,7 +101,7 @@ class CreatePatientConsentFragment :
         val checkedStatus = mutableListOf<Boolean>()
         enumValues<HITYPES>().forEach {
             items.add(it.displayValue)
-            checkedStatus.add(viewmodel.patientConsentModel.hiTypes.contains(it.name))
+            checkedStatus.add(viewmodel.patientConsentModel.hiTypes.contains(it.displayValue))
         }
 
         val hiTypesItems = items.toTypedArray()
@@ -215,18 +217,19 @@ class CreatePatientConsentFragment :
                 viewmodel.uiState.collect {
                     when (it) {
                         is GenerateAbhaUiState.Success -> {
-                            when (it.requestType) {
-                                RequestType.PATIENT_CONSENT -> {
-
-
+                            viewmodel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                            if(it.requestType == RequestType.CREATE_PATIENT_CONSENT){
+                                (activity as AbdmActivity).showBlockerDialog("Patient consent created successfully.")
+                                arguments?.getString("abha_id")?.let {abhaId ->
+                                    viewmodel.resetPatientConsent(abhaId)
+                                    binding.chipGroup.removeAllViews()
+                                    binding.startDateChip.text = null
+                                    binding.endDateChip.text = null
+                                    binding.eraseDateChip.text = null
                                 }
-
-                                else -> {
-                                    //exhaustive block
-                                }
+                                findNavController().popBackStack()
                             }
 
-                            viewmodel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }
 
                         is GenerateAbhaUiState.Error -> {
@@ -264,7 +267,6 @@ class CreatePatientConsentFragment :
         } ?: run {
             Toast.makeText(requireContext(), "Date not selected.", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun captureTime(selectedDate: Long) {
@@ -289,15 +291,21 @@ class CreatePatientConsentFragment :
 
             when (timechip.id) {
                 R.id.startDateChip -> {
-                    viewmodel.patientConsentModel.setPermissionStartDate(timechip.text.toString())
+                    CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.SERVER.format)?.let {
+                        viewmodel.patientConsentModel.setPermissionStartDate(it)
+                    }
                 }
 
                 R.id.endDateChip -> {
-                    viewmodel.patientConsentModel.setPermissionEndDate(timechip.text.toString())
+                    CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.SERVER.format)?.let {
+                        viewmodel.patientConsentModel.setPermissionEndDate(it)
+                    }
                 }
 
                 R.id.eraseDateChip -> {
-                    viewmodel.patientConsentModel.setPermissionExpiryDate(timechip.text.toString())
+                    CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.SERVER.format)?.let {
+                        viewmodel.patientConsentModel.setPermissionExpiryDate(it)
+                    }
                 }
             }
             // call back code
@@ -367,13 +375,13 @@ enum class PURPOSE(val displayValue: String) {
 }
 
 enum class HITYPES(val displayValue: String) {
-    PRESCRIPTION("Prescription"),
-    DIAGNOSTICREPORT("Diagnostic Report"),
-    OPCONSULTATION("OP Consultation"),
-    DISCHARGESUMMARY("Discharge Summary"),
-    IMMUNIZATIONRECORD("Immunization Record"),
-    HEALTHDOCUMENTRECORD("Record Artifact"),
-    WELLNESSRECORD("Wellness Record")
+    Prescription("Prescription"),
+    DiagnosticReport("Diagnostic Report"),
+    OPConsultation("OP Consultation"),
+    DischargeSummary("Discharge Summary"),
+    ImmunizationRecord("Immunization Record"),
+    HealthDocumentRecord("Record Artifact"),
+    WellnessRecord("Wellness Record")
 }
 
 enum class ACCESS_MODE(val value: String) {

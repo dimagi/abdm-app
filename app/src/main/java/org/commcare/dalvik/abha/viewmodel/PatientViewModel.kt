@@ -66,6 +66,7 @@ class PatientViewModel @Inject constructor(
             submitPatientConsentUseCase.execute(patientConsentModel).collect {
                 when (it) {
                     HqResponseModel.Loading -> {
+                        uiState.emit(GenerateAbhaUiState.InvalidState)
                         uiState.emit(GenerateAbhaUiState.Loading(true))
                     }
 
@@ -73,7 +74,7 @@ class PatientViewModel @Inject constructor(
                         uiState.emit(
                             GenerateAbhaUiState.Success(
                                 it.value,
-                                RequestType.ABHA_AVAILABILITY
+                                RequestType.CREATE_PATIENT_CONSENT
                             )
                         )
                     }
@@ -82,7 +83,7 @@ class PatientViewModel @Inject constructor(
                         uiState.emit(
                             GenerateAbhaUiState.Error(
                                 it.value,
-                                RequestType.ABHA_AVAILABILITY
+                                RequestType.CREATE_PATIENT_CONSENT
                             )
                         )
                     }
@@ -115,6 +116,10 @@ class PatientViewModel @Inject constructor(
     fun initPatientAbhaId(abhaId: String) {
         patientAbhaId = abhaId
         initPatientFilterModel(patientAbhaId)
+    }
+
+    fun resetPatientConsent(abhaId: String) {
+        initPatientAbhaId(abhaId)
     }
 
 }

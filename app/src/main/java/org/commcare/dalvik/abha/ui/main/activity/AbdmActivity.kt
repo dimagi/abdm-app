@@ -27,6 +27,7 @@ import org.commcare.dalvik.abha.utility.DialogType
 import org.commcare.dalvik.abha.utility.DialogUtility
 import org.commcare.dalvik.abha.viewmodel.AbdmViewModel
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
+import org.commcare.dalvik.abha.viewmodel.PatientViewModel
 import org.commcare.dalvik.data.network.HeaderInterceptor
 import org.commcare.dalvik.domain.model.LanguageManager
 import org.commcare.dalvik.domain.model.TranslationKey
@@ -40,6 +41,8 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
     private lateinit var navHostFragment: NavHostFragment
     val viewmodel: AbdmViewModel by viewModels()
+    val patientViewModel: PatientViewModel by viewModels()
+
     private var showMenu = true
 
     val ACTION_CREATE_ABHA = "create_abha"
@@ -69,6 +72,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 //        }
 
         observeLoader()
+        observerPatientViewModel()
         observeBlockedOtpRequest()
 
         intent.extras?.getString("lang_code")?.let { langId ->
@@ -210,7 +214,22 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         }
     }
 
-
+    private fun observerPatientViewModel(){
+        lifecycleScope.launch(Dispatchers.Main) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                patientViewModel.uiState.collect {
+                    when (it) {
+                        is GenerateAbhaUiState.Loading -> {
+                            Timber.d("LOADER VISIBILITY ${it.isLoading}")
+                            binding.loader.visibility =
+                                if (it.isLoading) View.VISIBLE else View.GONE
+                        }
+                        else -> false
+                    }
+                }
+            }
+        }
+    }
     private fun observeLoader() {
         lifecycleScope.launch(Dispatchers.Main) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

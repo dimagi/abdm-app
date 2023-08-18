@@ -23,10 +23,11 @@ interface AbdmRepository {
     fun submitPatientConsent(patientConsentDetailModel: PatientConsentDetailModel): Flow<HqResponseModel>
     suspend fun getPatientConsents(
         @Query("abha_id") abhaId: String,
+        @Query("page") page: Int?,
         @Query("search") searchText: String?,
         @Query("from_date") fromDate: String?,
         @Query("to_date") toDate: String?
-    ): PatientConsentList
+    ): HqResponseModel
 
     fun getPatientConsentPagerData(
         fetchPatientConsentUsecase: FetchPatientConsentUsecase
@@ -36,6 +37,7 @@ interface AbdmRepository {
     suspend fun getConsentArtefacts(
         @Query("consent_request_id") consentRequestId: String,
         @Query("search") searchText: String?,
+        @Query("page")page:Int?
     ): ConsentArtefactsList
 
     fun getConsentArtefactPagerData(

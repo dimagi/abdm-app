@@ -16,6 +16,7 @@
         android:elevation="5dp"
         android:minHeight="150dp"
         android:padding="@dimen/_5dp"
+        android:layout_margin="@dimen/_8dp"
         app:cardBackgroundColor="@color/very_light_blue"
         app:cardCornerRadius="0dp"
         app:cardUseCompatPadding="true">
@@ -27,7 +28,7 @@
 
             <TextView
                 android:id="@+id/consentText"
-                style="@style/Headline1"
+                style="@style/Headline3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/blue"
@@ -66,15 +67,6 @@
                         android:gravity="center_vertical|start"
                         android:paddingStart="@dimen/_5dp"
                         android:paddingLeft="@dimen/_5dp"
-                        android:text="@string/hipName" />
-
-                    <TextView
-                        style="@style/Headline2"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical|end"
-                        android:paddingEnd="2dp"
-                        android:paddingRight="2dp"
                         android:text="@{model.details.hip.name}" />
 
                 </TableRow>
@@ -86,11 +78,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/button_disabled"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/getHealthDataBtn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/statusLayout">
+
+                <ImageView
+                    android:id="@+id/contextExpanderView"
+                    android:layout_width="@dimen/_32dp"
+                    android:layout_height="@dimen/_32dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView12"
+                    app:srcCompat="@drawable/baseline_expand_more_24" />
 
                 <TextView
                     android:id="@+id/textView12"
@@ -98,6 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/_5dp"
                     android:text="@string/careContexts"
@@ -110,8 +113,9 @@
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/careContextChipGroup"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_100dp"
                     android:padding="@dimen/_5dp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/textView12"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -119,6 +123,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView12"
                     app:layout_constraintVertical_bias="0.5" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/getHealthDataBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:text="@string/get_health_data"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/careContextsContainer" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

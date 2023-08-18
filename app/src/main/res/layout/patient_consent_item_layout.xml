@@ -22,6 +22,8 @@
         android:elevation="5dp"
         android:minHeight="150dp"
         android:padding="@dimen/_5dp"
+        android:layout_marginTop="@dimen/_8dp"
+        android:layout_marginBottom="@dimen/_8dp"
         app:cardBackgroundColor="@color/very_light_blue"
         app:cardCornerRadius="0dp"
         app:cardUseCompatPadding="true">
@@ -35,7 +37,7 @@
 
             <TextView
                 android:id="@+id/consentText"
-                style="@style/Headline1"
+                style="@style/Headline3"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_32dp"
                 android:background="@color/blue"
@@ -84,7 +86,7 @@
                         android:gravity="center_vertical|end"
                         android:paddingEnd="2dp"
                         android:paddingRight="2dp"
-                        android:text="@{model.status}" />
+                        android:text="@{model.id + model.status}" />
 
                 </TableRow>
 

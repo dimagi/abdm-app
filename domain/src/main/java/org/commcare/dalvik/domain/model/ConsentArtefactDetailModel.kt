@@ -13,7 +13,7 @@ class ConsentArtefactDetailModel {
     lateinit var requester: Requester
     lateinit var permission: ConsentPermission
     lateinit var consentManager: ConsentManager
-    lateinit var careContexts: List<List<CareContext>>
+    lateinit var careContexts: List<CareContext>
 }
 
 data class ConsentManager(val id:String)
