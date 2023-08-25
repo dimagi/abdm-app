@@ -34,44 +34,16 @@
                 android:background="@color/blue"
                 android:gravity="center_vertical"
                 android:padding="@dimen/_5dp"
-                android:text="@string/artefact_detail"
+                android:text="@{model.details.hip.name}"
+
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/statusLayout"
+                app:layout_constraintBottom_toTopOf="@+id/careContextsContainer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
 
-            <TableLayout
-                android:id="@+id/statusLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:stretchColumns="*"
-                app:layout_constraintBottom_toTopOf="@+id/careContextsContainer"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/consentText">
-
-                <TableRow
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:minHeight="@dimen/_32dp">
-
-                    <TextView
-                        style="@style/Headline2"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical|start"
-                        android:paddingStart="@dimen/_5dp"
-                        android:paddingLeft="@dimen/_5dp"
-                        android:text="@{model.details.hip.name}" />
-
-                </TableRow>
-
-            </TableLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/careContextsContainer"
@@ -82,7 +54,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/statusLayout">
+                app:layout_constraintTop_toBottomOf="@+id/consentText">
 
                 <ImageView
                     android:id="@+id/contextExpanderView"
@@ -126,10 +98,10 @@
 
             <Button
                 android:id="@+id/getHealthDataBtn"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:text="@string/get_health_data"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

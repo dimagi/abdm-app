@@ -21,7 +21,7 @@ class TestActivity : AppCompatActivity() {
     val ACTION_CREATE_ABHA = "create_abha"
     val ACTION_VERIFY_ABHA = "verify_abha"
     val ACTION_SCAN_ABHA = "scan_abha"
-    val ACTION_CREATE_CONSENT = "create_consent"
+    val ACTION_GET_CONSENT = "get_consent"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,9 +100,11 @@ class TestActivity : AppCompatActivity() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
+                    "abha_id" to "ajeet2040@sbx",
+                    "hiu_id" to "Ashish-HIU-Registered",
                     "abdm_api_token" to token,
                     "lang_code" to lang,
-                    "action" to ACTION_CREATE_CONSENT
+                    "action" to ACTION_GET_CONSENT
                 )
             )
         }

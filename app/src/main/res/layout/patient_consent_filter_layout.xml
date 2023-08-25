@@ -4,6 +4,7 @@
 
     <data class="FilterBinding">
 
+        <import type="android.view.View"/>
         <variable
             name="filterModel"
             type="org.commcare.dalvik.abha.model.FilterModel" />
@@ -105,8 +106,10 @@
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{filterModel.fromDate}"
+                        android:text="@={filterModel.fromDate}"
+                        android:visibility="@{filterModel.fromDate != null ? View.VISIBLE : View.INVISIBLE}"
                         app:closeIconVisible="@{filterModel.fromDate != null}"
+                        app:chipIconVisible="@{filterModel.fromDate != null}"
                         app:chipIcon="@drawable/round_date_range_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -149,7 +152,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@={filterModel.toDate}"
+                        android:visibility="@{filterModel.toDate != null ? View.VISIBLE : View.INVISIBLE}"
                         app:closeIconVisible="@{filterModel.toDate != null}"
+                        app:chipIconVisible="@{filterModel.toDate != null}"
                         app:chipIcon="@drawable/round_date_range_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

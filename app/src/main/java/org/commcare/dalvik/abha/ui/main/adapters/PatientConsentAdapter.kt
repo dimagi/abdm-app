@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.PatientConsentCellBinding
+import org.commcare.dalvik.abha.ui.main.fragment.HITYPES
 import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.domain.model.DATE_FORMAT
 import org.commcare.dalvik.domain.model.PatientConsentModel
@@ -84,7 +85,7 @@ class PatientConsentAdapter(val callback :(patientConsentModel:PatientConsentMod
             binding.healthTypeChipGroup.removeAllViews()
             binding.model?.healthInfoType?.forEach {
                 val chip = Chip(binding.root.context, null, R.style.HiTypeStyle)
-                chip.text = it
+                chip.text = HITYPES.getDisplayValue(it)
                 chip.setTextColor(Color.BLACK)
                 binding.healthTypeChipGroup.addView(chip)
             }

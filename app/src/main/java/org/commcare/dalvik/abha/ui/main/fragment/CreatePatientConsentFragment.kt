@@ -288,6 +288,7 @@ class CreatePatientConsentFragment :
             val finalTime = selectedDate + hours + minutes
 
             timechip.text = CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.USER.format)
+            timechip.visibility = View.VISIBLE
 
             when (timechip.id) {
                 R.id.startDateChip -> {
@@ -381,7 +382,18 @@ enum class HITYPES(val displayValue: String) {
     DischargeSummary("Discharge Summary"),
     ImmunizationRecord("Immunization Record"),
     HealthDocumentRecord("Record Artifact"),
-    WellnessRecord("Wellness Record")
+    WellnessRecord("Wellness Record");
+
+    companion object {
+        fun getDisplayValue(hiTypeCode:String):String{
+            val matchedHiType = enumValues<HITYPES>().filter { it.name == hiTypeCode }
+
+            return matchedHiType.get(0).displayValue
+
+        }
+
+    }
+
 }
 
 enum class ACCESS_MODE(val value: String) {

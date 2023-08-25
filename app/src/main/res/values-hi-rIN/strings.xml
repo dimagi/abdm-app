@@ -81,7 +81,7 @@
     <string name="accessMode">Access Mode</string>
     <string name="dateRange">Consent Date Range</string>
     <string name="startDate">आरंभ तिथि</string>
-    <string name="endDate">समाप्ति तिथि</string>
+    <string name="endDate">अंतिम तिथि</string>
     <string name="expiryDate">समाप्ति तिथि</string>
     <string name="select_time">Select Time</string>
     <string name="create_consent">Create Consent</string>
