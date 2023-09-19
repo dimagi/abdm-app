@@ -10,15 +10,22 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.ConsentArtefactBinding
 import org.commcare.dalvik.abha.ui.main.adapters.ConsentArtefactAdapter
 import org.commcare.dalvik.abha.ui.main.adapters.ConsentPageLoaderAdapter
+import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
+import org.commcare.dalvik.domain.model.PatientHealthDataModel
+import timber.log.Timber
 
-class ConsentArtefactFragment : BaseFragment<ConsentArtefactBinding>(ConsentArtefactBinding::inflate) {
+class ConsentArtefactFragment :
+    BaseFragment<ConsentArtefactBinding>(ConsentArtefactBinding::inflate) {
 
     val viewModel: PatientViewModel by activityViewModels()
     lateinit var arefactAdapter: ConsentArtefactAdapter
@@ -49,7 +56,7 @@ class ConsentArtefactFragment : BaseFragment<ConsentArtefactBinding>(ConsentArte
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
 
-        arefactAdapter = ConsentArtefactAdapter()
+        arefactAdapter = ConsentArtefactAdapter(this::fetchHealthData)
 
         binding.artefactList.apply {
             setHasFixedSize(true)
@@ -72,7 +79,7 @@ class ConsentArtefactFragment : BaseFragment<ConsentArtefactBinding>(ConsentArte
 
             val isLoading = loadState.refresh is LoadState.Loading
             binding.statusLoading.isVisible = isLoading
-            if(isLoading){
+            if (isLoading) {
                 binding.statusView.isVisible = false
             }
 
@@ -90,5 +97,51 @@ class ConsentArtefactFragment : BaseFragment<ConsentArtefactBinding>(ConsentArte
             }
         }
 
+        observeUiState()
+
+    }
+
+    private fun fetchHealthData(artefactId: String,transactionId:String? = null,page:Int? = null) {
+        if(transactionId == null && page == null){
+            viewModel.patientHealthData = Pair(artefactId, mutableListOf())
+        }
+        viewModel.fetchPatientHealthData(artefactId,transactionId,page)
+    }
+
+    private fun observeUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    when (it) {
+
+                        is GenerateAbhaUiState.Success -> {
+                            val healthDataModel =
+                                Gson().fromJson(it.data, PatientHealthDataModel::class.java)
+
+
+                            viewModel.patientHealthData.second.addAll(healthDataModel.results)
+
+                            healthDataModel.next.let {
+                                fetchHealthData(viewModel.patientHealthData.first,healthDataModel.transactionId,healthDataModel.page+1)
+                            } ?: run {
+                                Timber.d("ALL ARTEFACTS FETCHED")
+                            }
+
+
+
+
+                        }
+
+                        is GenerateAbhaUiState.Error -> {
+
+                        }
+
+                        else -> {
+                            //exhaustive block
+                        }
+                    }
+                }
+            }
+        }
     }
 }

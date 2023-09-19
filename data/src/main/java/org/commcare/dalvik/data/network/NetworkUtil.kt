@@ -90,7 +90,7 @@ class NetworkUtil {
 }
 
 
-fun <T> safeApiCall(call: suspend () -> Response<T>) = flow {
+fun <T>safeApiCall(call: suspend () -> Response<T>) = flow {
     this.emit(HqResponseModel.Loading)
     try {
         val response = call.invoke()

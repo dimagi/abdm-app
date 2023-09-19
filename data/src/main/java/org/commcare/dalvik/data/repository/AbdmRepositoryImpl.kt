@@ -89,6 +89,11 @@ class AbdmRepositoryImpl @Inject constructor(val hqServices: HqServices) : AbdmR
             hqServices.generatePatientConsent(patientConsentDetailModel)
         }
 
+    override  fun getPatientHealthData(artefactId:String,transactionId:String?,page:Int?):Flow<HqResponseModel> =
+        safeApiCall {
+            hqServices.getHealthData(artefactId,transactionId,page)
+        }
+
     override suspend fun getPatientConsents(
         abhaId: String,
         page:Int?,

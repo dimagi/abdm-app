@@ -58,6 +58,13 @@ interface HqServices {
         @Query("page") page: Int?,
     ):Response<JsonObject>
 
+    @GET("hiu/health-information/request")
+    suspend fun getHealthData(
+        @Query("artefact_id") artefactId: String,
+        @Query("transaction_id") transactionId: String?,
+        @Query("page") page: Int?
+    ):Response<JsonObject>
+
 
 
 }

@@ -39,3 +39,33 @@ data class CheckAbhaResponseModel(
 )
 
 data class HealthCardResponseModel(@SerializedName("health_card") var healthCard: String)
+
+
+data class PatientHealthDataModel(
+    @SerializedName("transaction_id") var transactionId: String,
+    @SerializedName("page_count") var pageCount: Int,
+    var page: Int,
+    var next: String
+) {
+    lateinit var results: MutableList<HealthContentModel>
+}
+
+class HealthContentModel{
+    @SerializedName("care_context_reference")
+    lateinit var careContextRef:String
+    lateinit var title:String
+    lateinit var content: MutableList<SectionContent>
+
+}
+
+class SectionContent {
+    lateinit var section: String
+    lateinit var resource: String
+    lateinit var entries: MutableList<SectionEntry>
+}
+
+class SectionEntry {
+    lateinit var label: String
+    lateinit var value: String
+}
+

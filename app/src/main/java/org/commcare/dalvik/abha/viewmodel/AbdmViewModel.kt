@@ -32,7 +32,7 @@ class AbdmViewModel @Inject constructor(
     private val confirmAadhaarOtpUsecase: ConfirmAadhaarOtpUsecase,
     private val confirmMobileOtpUsecase: ConfirmMobileOtpUsecase,
     private val abhaAvailbilityUsecase: AbhaAvailabilityUsecase,
-    private val fetchAbhaCardUseCase: FetchAbhaCardUseCase,
+    private val fetchAbhaCardUseCase: FetchAbhaCardUseCase
 ) : BaseViewModel() {
     var selectedAuthMethod: String? = null
     var checkAbhaResponseModel:MutableLiveData<CheckAbhaResponseModel> = MutableLiveData()

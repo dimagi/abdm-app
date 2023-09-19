@@ -13,9 +13,10 @@ import com.google.android.material.chip.Chip
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.ConsentArtefactCellBinding
 import org.commcare.dalvik.domain.model.ConsentArtefactModel
+import org.commcare.dalvik.domain.model.PatientConsentModel
 
 
-class ConsentArtefactAdapter :
+class ConsentArtefactAdapter(val callback :(artefactId: String)->Unit) :
     PagingDataAdapter<ConsentArtefactModel, ConsentArtefactAdapter.ConsentArtefactViewHolder>(
         COMPARATOR
     ) {
@@ -44,8 +45,8 @@ class ConsentArtefactAdapter :
         val item = getItem(position)
         if (item != null) {
             holder.bindModel(item)
-            holder.binding.consentArtefactHolder.setOnClickListener {
-
+            holder.binding.getHealthDataBtn.setOnClickListener {
+                callback.invoke(item.artefactId)
             }
         }
     }

@@ -44,4 +44,6 @@ interface AbdmRepository {
         fetchPatientConsentUsecase: FetchConsentArtefactsUsecase
     ): LiveData<PagingData<ConsentArtefactModel>>
 
+    fun getPatientHealthData(artefactId:String,transactionId:String?,page:Int?):Flow<HqResponseModel>
+
 }
