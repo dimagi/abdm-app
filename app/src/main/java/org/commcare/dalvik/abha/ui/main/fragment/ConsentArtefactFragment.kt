@@ -28,7 +28,7 @@ class ConsentArtefactFragment :
     BaseFragment<ConsentArtefactBinding>(ConsentArtefactBinding::inflate) {
 
     val viewModel: PatientViewModel by activityViewModels()
-    lateinit var arefactAdapter: ConsentArtefactAdapter
+    lateinit var artefactAdapter: ConsentArtefactAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,7 +46,7 @@ class ConsentArtefactFragment :
                 return when (menuItem.itemId) {
 
                     R.id.refresh -> {
-                        arefactAdapter.refresh()
+                        artefactAdapter.refresh()
                         true
                     }
 
@@ -56,13 +56,13 @@ class ConsentArtefactFragment :
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
 
-        arefactAdapter = ConsentArtefactAdapter(this::fetchHealthData)
+        artefactAdapter = ConsentArtefactAdapter(this::fetchHealthData)
 
         binding.artefactList.apply {
             setHasFixedSize(true)
-            adapter = arefactAdapter.withLoadStateHeaderAndFooter(
-                footer = ConsentPageLoaderAdapter(arefactAdapter::retry),
-                header = ConsentPageLoaderAdapter(arefactAdapter::retry)
+            adapter = artefactAdapter.withLoadStateHeaderAndFooter(
+                footer = ConsentPageLoaderAdapter(artefactAdapter::retry),
+                header = ConsentPageLoaderAdapter(artefactAdapter::retry)
             )
         }
 
@@ -71,11 +71,11 @@ class ConsentArtefactFragment :
         }
 
         viewModel.fetchConsentArtefacts().observe(viewLifecycleOwner) {
-            arefactAdapter.submitData(lifecycle, it)
+            artefactAdapter.submitData(lifecycle, it)
         }
 
         //LOAD STATE
-        arefactAdapter.addLoadStateListener { loadState ->
+        artefactAdapter.addLoadStateListener { loadState ->
 
             val isLoading = loadState.refresh is LoadState.Loading
             binding.statusLoading.isVisible = isLoading
@@ -88,7 +88,7 @@ class ConsentArtefactFragment :
                 binding.statusView.text = resources.getText(R.string.loadErrorMsg)
             }
             if (loadState.append.endOfPaginationReached) {
-                if (arefactAdapter.itemCount < 1) {
+                if (artefactAdapter.itemCount < 1) {
                     binding.statusView.isVisible = true
                     binding.statusView.text = resources.getText(R.string.noData)
                 } else {
@@ -114,6 +114,12 @@ class ConsentArtefactFragment :
                 viewModel.uiState.collect {
                     when (it) {
 
+                        is GenerateAbhaUiState.PatientHealthDataRequested -> {
+                            Timber.d("Patient health data requested")
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(true))
+                        }
+
+
                         is GenerateAbhaUiState.Success -> {
                             val healthDataModel =
                                 Gson().fromJson(it.data, PatientHealthDataModel::class.java)
@@ -121,10 +127,12 @@ class ConsentArtefactFragment :
 
                             viewModel.patientHealthData.second.addAll(healthDataModel.results)
 
-                            healthDataModel.next.let {
+                            healthDataModel.next?.let {
                                 fetchHealthData(viewModel.patientHealthData.first,healthDataModel.transactionId,healthDataModel.page+1)
                             } ?: run {
                                 Timber.d("ALL ARTEFACTS FETCHED")
+                                viewModel.uiState.emit(GenerateAbhaUiState.InvalidState)
+                                viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                             }
 
 
@@ -133,7 +141,7 @@ class ConsentArtefactFragment :
                         }
 
                         is GenerateAbhaUiState.Error -> {
-
+                            Timber.d("ERROR  ARTEFACTS FETCHED")
                         }
 
                         else -> {

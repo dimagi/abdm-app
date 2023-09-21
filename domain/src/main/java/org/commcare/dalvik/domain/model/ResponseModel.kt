@@ -45,7 +45,7 @@ data class PatientHealthDataModel(
     @SerializedName("transaction_id") var transactionId: String,
     @SerializedName("page_count") var pageCount: Int,
     var page: Int,
-    var next: String
+    var next: String?
 ) {
     lateinit var results: MutableList<HealthContentModel>
 }

@@ -114,7 +114,7 @@ class PatientViewModel @Inject constructor(
             fetchPatientHealthDataUseCase.execute(artefactsId,transactionId,page).collect{
                 when(it){
                     is HqResponseModel.Loading -> {
-                        uiState.emit(GenerateAbhaUiState.AadhaarOtpRequested)
+                        uiState.emit(GenerateAbhaUiState.PatientHealthDataRequested)
                     }
                     is HqResponseModel.Success -> {
                         uiState.emit(

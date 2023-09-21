@@ -21,6 +21,8 @@ sealed class GenerateAbhaUiState {
     object VerifyMobileOtpRequested : GenerateAbhaUiState()
     object VerifyAadhaarOtpRequested : GenerateAbhaUiState()
     object AbhaAvailabilityRequested : GenerateAbhaUiState()
+
+    object PatientHealthDataRequested : GenerateAbhaUiState()
     object Blocked : GenerateAbhaUiState()
 
     data class Success(val data: JsonObject, val requestType: RequestType) :

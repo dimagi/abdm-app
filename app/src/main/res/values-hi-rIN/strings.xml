@@ -106,4 +106,5 @@
     <string name="notGrantedMsg">Status is not \"GRANTED\"</string>
     <string name="artefats">Artefacts</string>
     <string name="get_health_data">HEALTH DATA</string>
+    <string name="content">Content</string>
 </resources>
