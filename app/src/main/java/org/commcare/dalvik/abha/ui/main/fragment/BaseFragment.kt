@@ -17,6 +17,7 @@ import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.abha.utility.NetworkHelper
+import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.domain.model.DATE_FORMAT
 import org.commcare.dalvik.domain.model.TranslationKey
 import timber.log.Timber

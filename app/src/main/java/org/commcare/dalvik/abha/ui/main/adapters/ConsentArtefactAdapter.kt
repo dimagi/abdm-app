@@ -36,7 +36,6 @@ class ConsentArtefactAdapter(val callback :(artefactId: String)->Unit) :
             ): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 

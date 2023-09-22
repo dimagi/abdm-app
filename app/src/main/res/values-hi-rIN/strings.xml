@@ -107,4 +107,5 @@
     <string name="artefats">Artefacts</string>
     <string name="get_health_data">HEALTH DATA</string>
     <string name="content">Content</string>
+    <string name="healthData">Health Data</string>
 </resources>

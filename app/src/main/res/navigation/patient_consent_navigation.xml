@@ -23,5 +23,12 @@
         android:id="@+id/consentArtefactFragment"
         android:name="org.commcare.dalvik.abha.ui.main.fragment.ConsentArtefactFragment"
         android:label="@string/artefats" >
+        <action
+            android:id="@+id/action_consentArtefactFragment_to_patientHealthDataFragment"
+            app:destination="@id/patientHealthDataFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/patientHealthDataFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.PatientHealthDataFragment"
+        android:label="@string/healthData" />
 </navigation>

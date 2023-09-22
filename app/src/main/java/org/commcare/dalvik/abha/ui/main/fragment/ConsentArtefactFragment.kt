@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
@@ -12,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -56,7 +58,7 @@ class ConsentArtefactFragment :
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
 
-        artefactAdapter = ConsentArtefactAdapter(this::fetchHealthData)
+        artefactAdapter = ConsentArtefactAdapter(this::navigateToPatientHealthData)
 
         binding.artefactList.apply {
             setHasFixedSize(true)
@@ -97,59 +99,14 @@ class ConsentArtefactFragment :
             }
         }
 
-        observeUiState()
-
     }
 
-    private fun fetchHealthData(artefactId: String,transactionId:String? = null,page:Int? = null) {
-        if(transactionId == null && page == null){
-            viewModel.patientHealthData = Pair(artefactId, mutableListOf())
-        }
-        viewModel.fetchPatientHealthData(artefactId,transactionId,page)
-    }
+    private fun navigateToPatientHealthData(artefactId: String) {
+        findNavController().navigate(
+            R.id.action_consentArtefactFragment_to_patientHealthDataFragment, bundleOf(
+                "artefactId" to artefactId
+            )
+        )
 
-    private fun observeUiState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    when (it) {
-
-                        is GenerateAbhaUiState.PatientHealthDataRequested -> {
-                            Timber.d("Patient health data requested")
-                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(true))
-                        }
-
-
-                        is GenerateAbhaUiState.Success -> {
-                            val healthDataModel =
-                                Gson().fromJson(it.data, PatientHealthDataModel::class.java)
-
-
-                            viewModel.patientHealthData.second.addAll(healthDataModel.results)
-
-                            healthDataModel.next?.let {
-                                fetchHealthData(viewModel.patientHealthData.first,healthDataModel.transactionId,healthDataModel.page+1)
-                            } ?: run {
-                                Timber.d("ALL ARTEFACTS FETCHED")
-                                viewModel.uiState.emit(GenerateAbhaUiState.InvalidState)
-                                viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
-                            }
-
-
-
-
-                        }
-
-                        is GenerateAbhaUiState.Error -> {
-                            Timber.d("ERROR  ARTEFACTS FETCHED")
-                        }
-
-                        else -> {
-                            //exhaustive block
-                        }
-                    }
-                }
-            }
-        }
     }
 }
