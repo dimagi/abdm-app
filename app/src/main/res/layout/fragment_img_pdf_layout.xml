@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="ImgPdfBinding">
+
+        <variable
+            name="model"
+            type="org.commcare.dalvik.abha.ui.main.adapters.FileData" />
+
+        <import type="org.commcare.dalvik.abha.ui.main.adapters.FileType" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/closeDialog"
+            android:layout_width="@dimen/_32dp"
+            android:layout_height="@dimen/_32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="@dimen/_10dp"
+            app:tint="@color/blue"
+            app:srcCompat="@drawable/ic_baseline_close_24"
+             />
+
+        <ImageView
+            android:id="@+id/reportImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:loadImage="@{model.fileData}"
+            android:visibility="@{model.fileType == FileType.IMAGE ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/pdfView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{model.fileType == FileType.PDF ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
+
+        </com.github.barteksc.pdfviewer.PDFView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

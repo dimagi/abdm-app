@@ -2,6 +2,7 @@ package org.commcare.dalvik.abha.ui.main.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -9,6 +10,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.databinding.PatientHealthDataBinding
+import org.commcare.dalvik.abha.ui.main.adapters.FileData
+import org.commcare.dalvik.abha.ui.main.adapters.FileType
 import org.commcare.dalvik.abha.ui.main.adapters.HealthDataAdapter
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
@@ -27,7 +30,7 @@ class PatientHealthDataFragment : BaseFragment<PatientHealthDataBinding>(Patient
 
         arguments?.getString("artefactId")?.let {artefactId ->
 
-            healthDataAdapter = HealthDataAdapter(healthDataList)
+            healthDataAdapter = HealthDataAdapter(healthDataList,this::launchImgAndPdfFragment)
             binding.patientHealthDataList.adapter = healthDataAdapter
 
             observeUiState()
@@ -36,6 +39,13 @@ class PatientHealthDataFragment : BaseFragment<PatientHealthDataBinding>(Patient
 
     }
 
+    private fun launchImgAndPdfFragment(fileData: FileData){
+        if(fileData.fileType == FileType.INVALID){
+            Toast.makeText(context, "Invalid file type.",Toast.LENGTH_LONG).show()
+        }
+        val dialogFragment = AbdmImgAndPdfViewer(fileData)
+        dialogFragment.show(parentFragmentManager, "healthData")
+    }
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

@@ -20,6 +20,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@{model.section}"
+            style="@style/Headline3"
+            tools:text="Title"
             app:layout_constraintBottom_toTopOf="@+id/sectionEntryHolder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
