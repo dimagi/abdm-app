@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import com.google.gson.JsonObject
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.data.network.HeaderInterceptor
+import org.json.JSONObject
 import timber.log.Timber
 
 class TestActivity : AppCompatActivity() {
@@ -14,6 +16,7 @@ class TestActivity : AppCompatActivity() {
     val REQ_CODE_A = 100
     val REQ_CODE_B = 101
     val REQ_CODE_C = 102
+    val REQ_CODE_D = 103
 
     val action = "org.commcare.dalvik.abha.abdm.app"
 
@@ -22,6 +25,7 @@ class TestActivity : AppCompatActivity() {
     val ACTION_VERIFY_ABHA = "verify_abha"
     val ACTION_SCAN_ABHA = "scan_abha"
     val ACTION_GET_CONSENT = "get_consent"
+    val ACTION_CARE_CONTEXT_LINK = "link_care_context"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +46,10 @@ class TestActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.intentD).setOnClickListener {
             createConsentIntent()
+        }
+
+        findViewById<Button>(R.id.intentE).setOnClickListener {
+            linkCareContext()
         }
 
         HeaderInterceptor.API_KEY = ""
@@ -110,6 +118,24 @@ class TestActivity : AppCompatActivity() {
         }
         startActivityForResult(intent, REQ_CODE_C)
 
+    }
+
+    private fun linkCareContext(){
+        val intent = Intent(action).apply {
+            putExtras(
+                bundleOf(
+                    "id" to "ajeet2040@sbx",
+                    "purpose" to "LINK",
+                    "requester" to JSONObject().apply {
+                        put("type","HIP")
+                        put("id","6004")
+                    },
+                    "lang_code" to lang,
+                    "action" to ACTION_CARE_CONTEXT_LINK
+                )
+            )
+        }
+        startActivityForResult(intent, REQ_CODE_D)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

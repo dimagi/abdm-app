@@ -44,6 +44,13 @@
             android:layout_marginBottom="32dp"
             android:text="Patient CONSENT"
             />
+        <Button
+            android:id="@+id/intentE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="Link Care Context"
+            />
 
 
         <TextView

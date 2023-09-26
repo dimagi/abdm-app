@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import org.commcare.dalvik.abha.R
+import org.commcare.dalvik.abha.databinding.HealDataKeyValueBinding
 import org.commcare.dalvik.abha.databinding.HealthDataSectionBinding
 import org.commcare.dalvik.abha.databinding.KeyValueBinding
 import org.commcare.dalvik.abha.databinding.PatientHealthDataBinding
@@ -58,7 +59,7 @@ class HealthDataAdapter(
                         return@forEachIndexed
                     }
                     val kvBinding =
-                        KeyValueBinding.inflate(LayoutInflater.from(context))
+                        HealDataKeyValueBinding.inflate(LayoutInflater.from(context))
                     if (index % 2 == 0) {
                         kvBinding.tableRow.setBackgroundColor(
                             ContextCompat.getColor(
