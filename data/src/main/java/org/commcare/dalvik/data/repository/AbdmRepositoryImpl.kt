@@ -13,6 +13,9 @@ import org.commcare.dalvik.data.services.HqServices
 import org.commcare.dalvik.domain.model.AadhaarOtpRequestModel
 import org.commcare.dalvik.domain.model.AbhaCardRequestModel
 import org.commcare.dalvik.domain.model.AbhaVerificationRequestModel
+import org.commcare.dalvik.domain.model.CCAuthModesRequestModel
+import org.commcare.dalvik.domain.model.CCLinkModel
+import org.commcare.dalvik.domain.model.ConfirmAuthModel
 import org.commcare.dalvik.domain.model.ConsentArtefactsList
 import org.commcare.dalvik.domain.model.GenerateAuthOtpModel
 import org.commcare.dalvik.domain.model.GetAuthMethodRequestModel
@@ -93,6 +96,21 @@ class AbdmRepositoryImpl @Inject constructor(val hqServices: HqServices) : AbdmR
         safeApiCall {
             hqServices.getHealthData(artefactId,transactionId,page)
         }
+
+    override fun getCCAuthModes(ccAuthModesRequestModel: CCAuthModesRequestModel): Flow<HqResponseModel> = safeApiCall {
+        hqServices.getCareContextAuthModes(ccAuthModesRequestModel)
+    }
+    override fun generateCCAuthenticationOtp(ccAuthModesRequestModel: CCAuthModesRequestModel)= safeApiCall {
+        hqServices.initCareContextAuth(ccAuthModesRequestModel)
+    }
+
+    override fun confirmCCAuthenticationOtp(confirmAuthModel: ConfirmAuthModel)= safeApiCall {
+        hqServices.confirmCareContextAuth(confirmAuthModel)
+    }
+
+    override fun linkCareContext(ccLinkModel: CCLinkModel)= safeApiCall {
+        hqServices.linkCareContext(ccLinkModel)
+    }
 
     override suspend fun getPatientConsents(
         abhaId: String,

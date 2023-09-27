@@ -1,6 +1,5 @@
 package org.commcare.dalvik.abha.ui.main.fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,6 @@ import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.ImgPdfBinding
 import org.commcare.dalvik.abha.ui.main.adapters.FileData
 import org.commcare.dalvik.abha.ui.main.adapters.FileType
-import java.io.File
-import java.io.FileOutputStream
 import java.util.Base64
 
 class AbdmImgAndPdfViewer(private val fileData: FileData) : DialogFragment() {

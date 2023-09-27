@@ -49,6 +49,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     val ACTION_VERIFY_ABHA = "verify_abha"
     val ACTION_SCAN_ABHA = "scan_abha"
     val ACTION_GET_CONSENT = "get_consent"
+    val ACTION_CARE_CONTEXT_LINK = "link_care_context"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,6 +110,11 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 ACTION_SCAN_ABHA -> {
                     supportActionBar?.title =
                         LanguageManager.getTranslatedValue(this, R.string.scanAbha)
+                }
+
+                ACTION_CARE_CONTEXT_LINK->{
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this, R.string.linkCareContext)
                 }
             }
 
@@ -290,6 +296,10 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 }
                 ACTION_GET_CONSENT -> {
                     R.navigation.patient_consent_navigation
+                }
+
+                ACTION_CARE_CONTEXT_LINK ->{
+
                 }
                 else -> {
                     -1

@@ -46,4 +46,12 @@ interface AbdmRepository {
 
     fun getPatientHealthData(artefactId:String,transactionId:String?,page:Int?):Flow<HqResponseModel>
 
+    fun getCCAuthModes(ccAuthModesRequestModel: CCAuthModesRequestModel):Flow<HqResponseModel>
+
+    fun generateCCAuthenticationOtp(ccAuthModesRequestModel: CCAuthModesRequestModel):Flow<HqResponseModel>
+
+    fun confirmCCAuthenticationOtp(confirmAuthModel: ConfirmAuthModel):Flow<HqResponseModel>
+
+    fun linkCareContext(ccLinkModel:CCLinkModel):Flow<HqResponseModel>
+
 }

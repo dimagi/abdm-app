@@ -34,7 +34,7 @@ data class CCAuthModesRequestModel(val id:String,
 data class CCRequesterModel(val name: String = "HIP", val id: String)
 
 // CONFIRM AUTH API
-data class ConfirmAuthModel(val CCRequesterModel:String,val credential: Credential )
+data class ConfirmAuthModel(val transactionId:String,val credential: Credential)
 
 data class Credential(val authCode:String)
 
