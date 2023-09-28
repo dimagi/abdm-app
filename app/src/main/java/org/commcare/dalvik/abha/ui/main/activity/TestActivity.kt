@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import com.google.gson.JsonObject
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.data.network.HeaderInterceptor
+import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
 
@@ -124,11 +125,32 @@ class TestActivity : AppCompatActivity() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "id" to "ajeet2040@sbx",
+                    "abhaId" to "ajeet2040@sbx",
                     "purpose" to "LINK",
                     "requester" to JSONObject().apply {
                         put("type","HIP")
-                        put("id","6004")
+                        put("hipId","6004")
+                    },
+                    "patientDetail" to JSONObject().apply {
+                        put("referenceNumber","Test_001")
+                        put("display","Ajeet Test_001")
+
+
+                        val careContext= JSONObject().apply {
+                            put("referenceNumber","CC_505")
+                            put("display","Visit for fever 505")
+                            val hiTypes= JSONArray().apply {
+                                put("Prescription")
+                            }
+                            put("hiTypes",hiTypes)
+                        }
+
+
+                        val careContextArr= JSONArray().apply {
+                           put(careContext)
+                        }
+                        put("careContexts",careContext)
+
                     },
                     "lang_code" to lang,
                     "action" to ACTION_CARE_CONTEXT_LINK

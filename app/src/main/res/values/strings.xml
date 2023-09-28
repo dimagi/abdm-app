@@ -10,6 +10,7 @@
     <string name="RESEND_OTP">Resend OTP</string>
     <string name="ENTER_ADHR_OTP">Enter Aadhaar OTP</string>
     <string name="ENTER_MOBILE_OTP">Enter Mobile OTP</string>
+    <string name="ENTER_OTP">Enter  OTP</string>
     <string name="USE_ADHR_DATA_IN_COMMCARE">Use Aadhaar data in Commcare</string>
     <string name="ADHR_DATA">Aadhaar Data</string>
     <string name="ABHA_NUM">ABHA Number</string>
