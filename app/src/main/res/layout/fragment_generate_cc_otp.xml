@@ -13,7 +13,7 @@
 
         <variable
             name="clickHandler"
-            type="org.commcare.dalvik.abha.ui.main.fragment.GenerateAndVerifyCCLinkOtpFragment" />
+            type="org.commcare.dalvik.abha.ui.main.fragment.CCVerifyOtpFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/aadhaarOtpEt"
+                android:id="@+id/otpEt"
                 style="@style/EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,45 +63,46 @@
             android:id="@+id/resentOtpContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/_32dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toBottomOf="@+id/otpInputLayout">
 
             <Button
-                android:id="@+id/resentOtp"
+                android:id="@+id/resendCCOtp"
                 style="@style/RoundStyleButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:onClickListener="@{clickHandler}"
+                android:text="@string/RESEND_OTP"
+                android:enabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/timeProgress"
                 app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@string/RESEND_OTP"
+                app:layout_constraintVertical_bias="0.5"
                 tools:text="Resend" />
 
             <org.commcare.dalvik.abha.ui.main.custom.TimeProgressBar
                 android:id="@+id/timeProgress"
-                android:layout_width="32dp"
+                android:layout_width="@dimen/_32dp"
                 android:layout_height="32dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="2dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/resentOtp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/resentOtp"
-                app:layout_constraintTop_toTopOf="@+id/resentOtp" />
+                app:layout_constraintStart_toEndOf="@+id/resendCCOtp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <Button
-            android:id="@+id/verifyOtp"
+            android:id="@+id/verifyCCOtp"
             style="@style/RoundStyleButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

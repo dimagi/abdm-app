@@ -147,4 +147,11 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="content">Content</string>
     <string name="healthData">Health Data</string>
     <string name="linkCareContext">Link Care Context</string>
+    <string name="linkCCDetails">Link ContextCare details</string>
+    <string name="patietDetails">Patient Details</string>
+    <string name="referenceNum">Reference Number</string>
+    <string name="display">Display</string>
+    <string name="ccDetails">CareContext Detail</string>
+    <string name="linking_cc">Linking context care...</string>
+    <string name="retryLink">Link Context Care</string>
 </resources>

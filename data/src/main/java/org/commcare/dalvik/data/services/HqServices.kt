@@ -71,7 +71,7 @@ interface HqServices {
     suspend fun getCareContextAuthModes(@Body ccAuthModesRequestModel: CCAuthModesRequestModel):Response<JsonObject>
     @POST("user_auth/auth_init")
     suspend fun initCareContextAuth(@Body ccAuthModesRequestModel: CCAuthModesRequestModel):Response<JsonObject>
-    @POST("user_auth/confirm_auth")
+    @POST("user_auth/auth_confirm")
     suspend fun confirmCareContextAuth(@Body confirmAuthModel: ConfirmAuthModel):Response<JsonObject>
     @POST("hip/link_care_context")
     suspend fun  linkCareContext(careContextLinkModel:CCLinkModel):Response<JsonObject>

@@ -18,6 +18,7 @@ class TestActivity : AppCompatActivity() {
     val REQ_CODE_B = 101
     val REQ_CODE_C = 102
     val REQ_CODE_D = 103
+    val REQ_CODE_E = 104
 
     val action = "org.commcare.dalvik.abha.abdm.app"
 
@@ -57,14 +58,15 @@ class TestActivity : AppCompatActivity() {
 
     }
 
-    val lang = "hi"
+    val lang = "en"
     private val token = "0c0a3fbbacc0922192a1b4e63be5d6f511790a31"
 
     private fun startIntentA() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "abha_id" to "",
+                    "mobile_number" to "9560833229",
+                    "abha_id" to "66543673407500",
                     "lang_code" to lang,
                     "abdm_api_token" to token,
                     "action" to ACTION_CREATE_ABHA
@@ -123,41 +125,40 @@ class TestActivity : AppCompatActivity() {
 
     private fun linkCareContext(){
         val intent = Intent(action).apply {
+            val patientJson  = JSONObject().apply {
+                put("referenceNumber","Test_001")
+                put("display","Ajeet Test_001")
+
+
+                val careContext= JSONObject().apply {
+                    put("referenceNumber","CC_505")
+                    put("display","Visit for fever 505")
+                    val hiTypes= JSONArray().apply {
+                        put("Prescription")
+                    }
+                    put("hiTypes",hiTypes)
+                }
+
+
+                val careContextArr= JSONArray().apply {
+                    put(careContext)
+                }
+                put("careContexts",careContextArr)
+
+            }
             putExtras(
                 bundleOf(
-                    "abhaId" to "ajeet2040@sbx",
+                    "abhaId" to "91766261606756@sbx",
                     "purpose" to "LINK",
-                    "requester" to JSONObject().apply {
-                        put("type","HIP")
-                        put("hipId","6004")
-                    },
-                    "patientDetail" to JSONObject().apply {
-                        put("referenceNumber","Test_001")
-                        put("display","Ajeet Test_001")
-
-
-                        val careContext= JSONObject().apply {
-                            put("referenceNumber","CC_505")
-                            put("display","Visit for fever 505")
-                            val hiTypes= JSONArray().apply {
-                                put("Prescription")
-                            }
-                            put("hiTypes",hiTypes)
-                        }
-
-
-                        val careContextArr= JSONArray().apply {
-                           put(careContext)
-                        }
-                        put("careContexts",careContext)
-
-                    },
+                    "hipId" to "6004",
+                    "patientDetail" to patientJson.toString(),
                     "lang_code" to lang,
-                    "action" to ACTION_CARE_CONTEXT_LINK
+                    "action" to ACTION_CARE_CONTEXT_LINK,
+                    "abdm_api_token" to token,
                 )
             )
         }
-        startActivityForResult(intent, REQ_CODE_D)
+        startActivityForResult(intent, REQ_CODE_E)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

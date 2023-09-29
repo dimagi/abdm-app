@@ -4,6 +4,7 @@ import org.commcare.dalvik.abha.R
 
 class AppConstants {
     companion object{
+        val OTP_LENGTH = 6
         val MOBILE_OTP_LENGTH = 6
         val AADHAAR_OTP_LENGTH = 6
         val AADHAR_NUMBER_LENGTH = 12

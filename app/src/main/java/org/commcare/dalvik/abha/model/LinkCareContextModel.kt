@@ -1,12 +1,26 @@
 package org.commcare.dalvik.abha.model
 
+import org.commcare.dalvik.domain.model.CCAuthModesRequestModel
+import org.commcare.dalvik.domain.model.CCLinkModel
+import org.commcare.dalvik.domain.model.CCPatientDetails
+import org.commcare.dalvik.domain.model.CCRequesterModel
+
 class LinkCareContextModel {
     lateinit var patientAbhaId: String
     lateinit var hipId: String
-    lateinit var patient: PatientDetail
+    lateinit var purpose: String
+    lateinit var patient: CCPatientDetails
+
+
+    fun getAuthModesRequestModel(authMode:String? = null) = try {
+        CCAuthModesRequestModel(patientAbhaId, purpose, authMode, CCRequesterModel(id = hipId))
+    } catch (e: Exception) {
+        null
+    }
+
+    fun getCCLinkRequestModel(accessToken:String):CCLinkModel{
+        return CCLinkModel(accessToken,hipId,patient)
+    }
 
 }
 
-data class PatientDetail(var referenceNumber:String,var display:String,var careContexts:List<CareContextDetail>)
-
-data class CareContextDetail(var referenceNumber: String,var display:String, var hiTypes:List<String>)

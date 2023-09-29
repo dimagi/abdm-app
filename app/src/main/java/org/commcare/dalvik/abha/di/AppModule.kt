@@ -41,10 +41,10 @@ object AppModule {
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
-            .connectTimeout(2, TimeUnit.MINUTES)
-            .readTimeout(1, TimeUnit.MINUTES)
-            .writeTimeout(1, TimeUnit.MINUTES)
-//            .connectionPool(ConnectionPool(0, 5, TimeUnit.MINUTES))
+            .connectTimeout(3, TimeUnit.MINUTES)
+            .readTimeout(2, TimeUnit.MINUTES)
+            .writeTimeout(2, TimeUnit.MINUTES)
+
 
             .addInterceptor { chain ->
                 if (chain.request().url.host.contains("raw.githubusercontent.com")) {

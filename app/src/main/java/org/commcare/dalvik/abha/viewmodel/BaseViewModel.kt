@@ -22,6 +22,12 @@ sealed class GenerateAbhaUiState {
     object VerifyAadhaarOtpRequested : GenerateAbhaUiState()
     object AbhaAvailabilityRequested : GenerateAbhaUiState()
 
+    object CCAAuthModeRequested : GenerateAbhaUiState()
+    object CCOtpRequested : GenerateAbhaUiState()
+    object CCVerifyOtpRequested : GenerateAbhaUiState()
+    object CCLinkRequested : GenerateAbhaUiState()
+
+
     object PatientHealthDataRequested : GenerateAbhaUiState()
     object Blocked : GenerateAbhaUiState()
 
@@ -39,23 +45,20 @@ sealed class GenerateAbhaUiState {
 enum class RequestType {
     MOBILE_OTP,
     MOBILE_OTP_VERIFY,
-
     AADHAAR_OTP,
     AADHAAR_OTP_VERIFY,
-
     AUTH_METHODS,
-
     GENERATE_AUTH_OTP,
     VERIFY_AUTH_OTP,
-
     CONFIRM_AUTH_AADHAAR_OTP,
     CONFIRM_AUTH_MOBILE_OTP,
-
     ABHA_AVAILABILITY,
     FETCH_ABHA_CARD,
-
     CREATE_PATIENT_CONSENT,
     FETCH_PATIENT_CONSENT,
-    FETCH_CONSENT_ARTEFACTS
-
+    FETCH_CONSENT_ARTEFACTS,
+    CC_AUTH_METHODS,
+    CC_AUTH_INIT,
+    CC_AUTH_CONFIRM,
+    CC_LINK
 }

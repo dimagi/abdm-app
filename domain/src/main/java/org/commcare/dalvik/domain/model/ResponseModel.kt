@@ -16,9 +16,17 @@ class AbdmErrorModel() {
     fun getAbdmErrorCode(): String {
         return details[0].code
     }
+
+    fun getErrorMsg():String{
+        getActualMessage()?.let {
+            return it
+        }
+
+        return message
+    }
 }
 
-class AbdmErrorDetail() {
+class AbdmErrorDetail {
     lateinit var message: String
     lateinit var code: String
     lateinit var attribute: Any
@@ -67,5 +75,14 @@ class SectionContent {
 class SectionEntry {
     lateinit var label: String
     lateinit var value: String
+}
+
+
+class CCGenerateOtpResponseModel{
+    lateinit var transactionId:String
+}
+
+class CCVerifyOtpResponseModel{
+    lateinit var accessToken:String
 }
 

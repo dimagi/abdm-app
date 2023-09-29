@@ -6,6 +6,7 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.flow.flow
 import org.commcare.dalvik.domain.model.AbdmErrorModel
 import org.commcare.dalvik.domain.model.HqResponseModel
+import org.json.JSONObject
 import retrofit2.Response
 import timber.log.Timber
 
@@ -113,13 +114,25 @@ fun <T>safeApiCall(call: suspend () -> Response<T>) = flow {
                 }
 
                 400, 422 -> {
-                    it.errorBody()?.string()?.let {
+                    it.errorBody()?.string()?.let {errResponse ->
+                        Timber.d("Network : ===> ${errResponse}")
                         val gson = GsonBuilder().serializeNulls().create()
                         val adbmError: AbdmErrorModel =
-                            gson.fromJson(it, AbdmErrorModel::class.java)
+                            gson.fromJson(errResponse, AbdmErrorModel::class.java)
                         emit(HqResponseModel.AbdmError(500, adbmError))
                     }
+                }
 
+                554,555 -> {
+                    it.errorBody()?.string()?.let {errResponse ->
+                        Timber.d("Network : ===> ${errResponse}")
+                        val errorJson = JSONObject(errResponse)
+
+                        val gson = GsonBuilder().serializeNulls().create()
+                        val adbmError: AbdmErrorModel =
+                            gson.fromJson(errorJson.getString("error"), AbdmErrorModel::class.java)
+                        emit(HqResponseModel.AbdmError(500, adbmError))
+                    }
                 }
 
                 else -> {

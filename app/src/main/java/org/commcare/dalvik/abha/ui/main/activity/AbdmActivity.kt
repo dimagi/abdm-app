@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
@@ -26,6 +25,7 @@ import org.commcare.dalvik.abha.databinding.AbdmActivityBinding
 import org.commcare.dalvik.abha.utility.DialogType
 import org.commcare.dalvik.abha.utility.DialogUtility
 import org.commcare.dalvik.abha.viewmodel.AbdmViewModel
+import org.commcare.dalvik.abha.viewmodel.CareContextViewModel
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
 import org.commcare.dalvik.data.network.HeaderInterceptor
@@ -42,6 +42,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     private lateinit var navHostFragment: NavHostFragment
     val viewmodel: AbdmViewModel by viewModels()
     val patientViewModel: PatientViewModel by viewModels()
+    val careContextViewModel: CareContextViewModel by viewModels()
 
     private var showMenu = true
 
@@ -74,6 +75,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
         observeLoader()
         observerPatientViewModel()
+        observerCCViewModel()
         observeBlockedOtpRequest()
 
         intent.extras?.getString("lang_code")?.let { langId ->
@@ -215,8 +217,20 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                         DialogType.Blocking
                     )
                 }
-
             }
+
+            careContextViewModel.otpRequestBlocked.asFlow().collect { otpBlockedRequest ->
+                otpBlockedRequest?.let {
+                    DialogUtility.showDialog(
+                        this@AbdmActivity,
+                        resources.getString(R.string.app_blocked, it.getTimeLeftToUnblock()),
+                        { dispatchResult(getErrorIntent("Blocked ,multiple OTP requested.")) },
+                        DialogType.Blocking
+                    )
+                }
+            }
+
+
         }
     }
 
@@ -224,6 +238,23 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         lifecycleScope.launch(Dispatchers.Main) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 patientViewModel.uiState.collect {
+                    when (it) {
+                        is GenerateAbhaUiState.Loading -> {
+                            Timber.d("LOADER VISIBILITY ${it.isLoading}")
+                            binding.loader.visibility =
+                                if (it.isLoading) View.VISIBLE else View.GONE
+                        }
+                        else -> false
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observerCCViewModel(){
+        lifecycleScope.launch(Dispatchers.Main) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                careContextViewModel.uiState.collect {
                     when (it) {
                         is GenerateAbhaUiState.Loading -> {
                             Timber.d("LOADER VISIBILITY ${it.isLoading}")
@@ -299,7 +330,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 }
 
                 ACTION_CARE_CONTEXT_LINK ->{
-
+                    R.navigation.link_care_context
                 }
                 else -> {
                     -1

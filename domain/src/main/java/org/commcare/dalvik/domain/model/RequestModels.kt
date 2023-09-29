@@ -27,19 +27,19 @@ data class AbhaVerificationRequestModel(@SerializedName("health_id") val healthI
 // CARE CONTEXT AUTH FETCH AND INIT
 data class CCAuthModesRequestModel(val id:String,
     val purpose:String = "LINK",
-    val authMethod: String,
+    val authMethod: String?,
     val requester:CCRequesterModel){
 }
 
-data class CCRequesterModel(val name: String = "HIP", val id: String)
+data class CCRequesterModel(val type: String = "HIP", val id: String)
 
 // CONFIRM AUTH API
 data class ConfirmAuthModel(val transactionId:String,val credential: Credential)
 
-data class Credential(val authCode:String)
+data class Credential(var authCode:String?)
 
 // CARE CONTEXT LINKING API
-data class CCLinkModel(val accessCode:String,@SerializedName("hip_id") val hipId:String,val patient:CCPatientDetails)
+data class CCLinkModel(val accessToken:String,@SerializedName("hip_id") val hipId:String,val patient:CCPatientDetails)
 
 data class CCPatientDetails(val referenceNumber:String,val display:String,val careContexts:List<CCDetail>)
 

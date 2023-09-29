@@ -9,11 +9,19 @@
         android:name="org.commcare.dalvik.abha.ui.main.fragment.CCFetchAuthModeFragment"
         android:label="CCFetchAuthModeFragment" >
         <action
-            android:id="@+id/action_CCFetchAuthModeFragment_to_generateAndVerifyCCLinkOtpFragment"
-            app:destination="@id/generateAndVerifyCCLinkOtpFragment" />
+            android:id="@+id/action_CCFetchAuthModeFragment_to_verifyCCLinkOtpFragment"
+            app:destination="@id/verifyCCLinkOtpFragment" />
     </fragment>
     <fragment
-        android:id="@+id/generateAndVerifyCCLinkOtpFragment"
-        android:name="org.commcare.dalvik.abha.ui.main.fragment.GenerateAndVerifyCCLinkOtpFragment"
-        android:label="GenerateAndVerifyCCLinkOtpFragment" />
+        android:id="@+id/verifyCCLinkOtpFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.CCVerifyOtpFragment"
+        android:label="verifyCCLinkOtpFragment" >
+        <action
+            android:id="@+id/action_verifyCCLinkOtpFragment_to_linkContextCareFragment"
+            app:destination="@id/linkContextCareFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/linkContextCareFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.CCLinkFragment"
+        android:label="LinkContextCareFragment" />
 </navigation>
