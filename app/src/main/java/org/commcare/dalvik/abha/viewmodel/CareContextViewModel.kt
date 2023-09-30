@@ -217,7 +217,7 @@ class CareContextViewModel @Inject constructor(
                             uiState.emit(
                                 GenerateAbhaUiState.AbdmError(
                                     hqRespModel.value,
-                                    RequestType.CC_AUTH_CONFIRM
+                                    RequestType.CC_LINK
                                 )
                             )
                         }

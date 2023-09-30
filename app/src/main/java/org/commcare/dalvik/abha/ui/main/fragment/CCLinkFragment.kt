@@ -45,6 +45,7 @@ class CCLinkFragment :
                         }
 
                         is GenerateAbhaUiState.Success -> {
+                            binding.linkInfoTxt.text = resources.getString(R.string.linking_cc_success)
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                             binding.retryLink.visibility = View.GONE
                             binding.retryLink.isEnabled = false
@@ -52,6 +53,7 @@ class CCLinkFragment :
                         }
 
                         is GenerateAbhaUiState.AbdmError -> {
+                            binding.linkInfoTxt.text = resources.getString(R.string.linking_cc_error)
                             binding.retryLink.visibility = View.VISIBLE
                             binding.retryLink.isEnabled = true
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
@@ -60,6 +62,7 @@ class CCLinkFragment :
                         }
 
                         is GenerateAbhaUiState.Error -> {
+                            binding.linkInfoTxt.text = resources.getString(R.string.linking_cc_error)
                             binding.retryLink.visibility = View.VISIBLE
                             binding.retryLink.isEnabled = true
                             (activity as AbdmActivity).showBlockerDialog(it.data.get("message").asString)
