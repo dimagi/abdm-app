@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.databinding.PatientHealthDataBinding
+import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.ui.main.adapters.FileData
 import org.commcare.dalvik.abha.ui.main.adapters.FileType
 import org.commcare.dalvik.abha.ui.main.adapters.HealthDataAdapter
@@ -19,18 +20,19 @@ import org.commcare.dalvik.domain.model.HealthContentModel
 import org.commcare.dalvik.domain.model.PatientHealthDataModel
 import timber.log.Timber
 
-class PatientHealthDataFragment : BaseFragment<PatientHealthDataBinding>(PatientHealthDataBinding::inflate)  {
+class PatientHealthDataFragment :
+    BaseFragment<PatientHealthDataBinding>(PatientHealthDataBinding::inflate) {
 
     val viewModel: PatientViewModel by activityViewModels()
-    lateinit var healthDataAdapter:HealthDataAdapter
+    lateinit var healthDataAdapter: HealthDataAdapter
     val healthDataList = mutableListOf<HealthContentModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getString("artefactId")?.let {artefactId ->
+        arguments?.getString("artefactId")?.let { artefactId ->
 
-            healthDataAdapter = HealthDataAdapter(healthDataList,this::launchImgAndPdfFragment)
+            healthDataAdapter = HealthDataAdapter(healthDataList, this::launchImgAndPdfFragment)
             binding.patientHealthDataList.adapter = healthDataAdapter
 
             observeUiState()
@@ -39,13 +41,14 @@ class PatientHealthDataFragment : BaseFragment<PatientHealthDataBinding>(Patient
 
     }
 
-    private fun launchImgAndPdfFragment(fileData: FileData){
-        if(fileData.fileType == FileType.INVALID){
-            Toast.makeText(context, "Invalid file type.",Toast.LENGTH_LONG).show()
+    private fun launchImgAndPdfFragment(fileData: FileData) {
+        if (fileData.fileType == FileType.INVALID) {
+            Toast.makeText(context, "Invalid file type.", Toast.LENGTH_LONG).show()
         }
         val dialogFragment = AbdmImgAndPdfViewer(fileData)
         dialogFragment.show(parentFragmentManager, "healthData")
     }
+
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -53,7 +56,7 @@ class PatientHealthDataFragment : BaseFragment<PatientHealthDataBinding>(Patient
                     when (it) {
 
                         is GenerateAbhaUiState.PatientHealthDataRequested -> {
-                            Timber.d("Patient health data requested")
+                            viewModel.uiState.emit(GenerateAbhaUiState.InvalidState)
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(true))
                         }
 
@@ -73,17 +76,19 @@ class PatientHealthDataFragment : BaseFragment<PatientHealthDataBinding>(Patient
                                     healthDataModel.page + 1
                                 )
                             } ?: run {
-                                Timber.d("ALL ARTEFACTS FETCHED")
-                                viewModel.uiState.emit(GenerateAbhaUiState.InvalidState)
                                 viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                             }
 
                         }
 
                         is GenerateAbhaUiState.Error -> {
-                            Timber.d("ERROR  ARTEFACTS FETCHED")
-                            viewModel.uiState.emit(GenerateAbhaUiState.InvalidState)
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                            (activity as AbdmActivity).showBlockerDialog(it.data.get("message").asString)
+                        }
+
+                        is GenerateAbhaUiState.AbdmError -> {
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                            (activity as AbdmActivity).showBlockerDialog(it.data.message)
                         }
 
                         else -> {

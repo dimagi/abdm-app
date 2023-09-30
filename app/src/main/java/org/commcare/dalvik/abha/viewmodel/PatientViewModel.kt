@@ -125,22 +125,20 @@ class PatientViewModel @Inject constructor(
                         )
                     }
                     is HqResponseModel.Error -> {
-                        Timber.d("EMIT Sending -> GenerateAbhaUiState.Error")
-//                        uiState.emit(
-//                            GenerateAbhaUiState.Error(
-//                                it.value,
-//                                RequestType.AADHAAR_OTP
-//                            )
-//                        )
+                        uiState.emit(
+                            GenerateAbhaUiState.Error(
+                                it.value,
+                                RequestType.FETCH_CONSENT_ARTEFACTS
+                            )
+                        )
                     }
                     is HqResponseModel.AbdmError -> {
-                        Timber.d("EMIT Sending -> GenerateAbhaUiState.AbdmError")
-//                        uiState.emit(
-//                            GenerateAbhaUiState.AbdmError(
-//                                it.value,
-//                                RequestType.AADHAAR_OTP
-//                            )
-//                        )
+                        uiState.emit(
+                            GenerateAbhaUiState.AbdmError(
+                                it.value,
+                                RequestType.FETCH_CONSENT_ARTEFACTS
+                            )
+                        )
                     }
                 }
             }
