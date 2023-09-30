@@ -48,7 +48,8 @@ class CCLinkFragment :
                 viewModel.uiState.collect {
                     when (it) {
                         is GenerateAbhaUiState.CCLinkRequested -> {
-
+                            viewModel.uiState.emit(GenerateAbhaUiState.InvalidState)
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(true))
                         }
 
                         is GenerateAbhaUiState.Success -> {

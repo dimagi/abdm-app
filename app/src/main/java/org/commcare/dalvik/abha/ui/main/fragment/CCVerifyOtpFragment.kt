@@ -95,6 +95,8 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
                             binding.otpEt.isEnabled = false
                             binding.resendCCOtp.isEnabled = false
                             binding.verifyCCOtp.isEnabled = false
+                            viewModel.uiState.emit(GenerateAbhaUiState.InvalidState)
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(true))
                         }
 
                         is GenerateAbhaUiState.CCOtpRequested -> {
@@ -102,6 +104,8 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
                             binding.resendCCOtp.isEnabled = false
                             binding.verifyCCOtp.isEnabled = false
                             binding.timeProgress.startTimer()
+                            viewModel.uiState.emit(GenerateAbhaUiState.InvalidState)
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(true))
                         }
 
                         is GenerateAbhaUiState.Success -> {

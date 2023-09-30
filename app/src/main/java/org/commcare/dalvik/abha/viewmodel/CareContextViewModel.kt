@@ -270,7 +270,7 @@ class CareContextViewModel @Inject constructor(
                     savedJson = JsonObject()
                     savedJson.addProperty(otpRequestModel.id, Gson().toJson(otpRequestModel))
                 }
-                Timber.d("----- OTP STATE ------ \n ${savedJson}")
+                Timber.d("----- CC ---> OTP COUNTER SAVED ------ \n ${savedJson}")
 
                 saveData(PrefKeys.OTP_REQUEST.getKey(), savedJson.toString())
 

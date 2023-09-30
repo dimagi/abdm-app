@@ -85,6 +85,6 @@ class CCVerifyOtpResponseModel {
 }
 
 class CCLinkSuccessResponseModel {
-  lateinit var status:String
+    lateinit var status: String
 }
 

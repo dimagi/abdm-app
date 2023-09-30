@@ -2,9 +2,9 @@ package org.commcare.dalvik.domain.model
 
 import timber.log.Timber
 
-const val OTP_BLOCK_TIME = 15 * 60 * 1000
+const val OTP_BLOCK_TIME = 1000 //15 * 60 * 1000
 
-const val COUNTER_VAL = 40
+const val COUNTER_VAL = 4
 data class OtpRequestCallModel(
     val id: String,
     var counter: Int,
@@ -14,10 +14,11 @@ data class OtpRequestCallModel(
     fun isBlocked() = counter >= COUNTER_VAL
 
     fun increaseOtpCounter() {
+        Timber.d("-----OTP : COUNTER INCREASED TO --- ${counter}")
         counter += 1
         if(counter >= COUNTER_VAL){
             blockedTS = System.currentTimeMillis()
-            Timber.d("----- OTP STATE ------ Blocking $id ---- $blockedTS")
+            Timber.d("----- OTP : STATE ------ Blocking $id ---- $blockedTS.... COUNTER = ${counter}")
         }
     }
 
@@ -27,6 +28,7 @@ data class OtpRequestCallModel(
             if (timeLeft <= 0) {
                 counter = 0
                 blockedTS = System.currentTimeMillis()
+                Timber.d("-----OTP : UNBLOCKED ---COUNTER =  ${counter}")
                 return true
             }
         }

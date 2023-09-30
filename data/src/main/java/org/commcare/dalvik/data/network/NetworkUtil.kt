@@ -126,6 +126,19 @@ fun <T> safeApiCall(call: suspend () -> Response<T>) = flow {
                                     errorJson.getString("error"),
                                     AbdmErrorModel::class.java
                                 )
+
+                            try {
+                                if (actualError.details[0].message.isEmpty()) {
+
+                                    errorJson.getJSONObject("error").getJSONArray("details").getJSONObject(0)
+                                        ?.let { detailJson ->
+                                            actualError.details[0].message = detailJson.getString("detail")
+                                        }
+                                }
+                            } catch (e: Exception) {
+
+                            }
+
                             emit(HqResponseModel.AbdmError(500, actualError))
                         } else {
                             val commCareError: AbdmErrorModel =
@@ -136,17 +149,6 @@ fun <T> safeApiCall(call: suspend () -> Response<T>) = flow {
                     }
                 }
 
-//                554, 555 -> {
-//                    it.errorBody()?.string()?.let { errResponse ->
-//                        Timber.d("Network : ===> ${errResponse}")
-//                        val errorJson = JSONObject(errResponse)
-//
-//                        val gson = GsonBuilder().serializeNulls().create()
-//                        val adbmError: AbdmErrorModel =
-//                            gson.fromJson(errorJson.getString("error"), AbdmErrorModel::class.java)
-//                        emit(HqResponseModel.AbdmError(500, adbmError))
-//                    }
-//                }
 
                 else -> {
                     Timber.d("Network : ==> ${response.code()} ---- ${"response.message()"}")
