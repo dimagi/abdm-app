@@ -218,7 +218,9 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                     )
                 }
             }
+        }
 
+        lifecycleScope.launch(Dispatchers.Main) {
             careContextViewModel.otpRequestBlocked.asFlow().collect { otpBlockedRequest ->
                 otpBlockedRequest?.let {
                     DialogUtility.showDialog(
@@ -229,9 +231,8 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                     )
                 }
             }
-
-
         }
+
     }
 
     private fun observerPatientViewModel(){
@@ -358,6 +359,10 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     }
 
     fun onAbhaScanCompleted(intent:Intent){
+        dispatchResult(intent)
+    }
+
+    fun onContextCareLinkFinished(intent: Intent) {
         dispatchResult(intent)
     }
 

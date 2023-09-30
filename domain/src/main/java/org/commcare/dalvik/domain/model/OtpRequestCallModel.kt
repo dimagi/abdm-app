@@ -4,17 +4,18 @@ import timber.log.Timber
 
 const val OTP_BLOCK_TIME = 15 * 60 * 1000
 
+const val COUNTER_VAL = 40
 data class OtpRequestCallModel(
     val id: String,
     var counter: Int,
     var blockedTS: Long = System.currentTimeMillis()
 ) {
 
-    fun isBlocked() = counter >= 4
+    fun isBlocked() = counter >= COUNTER_VAL
 
     fun increaseOtpCounter() {
         counter += 1
-        if(counter >= 4){
+        if(counter >= COUNTER_VAL){
             blockedTS = System.currentTimeMillis()
             Timber.d("----- OTP STATE ------ Blocking $id ---- $blockedTS")
         }
@@ -47,9 +48,6 @@ data class OtpRequestCallModel(
             minutesLeft += 1
         }
 
-//        if(minutesLeft >= 1) {
-//            return "$minutesLeft minutes"//: ${secondsLeft} sec"
-//        }
 
         return "$minutesLeft minutes"
     }

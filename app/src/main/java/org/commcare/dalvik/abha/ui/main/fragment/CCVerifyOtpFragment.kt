@@ -142,12 +142,29 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
                         }
 
                         is GenerateAbhaUiState.AbdmError -> {
+
+                            when (it.requestType) {
+                                RequestType.CC_AUTH_CONFIRM -> {
+                                    binding.verifyCCOtp.isEnabled = true
+                                }
+                                else ->{
+
+                                }
+                            }
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                             (activity as AbdmActivity).showBlockerDialog(it.data.getErrorMsg())
 
                         }
 
                         is GenerateAbhaUiState.Error -> {
+                            when (it.requestType) {
+                                RequestType.CC_AUTH_CONFIRM -> {
+                                    binding.verifyCCOtp.isEnabled = true
+                                }
+                                else ->{
+
+                                }
+                            }
                             (activity as AbdmActivity).showBlockerDialog(it.data.get("message").asString)
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }

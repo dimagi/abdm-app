@@ -15,7 +15,7 @@
     <fragment
         android:id="@+id/verifyCCLinkOtpFragment"
         android:name="org.commcare.dalvik.abha.ui.main.fragment.CCVerifyOtpFragment"
-        android:label="verifyCCLinkOtpFragment" >
+        android:label="@string/VERIFY_OTP" >
         <action
             android:id="@+id/action_verifyCCLinkOtpFragment_to_linkContextCareFragment"
             app:destination="@id/linkContextCareFragment" />
@@ -23,5 +23,5 @@
     <fragment
         android:id="@+id/linkContextCareFragment"
         android:name="org.commcare.dalvik.abha.ui.main.fragment.CCLinkFragment"
-        android:label="LinkContextCareFragment" />
+        android:label="@string/linkCareContext" />
 </navigation>

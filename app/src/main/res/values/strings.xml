@@ -155,5 +155,6 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="linking_cc">Linking context care...</string>
     <string name="retryLink">Link Context Care</string>
     <string name="linking_cc_success">Context care linked successfully.</string>
-    <string name="linking_cc_error">Context care not linked. Please retry.</string>
+    <string name="linking_cc_error">Context care not linked.</string>
+    <string name="cc_not_linked">NOT LINKED</string>
 </resources>

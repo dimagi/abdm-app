@@ -17,18 +17,16 @@ class AbdmErrorModel() {
         return details[0].code
     }
 
-    fun getErrorMsg():String{
-        getActualMessage()?.let {
-            return it
+    fun getErrorMsg(): String {
+        return getActualMessage().ifEmpty {
+            message
         }
-
-        return message
     }
 }
 
 class AbdmErrorDetail {
-    lateinit var message: String
-    lateinit var code: String
+    var message: String = ""
+    var code: String = ""
     lateinit var attribute: Any
 }
 
@@ -58,10 +56,10 @@ data class PatientHealthDataModel(
     lateinit var results: MutableList<HealthContentModel>
 }
 
-class HealthContentModel{
+class HealthContentModel {
     @SerializedName("care_context_reference")
-    lateinit var careContextRef:String
-    lateinit var title:String
+    lateinit var careContextRef: String
+    lateinit var title: String
     lateinit var content: MutableList<SectionContent>
 
 }
@@ -78,11 +76,15 @@ class SectionEntry {
 }
 
 
-class CCGenerateOtpResponseModel{
-    lateinit var transactionId:String
+class CCGenerateOtpResponseModel {
+    lateinit var transactionId: String
 }
 
-class CCVerifyOtpResponseModel{
-    lateinit var accessToken:String
+class CCVerifyOtpResponseModel {
+    lateinit var accessToken: String
+}
+
+class CCLinkSuccessResponseModel {
+  lateinit var status:String
 }
 

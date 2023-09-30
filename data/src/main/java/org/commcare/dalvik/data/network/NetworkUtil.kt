@@ -13,19 +13,20 @@ import timber.log.Timber
 class NetworkUtil {
     companion object {
         const val BASE_URL = "https://ccind.duckdns.org/abdm/api/"
-//                           "https://auditabdm.duckdns.org/abdm/api/"//"
+
+        //                           "https://auditabdm.duckdns.org/abdm/api/"//"
         const val TRANSLATION_BASE_URL = "https://raw.githubusercontent.com/"
         fun getTranslationEndpoint(code: String) =
             "https://raw.githubusercontent.com/dimagi/abdm-app/main/resources/languages/${code}/language.json"
 
         //USED TO HANDLE CONSENT + ARTEFACT PAGING DATA RESPONSE ONLY
-        fun <T> handleResponse(response: Response<T>):HqResponseModel {
+        fun <T> handleResponse(response: Response<T>): HqResponseModel {
             try {
                 response.let {
                     var responseJsonObject: JsonObject
                     Timber.d("Network : ===> Response Received : code = ${response.code()}")
                     when (response.code()) {
-                        200, 201  -> {
+                        200, 201 -> {
                             it.body().toString().let {
                                 responseJsonObject = Gson().fromJson(it, JsonObject::class.java)
                                 if (responseJsonObject.has("code")) {
@@ -84,14 +85,14 @@ class NetworkUtil {
 
             val genError = JsonObject()
             genError.addProperty("message", "Response issue.")
-            return HqResponseModel.Error(555,genError )
+            return HqResponseModel.Error(555, genError)
         }
 
     }
 }
 
 
-fun <T>safeApiCall(call: suspend () -> Response<T>) = flow {
+fun <T> safeApiCall(call: suspend () -> Response<T>) = flow {
     this.emit(HqResponseModel.Loading)
     try {
         val response = call.invoke()
@@ -113,27 +114,39 @@ fun <T>safeApiCall(call: suspend () -> Response<T>) = flow {
 
                 }
 
-                400, 422 -> {
-                    it.errorBody()?.string()?.let {errResponse ->
+                400, 422, 554, 555 -> {
+                    it.errorBody()?.string()?.let { errResponse ->
                         Timber.d("Network : ===> ${errResponse}")
                         val gson = GsonBuilder().serializeNulls().create()
-                        val adbmError: AbdmErrorModel =
-                            gson.fromJson(errResponse, AbdmErrorModel::class.java)
-                        emit(HqResponseModel.AbdmError(500, adbmError))
-                    }
-                }
 
-                554,555 -> {
-                    it.errorBody()?.string()?.let {errResponse ->
-                        Timber.d("Network : ===> ${errResponse}")
                         val errorJson = JSONObject(errResponse)
+                        if (errorJson.has("error")) {
+                            val actualError: AbdmErrorModel =
+                                gson.fromJson(
+                                    errorJson.getString("error"),
+                                    AbdmErrorModel::class.java
+                                )
+                            emit(HqResponseModel.AbdmError(500, actualError))
+                        } else {
+                            val commCareError: AbdmErrorModel =
+                                gson.fromJson(errResponse, AbdmErrorModel::class.java)
+                            emit(HqResponseModel.AbdmError(500, commCareError))
+                        }
 
-                        val gson = GsonBuilder().serializeNulls().create()
-                        val adbmError: AbdmErrorModel =
-                            gson.fromJson(errorJson.getString("error"), AbdmErrorModel::class.java)
-                        emit(HqResponseModel.AbdmError(500, adbmError))
                     }
                 }
+
+//                554, 555 -> {
+//                    it.errorBody()?.string()?.let { errResponse ->
+//                        Timber.d("Network : ===> ${errResponse}")
+//                        val errorJson = JSONObject(errResponse)
+//
+//                        val gson = GsonBuilder().serializeNulls().create()
+//                        val adbmError: AbdmErrorModel =
+//                            gson.fromJson(errorJson.getString("error"), AbdmErrorModel::class.java)
+//                        emit(HqResponseModel.AbdmError(500, adbmError))
+//                    }
+//                }
 
                 else -> {
                     Timber.d("Network : ==> ${response.code()} ---- ${"response.message()"}")

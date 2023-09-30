@@ -131,7 +131,7 @@ class TestActivity : AppCompatActivity() {
 
 
                 val careContext= JSONObject().apply {
-                    put("referenceNumber","CC_505")
+                    put("referenceNumber","CC_507")
                     put("display","Visit for fever 505")
                     val hiTypes= JSONArray().apply {
                         put("Prescription")

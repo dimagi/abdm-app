@@ -1,18 +1,24 @@
 package org.commcare.dalvik.abha.ui.main.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.LinkContextCareBinding
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
+import org.commcare.dalvik.abha.ui.main.activity.AbdmResponseCode
 import org.commcare.dalvik.abha.viewmodel.CareContextViewModel
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
+import org.commcare.dalvik.domain.model.CCLinkSuccessResponseModel
+import org.commcare.dalvik.domain.model.CheckAbhaResponseModel
 
 class CCLinkFragment :
     BaseFragment<LinkContextCareBinding>(LinkContextCareBinding::inflate) {
@@ -22,6 +28,9 @@ class CCLinkFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.linkInfoTxt.text = resources.getString(R.string.linking_cc)
+        binding.linkHipId.text = viewModel.linkCareContextModel.hipId
+        binding.clickHandler = this
+
         observeUiState()
         linkCC()
 
@@ -29,9 +38,7 @@ class CCLinkFragment :
 
     private fun linkCC(){
         arguments?.getString("accessToken")?.let {accessToken ->
-
             viewModel.linkCareContext(accessToken)
-
         }
     }
 
@@ -46,25 +53,38 @@ class CCLinkFragment :
 
                         is GenerateAbhaUiState.Success -> {
                             binding.linkInfoTxt.text = resources.getString(R.string.linking_cc_success)
-                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
-                            binding.retryLink.visibility = View.GONE
-                            binding.retryLink.isEnabled = false
 
+                            val ccLinkSuccessResponseModel =
+                                Gson().fromJson(it.data, CCLinkSuccessResponseModel::class.java)
+                            binding.linkStatus.text = ccLinkSuccessResponseModel.status
+                            binding.linkStatus.setTextColor(
+                                ContextCompat.getColor(
+                                requireContext(),
+                                R.color.green
+                            ))
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }
 
                         is GenerateAbhaUiState.AbdmError -> {
+                            binding.linkStatus.text = resources.getString(R.string.cc_not_linked)
                             binding.linkInfoTxt.text = resources.getString(R.string.linking_cc_error)
-                            binding.retryLink.visibility = View.VISIBLE
-                            binding.retryLink.isEnabled = true
+                            binding.linkStatus.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.red
+                                ))
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                             (activity as AbdmActivity).showBlockerDialog(it.data.getErrorMsg())
-
                         }
 
                         is GenerateAbhaUiState.Error -> {
+                            binding.linkStatus.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.red
+                                ))
+                            binding.linkStatus.text = resources.getString(R.string.cc_not_linked)
                             binding.linkInfoTxt.text = resources.getString(R.string.linking_cc_error)
-                            binding.retryLink.visibility = View.VISIBLE
-                            binding.retryLink.isEnabled = true
                             (activity as AbdmActivity).showBlockerDialog(it.data.get("message").asString)
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }
@@ -78,5 +98,23 @@ class CCLinkFragment :
                 }
             }
         }
+    }
+
+    override fun onClick(view: View?) {
+        super.onClick(view)
+        when(view?.id){
+            R.id.returnFromCCLink ->{
+                dispatchResult()
+            }
+        }
+    }
+
+    private fun dispatchResult() {
+        val intent = Intent().apply {
+            putExtra("hip_id", viewModel.linkCareContextModel.hipId)
+            putExtra("ccLinked", binding.linkStatus.text)
+        }
+
+        (activity as AbdmActivity).onContextCareLinkFinished(intent)
     }
 }
