@@ -70,17 +70,20 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
 
     private fun requestOtp() {
         lifecycleScope.launch {
-            viewModel.checkForBlockedState(CareContextViewModel.CC_OTP_KEY).collect {
-                when (it) {
-                    OtpCallState.OtpReqAvailable -> {
-                        viewModel.generateCareContextOtp()
-                    }
+            viewModel.linkCareContextModel.hipId.let {hipId ->
+                viewModel.checkForBlockedState(hipId).collect {
+                    when (it) {
+                        OtpCallState.OtpReqAvailable -> {
+                            viewModel.generateCareContextOtp()
+                        }
 
-                    is OtpCallState.OtpReqBlocked -> {
-                        viewModel.otpRequestBlocked.value = it.otpRequestCallModel
-                        binding.resendCCOtp.isEnabled = false
+                        is OtpCallState.OtpReqBlocked -> {
+                            viewModel.otpRequestBlocked.value = it.otpRequestCallModel
+                            binding.resendCCOtp.isEnabled = false
+                        }
                     }
                 }
+
             }
         }
 

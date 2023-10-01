@@ -40,11 +40,6 @@ class CareContextViewModel @Inject constructor(
     lateinit var selectedAuthMethod: String
     lateinit var confirmAuthModel: ConfirmAuthModel
 
-    companion object{
-        val CC_OTP_KEY ="cc_otp_key"
-    }
-
-
 
     fun init(model: LinkCareContextModel) {
         linkCareContextModel = model
@@ -104,7 +99,7 @@ class CareContextViewModel @Inject constructor(
             selectedAuthMethod.let { authMethod ->
                 linkCareContextModel.getAuthModesRequestModel(authMethod)?.let { ccAuthReqModel ->
                     //save otp req call count
-                    saveOtpRequestCallCount(CC_OTP_KEY)
+                    saveOtpRequestCallCount(linkCareContextModel.hipId)
 
                     generateCareContextOtpUsecase.execute(ccAuthReqModel).collect { hqRespModel ->
                         when (hqRespModel) {
