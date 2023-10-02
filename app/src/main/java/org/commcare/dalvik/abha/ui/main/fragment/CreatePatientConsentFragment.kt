@@ -101,7 +101,7 @@ class CreatePatientConsentFragment :
         val checkedStatus = mutableListOf<Boolean>()
         enumValues<HITYPES>().forEach {
             items.add(it.displayValue)
-            checkedStatus.add(viewmodel.patientConsentModel.hiTypes.contains(it.displayValue))
+            checkedStatus.add(viewmodel.patientConsentModel.hiTypes.contains(it.name))
         }
 
         val hiTypesItems = items.toTypedArray()
@@ -388,7 +388,7 @@ enum class HITYPES(val displayValue: String) {
         fun getDisplayValue(hiTypeCode:String):String{
             val matchedHiType = enumValues<HITYPES>().filter { it.name == hiTypeCode }
 
-            return matchedHiType.get(0).displayValue
+            return matchedHiType[0].displayValue
 
         }
 

@@ -102,7 +102,7 @@ data class DateRange(@SerializedName("from") var startDate: String? = null ,@Ser
 
 }
 
-data class Frequency(val unit: String = "HOUR", val value: Int = 0, val repeats: Int = 0)
+data class Frequency(val unit: String = "HOUR", val value: Int = 0, val repeats: Int = 1)
 
 data class ConsentPermission(val accessMode: String) {
     @SerializedName("dataEraseAt")
@@ -129,7 +129,7 @@ enum class ConsentValidation(val msg: String) {
     INVALID_END_DATE("Invalid end date."),
     INVALID_EXPIRY_DATE("Invalid expiry date."),
     INVALID_START_END_DATE_RANGE("Invalid start-end date range."),
-    INVALID_HI_TYPE("HI_TYPE not selected")
+    INVALID_HI_TYPE("Type of data not selected")
 }
 
 enum class DATE_FORMAT(val format: String) {
