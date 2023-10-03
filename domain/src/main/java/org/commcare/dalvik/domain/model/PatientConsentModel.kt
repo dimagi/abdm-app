@@ -27,7 +27,7 @@ data class PatientConsentModel(
     val healthInfoToDate: String?,
 
     val user: String?,
-    val error: String?,
+    val error: Error?,
     val status: String?,
     val details: PatientConsentDetailModel
 

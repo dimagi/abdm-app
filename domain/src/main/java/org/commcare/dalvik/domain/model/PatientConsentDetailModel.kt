@@ -51,15 +51,15 @@ data class PatientConsentDetailModel(
     fun getPermissionEndDate() =
         permission.dateRange.endDate
 
-    fun getPermissionStartDateInMs():Long{
-        var date:Date
+    fun getPermissionStartDateInMs(): Long {
+        var date: Date
         val formatter = SimpleDateFormat(DATE_FORMAT.SERVER.format)
         date = formatter.parse(permission.dateRange.startDate)
         return date.time
     }
 
-    fun getPermissionEndDateInMs():Long{
-        var date:Date
+    fun getPermissionEndDateInMs(): Long {
+        var date: Date
         val formatter = SimpleDateFormat(DATE_FORMAT.SERVER.format)
         date = formatter.parse(permission.dateRange.endDate)
         return date.time
@@ -67,16 +67,18 @@ data class PatientConsentDetailModel(
 
 }
 
-data class Purpose(val code:String ){
-    lateinit var text:String
-    lateinit var refUri:String
+data class Purpose(val code: String) {
+    lateinit var text: String
+    lateinit var refUri: String
 
 }
+
 data class Patient(val id: String)
 
-data class IdNameModel(val id: String){
-    lateinit var name:String
+data class IdNameModel(val id: String) {
+    lateinit var name: String
 }
+
 data class Requester(val name: String, val identifier: Identifier = Identifier())
 
 data class Identifier(
@@ -85,7 +87,10 @@ data class Identifier(
     val system: String = "https://www.mciindia.org"
 )
 
-data class DateRange(@SerializedName("from") var startDate: String? = null ,@SerializedName("to")var endDate: String?=null ) {
+data class DateRange(
+    @SerializedName("from") var startDate: String? = null,
+    @SerializedName("to") var endDate: String? = null
+) {
 
     fun validate(): ConsentValidation {
 
@@ -102,7 +107,7 @@ data class DateRange(@SerializedName("from") var startDate: String? = null ,@Ser
 
 }
 
-data class Frequency(val unit: String = "HOUR", val value: Int = 0, val repeats: Int = 1)
+data class Frequency(val unit: String = "HOUR", val value: Int = 1, val repeats: Int = 0)
 
 data class ConsentPermission(val accessMode: String) {
     @SerializedName("dataEraseAt")
@@ -113,7 +118,7 @@ data class ConsentPermission(val accessMode: String) {
     fun validate(): ConsentValidation {
         val dateRangeValidation = dateRange.validate()
 
-        if(dateRangeValidation != ConsentValidation.SUCCESS){
+        if (dateRangeValidation != ConsentValidation.SUCCESS) {
             return dateRangeValidation
         }
         if (!this::expiryDate.isInitialized) {
@@ -123,6 +128,8 @@ data class ConsentPermission(val accessMode: String) {
     }
 }
 
+
+class Error(val code: Int, val message: String)
 enum class ConsentValidation(val msg: String) {
     SUCCESS("Valid consent"),
     INVALID_START_DATE("Invalid start date."),
@@ -137,7 +144,6 @@ enum class DATE_FORMAT(val format: String) {
     USER("dd MMM YYYY , hh:mm a"),
     ONLY_DATE("YYYY-MM-dd")
 }
-
 
 
 
