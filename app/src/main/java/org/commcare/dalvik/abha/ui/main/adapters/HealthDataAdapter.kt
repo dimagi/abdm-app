@@ -51,13 +51,11 @@ class HealthDataAdapter(
                 val sectionBinding =
                     HealthDataSectionBinding.inflate(LayoutInflater.from(context))
                 sectionBinding.model = sectionModel
-                var skipNextEntry = false
+
+                var bindingForAttachment: HealDataKeyValueBinding? = null
 
                 sectionModel.entries.forEachIndexed { index, sectionEntry ->
-                    if (skipNextEntry) {
-                        skipNextEntry = false
-                        return@forEachIndexed
-                    }
+
                     val kvBinding =
                         HealDataKeyValueBinding.inflate(LayoutInflater.from(context))
                     if (index % 2 == 0) {
@@ -76,53 +74,70 @@ class HealthDataAdapter(
                         )
                     }
 
-                    val value = if (sectionModel.resource == "Binary") {
-                        var returnText ="Open "
-                        kvBinding.vText.apply {
-                            setTextColor(
-                                ContextCompat.getColor(
-                                    context,
-                                    R.color.blue
+                    val value1 = when (sectionEntry.label) {
+                        LABEL_CONTENT_TYPE -> {
+                            sectionEntry.label = LABEL_ATTACHMENT
+                            var fileLabelValue = "Open"
+                            kvBinding.vText.apply {
+                                setTextColor(
+                                    ContextCompat.getColor(
+                                        context,
+                                        R.color.blue
+                                    )
                                 )
-                            )
-                            paintFlags = Paint.UNDERLINE_TEXT_FLAG
-                            skipNextEntry = true
+                                paintFlags = Paint.UNDERLINE_TEXT_FLAG
 
+                                val fileType = when (sectionEntry.value) {
+                                    ContentType.PDF.value -> {
+                                        fileLabelValue = "Open PDF"
+                                        FileType.PDF
+                                    }
 
+                                    ContentType.IMAGE.value -> {
+                                        fileLabelValue = "Open Image"
+                                        FileType.IMAGE
+                                    }
 
-                            val fileType = when (sectionModel.entries[index + 1].value) {
-                                "application/pdf" -> {
-                                    returnText = "Open PDF"
-                                    FileType.PDF
+                                    else -> {
+                                        FileType.INVALID
+                                    }
                                 }
-                                "image/jpeg" -> {
-                                    returnText = "Open Image"
-                                    FileType.IMAGE
+                                tag = FileData(fileType, null)
+
+                                setOnClickListener {
+                                    val fileData = tag as FileData
+                                    fileData.let {
+                                        callback.invoke(it)
+                                    }
+
                                 }
-                                else -> {
-                                    FileType.INVALID
-                                }
+
                             }
+                            bindingForAttachment = kvBinding
 
-                            tag = FileData(fileType, sectionEntry.value)
+                            fileLabelValue
 
-                            setOnClickListener {
-                                val fileData = tag as FileData
-                                fileData?.let {
-                                    callback.invoke(it)
-                                }
-
-                            }
                         }
-                        returnText
-                    } else {
-                        skipNextEntry = false
-                        sectionEntry.value
+
+                        LABEL_ATTACHMENT -> {
+                            bindingForAttachment?.let {
+                                val bindingFileData = bindingForAttachment?.vText?.tag as FileData
+                                bindingFileData.fileData = sectionEntry.value
+                            }
+
+                            return@forEachIndexed
+
+                        }
+
+                        else -> {
+                            sectionEntry.value
+                        }
+
                     }
 
-                    kvBinding.model = KeyValueModel(sectionEntry.label, value)
-
+                    kvBinding.model = KeyValueModel(sectionEntry.label, value1)
                     sectionBinding.sectionEntryHolder.addView(kvBinding.root)
+
                 }
 
                 binding.sectionHolder.addView(sectionBinding.root)
@@ -150,9 +165,25 @@ class HealthDataAdapter(
     }
 }
 
-data class FileData(val fileType: FileType, val fileData: String)
+data class FileData(val fileType: FileType, var fileData: String?)
 
 enum class FileType {
     IMAGE, PDF, INVALID
 }
+
+enum class ResourceType(val value: String) {
+    BINARY("Binary"),
+    DIAGNOSTIC_REPORT("DiagnosticReport"),
+    DIAGNOSTIC_REPORT_RECORD("DiagnosticReportRecord"),
+    DIAGNOSTIC_REPORT_LAB("DiagnosticReportLab"),
+    DOCUMENT_REFERENCE("DocumentReference")
+}
+
+enum class ContentType(val value: String) {
+    IMAGE("image/jpeg"),
+    PDF("application/pdf")
+}
+
+const val LABEL_CONTENT_TYPE = "Content Type"
+const val LABEL_ATTACHMENT = "Attachment"
 
