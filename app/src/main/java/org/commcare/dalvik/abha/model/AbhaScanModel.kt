@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class AbhaScanModel(
     val hidn: String?,
-    val hid: String?,
+    var hid: String?,
     val name: String?,
     val gender: String?,
     val statelgd: String?,

@@ -124,12 +124,15 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
             try {
                 val json = JSONObject(it)
 
-                val isAbhaFormatData = json.has("hidn") && json.has("hid")
+                val isAbhaFormatData = json.has("hidn") || json.has("hid") || json.has("phr")
 
                 if (!isAbhaFormatData) {
                     throw RuntimeException("Not abha data")
                 } else {
                     val abhaScannedModel = Gson().fromJson(it, AbhaScanModel::class.java)
+                    if(!json.has("hid") && json.has("phr")){
+                        abhaScannedModel.hid = json.getString("phr")
+                    }
                     abhaScannedModel.validationState = AbhaScanModel.AbhaValidationState.NOT_VALIDATED
                     activity?.runOnUiThread {
                         viewmodel.init(abhaScannedModel)
