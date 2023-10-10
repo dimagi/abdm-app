@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/patient_consent_navigation"
+    app:startDestination="@id/patientConsentFragment">
+
+    <fragment
+        android:id="@+id/createPatientConsentFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.CreatePatientConsentFragment"
+        android:label="@string/create_consent" />
+    <fragment
+        android:id="@+id/patientConsentFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.PatientConsentFragment"
+        android:label="@string/patient_consent" >
+        <action
+            android:id="@+id/action_patientConsentFragment_to_createPatientConsentFragment"
+            app:destination="@id/createPatientConsentFragment" />
+        <action
+            android:id="@+id/action_patientConsentFragment_to_consentArtefactFragment"
+            app:destination="@id/consentArtefactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/consentArtefactFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.ConsentArtefactFragment"
+        android:label="@string/artefats" >
+        <action
+            android:id="@+id/action_consentArtefactFragment_to_patientHealthDataFragment"
+            app:destination="@id/patientHealthDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/patientHealthDataFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.PatientHealthDataFragment"
+        android:label="@string/healthData" />
+</navigation>

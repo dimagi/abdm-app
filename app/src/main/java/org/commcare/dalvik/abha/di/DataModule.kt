@@ -3,7 +3,6 @@ package org.commcare.dalvik.abha.di
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ViewModelComponent
 import org.commcare.dalvik.data.repository.AbdmRepositoryImpl
 import org.commcare.dalvik.data.repository.DataStoreRepositoryImpl
@@ -24,6 +23,5 @@ abstract class DataModule {
 
     @Binds
     abstract fun provideTranslationRepository(translationRepositoryImpl: TranslationRepositoryImpl):TranslationRepository
-
 
 }

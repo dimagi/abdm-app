@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="CCAuthModeBinding">
+
+        <variable
+            name="reqModel"
+            type="org.commcare.dalvik.abha.model.LinkCareContextModel" />
+
+        <variable
+            name="clickHandler"
+            type="org.commcare.dalvik.abha.ui.main.fragment.CCFetchAuthModeFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/likCCTitle"
+            style="@style/Headline3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/blue"
+            android:padding="@dimen/_5dp"
+            android:text="@string/linkCCDetails"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TableLayout
+            android:id="@+id/aadhaarDataTableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightest_grey"
+            android:orientation="vertical"
+            android:padding="@dimen/_8dp"
+            android:stretchColumns="*"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/likCCTitle">
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/abha_num" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.patientAbhaId}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/purpose" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.purpose}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/patietDetails"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold" />
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/referenceNum" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.patient.referenceNumber}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/display" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.patient.display}" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/authModeInputLayout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/SEL_AUTH_METHOD"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/aadhaarDataTableLayout">
+
+            <AutoCompleteTextView
+                android:id="@+id/ccAuthMode"
+                style="@style/Headline2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/SEL_AUTH_METHOD"
+                android:inputType="none"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/ccGenerateAuthOtp"
+            style="@style/RoundStyleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:enabled="false"
+            android:onClickListener="@{clickHandler}"
+            android:text="@string/GEN_OTP"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/authModeInputLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

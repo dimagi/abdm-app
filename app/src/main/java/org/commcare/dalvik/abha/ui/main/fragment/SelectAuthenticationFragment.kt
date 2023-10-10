@@ -56,7 +56,7 @@ class SelectAuthenticationFragment :
                                     val authList = mutableListOf<String>()
                                     val sortedAuthList =  mutableListOf<String>()
                                     try {
-                                        it.data?.getAsJsonArray("authMethods").forEach {
+                                        it.data?.getAsJsonArray("authMethods")?.forEach {
                                             if (filter.contains(it.asString)) {
                                                 authList.add(it.asString)
                                             }
@@ -88,6 +88,9 @@ class SelectAuthenticationFragment :
 
 
                                 }
+                                else -> {
+                                    //exhaustive block
+                                }
                             }
 
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
@@ -101,6 +104,9 @@ class SelectAuthenticationFragment :
                         is GenerateAbhaUiState.AbdmError -> {
                             (activity as AbdmActivity).showBlockerDialog(it.data.getActualMessage())
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                        }
+                        else -> {
+                            //exhaustive block
                         }
 
                     }

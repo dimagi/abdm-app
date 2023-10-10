@@ -115,5 +115,16 @@
 
     <style name="Commcare.Button.Primary" parent="commcare_primary_button" />
 
-    <dimen name="_6dp">6dp</dimen>
+
+
+    <style name="HiTypeStyle" parent="@style/Widget.MaterialComponents.Chip.Entry">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.ABDMApp">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 </resources>

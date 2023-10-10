@@ -32,7 +32,7 @@ class AbdmViewModel @Inject constructor(
     private val confirmAadhaarOtpUsecase: ConfirmAadhaarOtpUsecase,
     private val confirmMobileOtpUsecase: ConfirmMobileOtpUsecase,
     private val abhaAvailbilityUsecase: AbhaAvailabilityUsecase,
-    private val fetchAbhaCardUseCase: FetchAbhaCardUseCase,
+    private val fetchAbhaCardUseCase: FetchAbhaCardUseCase
 ) : BaseViewModel() {
     var selectedAuthMethod: String? = null
     var checkAbhaResponseModel:MutableLiveData<CheckAbhaResponseModel> = MutableLiveData()
@@ -675,6 +675,9 @@ class AbdmViewModel @Inject constructor(
                            )
                        )
                    }
+                   else -> {
+                       //exhaustive block
+                   }
                }
            }
        }
@@ -706,6 +709,9 @@ class AbdmViewModel @Inject constructor(
                             )
                         )
                     }
+                    else -> {
+                        //exhaustive block
+                    }
                 }
             }
         }
@@ -722,49 +728,3 @@ sealed class OtpCallState {
     object OtpReqAvailable : OtpCallState()
 }
 
-/**
- * UI State
- */
-sealed class GenerateAbhaUiState {
-    data class Loading(val isLoading: Boolean) : GenerateAbhaUiState()
-    object TranslationReceived : GenerateAbhaUiState()
-    object ValidState : GenerateAbhaUiState()
-    object InvalidState : GenerateAbhaUiState()
-    object MobileOtpRequested : GenerateAbhaUiState()
-    object AadhaarOtpRequested : GenerateAbhaUiState()
-    object AuthOtpRequested : GenerateAbhaUiState()
-    object VerifyAuthOtpRequested : GenerateAbhaUiState()
-    object VerifyMobileOtpRequested : GenerateAbhaUiState()
-    object VerifyAadhaarOtpRequested : GenerateAbhaUiState()
-    object AbhaAvailabilityRequested : GenerateAbhaUiState()
-    object Blocked : GenerateAbhaUiState()
-
-    data class Success(val data: JsonObject, val requestType: RequestType) :
-        GenerateAbhaUiState()
-
-    data class Error(val data: JsonObject, val requestType: RequestType) : GenerateAbhaUiState()
-    data class AbdmError(val data: AbdmErrorModel, val requestType: RequestType) :
-        GenerateAbhaUiState()
-}
-
-/**
- * Request type sent
- */
-enum class RequestType {
-    MOBILE_OTP,
-    MOBILE_OTP_VERIFY,
-
-    AADHAAR_OTP,
-    AADHAAR_OTP_VERIFY,
-
-    AUTH_METHODS,
-
-    GENERATE_AUTH_OTP,
-    VERIFY_AUTH_OTP,
-
-    CONFIRM_AUTH_AADHAAR_OTP,
-    CONFIRM_AUTH_MOBILE_OTP,
-
-    ABHA_AVAILABILITY,
-    FETCH_ABHA_CARD
-}

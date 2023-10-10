@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/link_care_context"
+    app:startDestination="@id/CCFetchAuthModeFragment">
+
+    <fragment
+        android:id="@+id/CCFetchAuthModeFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.CCFetchAuthModeFragment"
+        android:label="@string/linkCareContext" >
+        <action
+            android:id="@+id/action_CCFetchAuthModeFragment_to_verifyCCLinkOtpFragment"
+            app:destination="@id/verifyCCLinkOtpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyCCLinkOtpFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.CCVerifyOtpFragment"
+        android:label="@string/VERIFY_OTP" >
+        <action
+            android:id="@+id/action_verifyCCLinkOtpFragment_to_linkContextCareFragment"
+            app:destination="@id/linkContextCareFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/linkContextCareFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.CCLinkFragment"
+        android:label="@string/linkCareContext" />
+</navigation>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/filter"
+        android:icon="@drawable/baseline_filter_on"
+        android:title="@string/filter"
+        android:orderInCategory="1"
+        android:visible="false"
+        app:showAsAction="always">
+    </item>
+
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/baseline_refresh_24"
+        android:title="@string/refresh"
+        android:orderInCategory="0"
+        app:showAsAction="always">
+    </item>
+
+
+
+</menu>

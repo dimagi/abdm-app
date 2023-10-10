@@ -25,7 +25,9 @@ import org.commcare.dalvik.abha.databinding.AbdmActivityBinding
 import org.commcare.dalvik.abha.utility.DialogType
 import org.commcare.dalvik.abha.utility.DialogUtility
 import org.commcare.dalvik.abha.viewmodel.AbdmViewModel
+import org.commcare.dalvik.abha.viewmodel.CareContextViewModel
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
+import org.commcare.dalvik.abha.viewmodel.PatientViewModel
 import org.commcare.dalvik.data.network.HeaderInterceptor
 import org.commcare.dalvik.domain.model.LanguageManager
 import org.commcare.dalvik.domain.model.TranslationKey
@@ -39,11 +41,16 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
     private lateinit var navHostFragment: NavHostFragment
     val viewmodel: AbdmViewModel by viewModels()
+    val patientViewModel: PatientViewModel by viewModels()
+    val careContextViewModel: CareContextViewModel by viewModels()
+
     private var showMenu = true
 
     val ACTION_CREATE_ABHA = "create_abha"
     val ACTION_VERIFY_ABHA = "verify_abha"
     val ACTION_SCAN_ABHA = "scan_abha"
+    val ACTION_GET_CONSENT = "get_consent"
+    val ACTION_CARE_CONTEXT_LINK = "link_care_context"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +74,8 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 //        }
 
         observeLoader()
+        observerPatientViewModel()
+        observerCCViewModel()
         observeBlockedOtpRequest()
 
         intent.extras?.getString("lang_code")?.let { langId ->
@@ -103,6 +112,11 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 ACTION_SCAN_ABHA -> {
                     supportActionBar?.title =
                         LanguageManager.getTranslatedValue(this, R.string.scanAbha)
+                }
+
+                ACTION_CARE_CONTEXT_LINK->{
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this, R.string.linkCareContext)
                 }
             }
 
@@ -203,12 +217,57 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                         DialogType.Blocking
                     )
                 }
+            }
+        }
 
+        lifecycleScope.launch(Dispatchers.Main) {
+            careContextViewModel.otpRequestBlocked.asFlow().collect { otpBlockedRequest ->
+                otpBlockedRequest?.let {
+                    DialogUtility.showDialog(
+                        this@AbdmActivity,
+                        resources.getString(R.string.app_blocked, it.getTimeLeftToUnblock()),
+                        { dispatchResult(getErrorIntent("Blocked ,multiple OTP requested.")) },
+                        DialogType.Blocking
+                    )
+                }
+            }
+        }
+
+    }
+
+    private fun observerPatientViewModel(){
+        lifecycleScope.launch(Dispatchers.Main) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                patientViewModel.uiState.collect {
+                    when (it) {
+                        is GenerateAbhaUiState.Loading -> {
+                            Timber.d("LOADER VISIBILITY ${it.isLoading}")
+                            binding.loader.visibility =
+                                if (it.isLoading) View.VISIBLE else View.GONE
+                        }
+                        else -> false
+                    }
+                }
             }
         }
     }
 
-
+    private fun observerCCViewModel(){
+        lifecycleScope.launch(Dispatchers.Main) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                careContextViewModel.uiState.collect {
+                    when (it) {
+                        is GenerateAbhaUiState.Loading -> {
+                            Timber.d("LOADER VISIBILITY ${it.isLoading}")
+                            binding.loader.visibility =
+                                if (it.isLoading) View.VISIBLE else View.GONE
+                        }
+                        else -> false
+                    }
+                }
+            }
+        }
+    }
     private fun observeLoader() {
         lifecycleScope.launch(Dispatchers.Main) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -223,6 +282,10 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
                         is GenerateAbhaUiState.Blocked -> {
                             DialogUtility.showDialog(this@AbdmActivity, "Too many OTP attempts.")
+                        }
+
+                        else -> {
+                            //exhaustive block
                         }
 
                     }
@@ -263,6 +326,13 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 ACTION_SCAN_ABHA -> {
                     R.navigation.scan_abha_navigation
                 }
+                ACTION_GET_CONSENT -> {
+                    R.navigation.patient_consent_navigation
+                }
+
+                ACTION_CARE_CONTEXT_LINK ->{
+                    R.navigation.link_care_context
+                }
                 else -> {
                     -1
                 }
@@ -285,6 +355,14 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     }
 
     fun onAbhaNumberVerification(intent: Intent) {
+        dispatchResult(intent)
+    }
+
+    fun onAbhaScanCompleted(intent:Intent){
+        dispatchResult(intent)
+    }
+
+    fun onContextCareLinkFinished(intent: Intent) {
         dispatchResult(intent)
     }
 

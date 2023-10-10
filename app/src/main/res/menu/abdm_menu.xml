@@ -7,6 +7,9 @@
         android:id="@+id/close"
         android:icon="@drawable/ic_baseline_close_24"
         android:title="@string/close"
+        android:orderInCategory="2"
         app:showAsAction="always">
     </item>
+
+
 </menu>

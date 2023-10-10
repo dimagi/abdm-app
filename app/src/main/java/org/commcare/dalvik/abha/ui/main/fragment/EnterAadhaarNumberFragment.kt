@@ -97,6 +97,9 @@ class EnterAadhaarNumberFragment : BaseFragment<EnterAadhaarBinding>(EnterAadhaa
                             (activity as AbdmActivity).showBlockerDialog(it.data.getActualMessage())
 
                         }
+                        else -> {
+                            //exhaustive block
+                        }
                     }
                 }
             }

@@ -21,7 +21,7 @@ import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.ScanAbhaBinding
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.viewmodel.ScanAbhaViewModel
-import org.commcare.dalvik.domain.model.AbhaScanModel
+import org.commcare.dalvik.abha.model.AbhaScanModel
 import org.json.JSONObject
 import timber.log.Timber
 
@@ -124,14 +124,18 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
             try {
                 val json = JSONObject(it)
 
-                val isAbhaFormatData = json.has("hidn") && json.has("hid")
+                val isAbhaFormatData = json.has("hidn") || json.has("hid") || json.has("phr")
 
                 if (!isAbhaFormatData) {
                     throw RuntimeException("Not abha data")
                 } else {
                     val abhaScannedModel = Gson().fromJson(it, AbhaScanModel::class.java)
+                    if(!json.has("hid") && json.has("phr")){
+                        abhaScannedModel.hid = json.getString("phr")
+                    }
+                    abhaScannedModel.validationState = AbhaScanModel.AbhaValidationState.NOT_VALIDATED
                     activity?.runOnUiThread {
-                        viewmodel.abhaScanModel.value = abhaScannedModel
+                        viewmodel.init(abhaScannedModel)
                         navigateToAbhaScanResultScreen()
                         Timber.d("scan ===> ${abhaScannedModel}")
                     }

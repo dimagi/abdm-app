@@ -68,6 +68,9 @@ class StartAbhaVerificationFragment():BaseFragment<StartAbhaVerificationBinding>
                             }
 
                         }
+                        else -> {
+                            //exhaustive block
+                        }
                     }
                 }
             }

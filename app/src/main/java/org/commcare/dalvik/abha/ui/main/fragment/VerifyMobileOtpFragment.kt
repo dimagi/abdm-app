@@ -63,6 +63,9 @@ class VerifyMobileOtpFragment :
                     VerificationMode.CONFIRM_MOBILE_OTP -> {
                         requestMobileAuthOtp()
                     }
+                    else -> {
+                        //exhaustive block
+                    }
 
                 }
             }
@@ -251,6 +254,9 @@ class VerifyMobileOtpFragment :
                                     viewModel.abhaDetailModel.value = abhaDetailModel
                                     navigateToNextScreen(RequestType.MOBILE_OTP_VERIFY)
                                 }
+                                else -> {
+                                    //exhaustive block
+                                }
                             }
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }
@@ -284,6 +290,9 @@ class VerifyMobileOtpFragment :
                                     }
                                     binding.mobileOtpEt.setText("")
                                 }
+                                else -> {
+                                    //exhaustive block
+                                }
                             }
                             (activity as AbdmActivity).showBlockerDialog(it.data.get("message").asString)
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
@@ -313,9 +322,15 @@ class VerifyMobileOtpFragment :
                                         binding.resentOtp.isEnabled = true
                                     }
                                 }
+                                else -> {
+                                    //exhaustive block
+                                }
                             }
                             (activity as AbdmActivity).showBlockerDialog(it.data.getActualMessage())
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                        }
+                        else -> {
+                            //exhaustive block
                         }
                     }
                 }
@@ -333,6 +348,9 @@ class VerifyMobileOtpFragment :
                     OtpTimerState.TimerOver -> {
                         binding.resentOtp.isEnabled = true
                         viewModel.getData(PrefKeys.OTP_BLOCKED_TS.getKey())
+                    }
+                    else -> {
+                        //exhaustive block
                     }
                 }
             }
@@ -398,6 +416,9 @@ class VerifyMobileOtpFragment :
                     viewModel.clearOtpRequestState(it)
                 }
                 findNavController().navigate(R.id.action_verifyMobileOtpFragment_to_abhaDetailFragment)
+            }
+            else -> {
+                //exhaustive block
             }
 
         }
