@@ -111,7 +111,7 @@ class TestActivity : AppCompatActivity() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "abha_id" to "ajeet2040@sbx",
+                    "abha_id" to "ashish.yogi@sbx",
                     "hiu_id" to "Ashish-HIU-Registered",
                     "abdm_api_token" to token,
                     "lang_code" to lang,
@@ -148,7 +148,7 @@ class TestActivity : AppCompatActivity() {
             }
             putExtras(
                 bundleOf(
-                    "abhaId" to "ajeet2040@sbx",
+                    "abhaId" to "ashish.yogi@sbx",
                     "purpose" to "LINK",
                     "hipId" to "6004",
                     "patientDetail" to patientJson.toString(),

@@ -14,6 +14,7 @@ data class ConsentArtefactModel(
     @SerializedName("last_modified")
     val lastModified: String?,
 
+    @SerializedName("fetch_status")
     val status: String,
 
     val error: String?,
@@ -23,5 +24,7 @@ data class ConsentArtefactModel(
 
     val details: ConsentArtefactDetailModel
 
-)
+){
+    fun isArtefactRequested() = status == "REQUESTED"
+}
 
