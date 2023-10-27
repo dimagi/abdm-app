@@ -1,5 +1,6 @@
 package org.commcare.dalvik.domain.model
 
+import android.hardware.SensorAdditionalInfo
 import com.google.gson.annotations.SerializedName
 
 abstract class BaseModel
@@ -43,7 +44,9 @@ data class CCLinkModel(val accessToken:String,@SerializedName("hip_id") val hipI
 
 data class CCPatientDetails(val referenceNumber:String,val display:String,val careContexts:List<CCDetail>)
 
-data class CCDetail(val referenceNumber:String,val display: String,val hiTypes:List<String>)
+data class CCDetail(val referenceNumber:String,val display: String,val hiTypes:List<String>,val additionalInfo: AdditionalInfo)
+
+data class AdditionalInfo(val domain:String,val record_date:String)
 
 
 

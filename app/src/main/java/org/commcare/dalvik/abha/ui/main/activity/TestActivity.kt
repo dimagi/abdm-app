@@ -66,7 +66,7 @@ class TestActivity : AppCompatActivity() {
             putExtras(
                 bundleOf(
                     "mobile_number" to "9560833229",
-                    "abha_id" to "ashish.yogi",
+                    "abha_id" to "66543673407500",
                     "lang_code" to lang,
                     "abdm_api_token" to token,
                     "action" to ACTION_CREATE_ABHA
@@ -138,6 +138,14 @@ class TestActivity : AppCompatActivity() {
                         put("Prescription")
                     }
                     put("hiTypes",hiTypes)
+
+                    val additionalInfo =  JSONObject().apply {
+                        put("domain","domain  data")
+                        put("record_date","27 Oct 2023")
+                    }
+
+                    put("additionalInfo",additionalInfo)
+
                 }
 
 
@@ -149,7 +157,7 @@ class TestActivity : AppCompatActivity() {
             }
             putExtras(
                 bundleOf(
-                    "abhaId" to "ashish.yogi@sbx",
+                    "abhaId" to "91766261606756@sbx",
                     "purpose" to "LINK",
                     "hipId" to "6004",
                     "patientDetail" to patientJson.toString(),
