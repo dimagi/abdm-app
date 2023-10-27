@@ -94,6 +94,15 @@ class PatientViewModel @Inject constructor(
                         )
                     }
 
+                    is HqResponseModel.AbdmError -> {
+                        uiState.emit(
+                            GenerateAbhaUiState.AbdmError(
+                                it.value,
+                                RequestType.CREATE_PATIENT_CONSENT
+                            )
+                        )
+                    }
+
                     else -> {
                         //exhaustive block
                     }

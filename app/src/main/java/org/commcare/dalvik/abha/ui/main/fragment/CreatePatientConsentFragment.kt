@@ -19,6 +19,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.R
@@ -285,7 +286,11 @@ class CreatePatientConsentFragment :
             val minutes = timePicker.minute * 60 * 1000
             val hours = timePicker.hour * 60 * 60 * 1000
 
-            val finalTime = selectedDate + hours + minutes
+            var finalTime = selectedDate + hours + minutes
+
+            val UTC_DIFF = (30 * 60 * 1000) + (5 * 60 * 60 * 1000)
+
+            finalTime = finalTime - UTC_DIFF
 
             timechip.text = CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.USER.format)
             timechip.visibility = View.VISIBLE
