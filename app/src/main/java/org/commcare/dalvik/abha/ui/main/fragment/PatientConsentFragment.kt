@@ -23,6 +23,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.PatientConsentBinding
+import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.ui.main.adapters.ConsentPageLoaderAdapter
 import org.commcare.dalvik.abha.ui.main.adapters.PatientConsentAdapter
 import org.commcare.dalvik.abha.utility.CommonUtil
@@ -168,6 +169,10 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
         binding.createConsentBtn.setOnClickListener{
             navigateToCreateConsentScreen()
+        }
+
+        binding.backBt.setOnClickListener{
+            (activity as AbdmActivity).finish()
         }
     }
 
