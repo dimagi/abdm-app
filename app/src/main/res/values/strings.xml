@@ -158,4 +158,5 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="linking_cc_error">Context care not linked.</string>
     <string name="cc_not_linked">NOT LINKED</string>
     <string name="scanAbhaResult">Scan ABHA Result</string>
+    <string name="place_barcode_inside">Place barcode at the center of the screen.</string>
 </resources>

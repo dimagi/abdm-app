@@ -94,7 +94,10 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$GLIDE_VER"
     annotationProcessor "com.github.bumptech.glide:compiler:$GLIDE_VER"
 
-    implementation "com.github.yuriy-budiyev:code-scanner:$SCANNER_VER"
+
+
+    implementation "com.journeyapps:zxing-android-embedded:$ZXING_VER"
+
     implementation "com.squareup.okio:okio:$SQUARE_OKIO_VER"
 //    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 //    implementation 'com.github.barteksc:android-pdf-viewer:1.6.0'
