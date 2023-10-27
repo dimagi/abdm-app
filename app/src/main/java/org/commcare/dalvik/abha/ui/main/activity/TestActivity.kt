@@ -115,7 +115,8 @@ class TestActivity : AppCompatActivity() {
                     "hiu_id" to "Ashish-HIU-Registered",
                     "abdm_api_token" to token,
                     "lang_code" to lang,
-                    "action" to ACTION_GET_CONSENT
+                    "action" to ACTION_GET_CONSENT,
+                    "requester" to "Dr xyz"
                 )
             )
         }

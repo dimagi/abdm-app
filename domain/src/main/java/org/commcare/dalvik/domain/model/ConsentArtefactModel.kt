@@ -22,7 +22,7 @@ data class ConsentArtefactModel(
     @SerializedName("consent_request")
     val consentRequest: String,
 
-    val details: ConsentArtefactDetailModel
+    val details: ConsentArtefactDetailModel?
 
 ){
     fun isArtefactRequested() = status == "REQUESTED"

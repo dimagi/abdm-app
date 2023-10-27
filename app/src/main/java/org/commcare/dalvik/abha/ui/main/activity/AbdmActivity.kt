@@ -28,6 +28,7 @@ import org.commcare.dalvik.abha.viewmodel.AbdmViewModel
 import org.commcare.dalvik.abha.viewmodel.CareContextViewModel
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
+import org.commcare.dalvik.abha.viewmodel.ScanAbhaViewModel
 import org.commcare.dalvik.data.network.HeaderInterceptor
 import org.commcare.dalvik.domain.model.LanguageManager
 import org.commcare.dalvik.domain.model.TranslationKey
@@ -43,6 +44,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     val viewmodel: AbdmViewModel by viewModels()
     val patientViewModel: PatientViewModel by viewModels()
     val careContextViewModel: CareContextViewModel by viewModels()
+    val scanAbhaViewModel: ScanAbhaViewModel by viewModels()
 
     private var showMenu = true
 
@@ -77,6 +79,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         observerPatientViewModel()
         observerCCViewModel()
         observeBlockedOtpRequest()
+        observerScanabhaViewModel()
 
         intent.extras?.getString("lang_code")?.let { langId ->
             val config = Configuration(resources.configuration)
@@ -109,10 +112,6 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                         LanguageManager.getTranslatedValue(this, R.string.ABHA_CREATION)
                 }
 
-                ACTION_SCAN_ABHA -> {
-                    supportActionBar?.title =
-                        LanguageManager.getTranslatedValue(this, R.string.scanAbha)
-                }
 
                 ACTION_CARE_CONTEXT_LINK->{
                     supportActionBar?.title =
@@ -252,6 +251,22 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         }
     }
 
+    private fun observerScanabhaViewModel(){
+        lifecycleScope.launch(Dispatchers.Main) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                scanAbhaViewModel.uiState.collect {
+                    when (it) {
+                        is GenerateAbhaUiState.Loading -> {
+                            Timber.d("LOADER VISIBILITY ${it.isLoading}")
+                            binding.loader.visibility =
+                                if (it.isLoading) View.VISIBLE else View.GONE
+                        }
+                        else -> false
+                    }
+                }
+            }
+        }
+    }
     private fun observerCCViewModel(){
         lifecycleScope.launch(Dispatchers.Main) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

@@ -51,7 +51,7 @@ class CreatePatientConsentFragment :
         arguments?.let { bundle ->
             bundle.getString("abha_id")?.let { abhaId ->
                 bundle.getString("hiu_id")?.let { hiuId ->
-                    viewmodel.init(abhaId, hiuId)
+                    viewmodel.init(abhaId, hiuId,   bundle.getString("requester") ?: "")
                 }
             }
         }

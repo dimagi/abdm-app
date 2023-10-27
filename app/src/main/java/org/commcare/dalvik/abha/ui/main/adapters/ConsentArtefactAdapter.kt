@@ -66,10 +66,10 @@ class ConsentArtefactAdapter(val callback :(artefactId: String)->Unit) :
         fun bindModel(model: ConsentArtefactModel) {
             binding.model = model
             binding.careContextChipGroup.removeAllViews()
-            model.details.careContexts.forEach { it ->
+            model.details?.careContexts?.forEach { it ->
 //                careContextsList.forEach {
                     val chip = Chip(binding.root.context, null, R.style.HiTypeStyle)
-                    chip.text = it.patientReference
+                    chip.text = it.careContextReference
                     chip.setTextColor(Color.BLACK)
                     binding.careContextChipGroup.addView(chip)
 //                }

@@ -82,6 +82,8 @@ class CCFetchAuthModeFragment : BaseFragment<CCAuthModeBinding>(CCAuthModeBindin
             setOnItemClickListener(this@CCFetchAuthModeFragment)
             if (viewModel.authModesList.size == 1) {
                 setText(adapter.getItem(0).toString(), false)
+                viewModel.selectedAuthMethod = adapter.getItem(0).toString()
+                binding.ccGenerateAuthOtp.isEnabled = true
             }
         }
     }

@@ -42,12 +42,12 @@ class PatientViewModel @Inject constructor(
     lateinit var patientHealthData:Pair<String,MutableList<HealthContentModel>>
 
 
-    fun init(patientId: String, hiuId: String) {
+    fun init(patientId: String, hiuId: String ,requesterValue:String) {
         this.patientConsentModel =
             PatientConsentDetailModel(Purpose(PURPOSE.CAREMGT.name)).apply {
                 hiu = IdNameModel(hiuId)
                 patient = Patient(patientId)
-                requester = Requester("Dr. Manju")
+                requester = Requester(requesterValue)
                 permission = ConsentPermission(ACCESS_MODE.VIEW.value)
             }
     }

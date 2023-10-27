@@ -119,4 +119,5 @@
     <string name="linking_cc_success">Context care linked successfully.</string>
     <string name="linking_cc_error">Context care not linked.</string>
     <string name="cc_not_linked">NOT LINKED</string>
+    <string name="scanAbhaResult">Scan ABHA Result</string>
 </resources>

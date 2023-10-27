@@ -18,6 +18,7 @@ import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.ui.main.activity.AbdmResponseCode
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.ScanAbhaViewModel
+import timber.log.Timber
 
 class ScanAbhaResultFragment : BaseFragment<ScanAbhaResultBinding>(ScanAbhaResultBinding::inflate) {
 
