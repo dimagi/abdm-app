@@ -46,7 +46,7 @@ data class CCPatientDetails(val referenceNumber:String,val display:String,val ca
 
 data class CCDetail(val referenceNumber:String,val display: String,val hiTypes:List<String>,val additionalInfo: AdditionalInfo)
 
-data class AdditionalInfo(val domain:String,val record_date:String)
+data class AdditionalInfo(val domain:String,var record_date:String)
 
 
 

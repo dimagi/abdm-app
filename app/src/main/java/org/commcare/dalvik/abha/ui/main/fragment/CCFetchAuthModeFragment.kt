@@ -16,9 +16,11 @@ import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.CCAuthModeBinding
 import org.commcare.dalvik.abha.model.LinkCareContextModel
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
+import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.abha.viewmodel.CareContextViewModel
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.domain.model.CCPatientDetails
+import org.commcare.dalvik.domain.model.DATE_FORMAT
 import timber.log.Timber
 
 class CCFetchAuthModeFragment : BaseFragment<CCAuthModeBinding>(CCAuthModeBinding::inflate),
@@ -54,6 +56,16 @@ class CCFetchAuthModeFragment : BaseFragment<CCAuthModeBinding>(CCAuthModeBindin
                     it,
                     CCPatientDetails::class.java
                 )
+
+                linkCareContextModel.patient.careContexts[0].let { ccDetail ->
+                    ccDetail.additionalInfo.record_date?.let { recordDate ->
+                        val UTC_DIFF = (30 * 60 * 1000) + (5 * 60 * 60 * 1000)
+                        val finalRecordDate = CommonUtil.getTimeInMillis(recordDate) - UTC_DIFF
+                        CommonUtil.getFormattedDateTime(finalRecordDate , DATE_FORMAT.SERVER.format)?.let {
+                            ccDetail.additionalInfo.record_date = it
+                        }
+                    }
+                }
             }
 
             viewModel.init(linkCareContextModel)

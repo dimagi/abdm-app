@@ -141,7 +141,7 @@ class TestActivity : AppCompatActivity() {
 
                     val additionalInfo =  JSONObject().apply {
                         put("domain","domain  data")
-                        put("record_date","27 Oct 2023")
+                        put("record_date","2011-11-02T05:30:12.208Z")
                     }
 
                     put("additionalInfo",additionalInfo)
