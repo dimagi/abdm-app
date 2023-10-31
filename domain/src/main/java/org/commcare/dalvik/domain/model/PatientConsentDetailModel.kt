@@ -111,7 +111,7 @@ data class Frequency(val unit: String = "HOUR", val value: Int = 1, val repeats:
 
 data class ConsentPermission(val accessMode: String) {
     @SerializedName("dataEraseAt")
-    lateinit var expiryDate: String
+    var expiryDate: String? = null
     var frequency: Frequency = Frequency()
     val dateRange: DateRange = DateRange()
 
@@ -121,7 +121,7 @@ data class ConsentPermission(val accessMode: String) {
         if (dateRangeValidation != ConsentValidation.SUCCESS) {
             return dateRangeValidation
         }
-        if (!this::expiryDate.isInitialized) {
+        if (expiryDate == null) {
             return ConsentValidation.INVALID_EXPIRY_DATE
         }
         return ConsentValidation.SUCCESS

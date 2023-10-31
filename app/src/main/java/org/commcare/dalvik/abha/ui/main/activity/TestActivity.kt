@@ -59,7 +59,7 @@ class TestActivity : AppCompatActivity() {
     }
 
     val lang = "en"
-    private val token = "0c0a3fbbacc0922192a1b4e63be5d6f511790a31"
+    private val token = "5dbafa33270b7b07ae1e8a088f55d62ad5b4daf6"
 
     private fun startIntentA() {
         val intent = Intent(action).apply {

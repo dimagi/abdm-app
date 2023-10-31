@@ -6,8 +6,8 @@ import java.util.*
 
 object CommonUtil {
 
-    fun getTimeInMillis(date:String): Long {
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    fun getTimeInMillis(date: String): Long {
+        val sdf = SimpleDateFormat(DATE_FORMAT.SERVER.format)
         val date = sdf.parse(date)
         return date.time
     }
@@ -28,5 +28,11 @@ object CommonUtil {
         } catch (e: Exception) {
             null
         }
+    }
+
+    fun getUtcTimeFromDate(date: String): String? {
+        val UTC_DIFF = (30 * 60 * 1000) + (5 * 60 * 60 * 1000)
+        val finalRecordDate = getTimeInMillis(date) - UTC_DIFF
+        return getFormattedDateTime(finalRecordDate , DATE_FORMAT.SERVER.format)
     }
 }

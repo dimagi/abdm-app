@@ -5,11 +5,11 @@ import androidx.paging.cachedIn
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.model.FilterModel
 import org.commcare.dalvik.abha.ui.main.fragment.ACCESS_MODE
 import org.commcare.dalvik.abha.ui.main.fragment.PURPOSE
+import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.abha.utility.PropMutableLiveData
 import org.commcare.dalvik.domain.model.ConsentPermission
 import org.commcare.dalvik.domain.model.HealthContentModel
@@ -63,7 +63,26 @@ class PatientViewModel @Inject constructor(
     }
 
     fun submitPatientConsent() {
-        val consentJson = Gson().toJson(patientConsentModel)
+
+        val serverCopyPatientModel = Gson().fromJson(Gson().toJson(patientConsentModel),PatientConsentDetailModel::class.java)
+        serverCopyPatientModel.permission.expiryDate?.let {
+            CommonUtil.getUtcTimeFromDate(it)?.let {utcDate->
+                serverCopyPatientModel.setPermissionExpiryDate(utcDate)
+            }
+        }
+
+        serverCopyPatientModel.permission.dateRange.startDate?.let {
+            CommonUtil.getUtcTimeFromDate(it)?.let { utcDate ->
+                serverCopyPatientModel.permission.dateRange.startDate = utcDate
+            }
+        }
+        serverCopyPatientModel.permission.dateRange.endDate?.let {
+            CommonUtil.getUtcTimeFromDate(it)?.let { utcDate ->
+                serverCopyPatientModel.permission.dateRange.endDate = utcDate
+            }
+        }
+
+        val consentJson = Gson().toJson(serverCopyPatientModel)
         Timber.d(
             "Consent JSON ===>  ${consentJson} "
         )

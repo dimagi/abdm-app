@@ -288,9 +288,6 @@ class CreatePatientConsentFragment :
 
             var finalTime = selectedDate + hours + minutes
 
-            val UTC_DIFF = (30 * 60 * 1000) + (5 * 60 * 60 * 1000)
-
-            finalTime = finalTime - UTC_DIFF
 
             timechip.text = CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.USER.format)
             timechip.visibility = View.VISIBLE
