@@ -52,6 +52,14 @@ class ScanAbhaViewModel @Inject constructor(private val abhaAvailbilityUsecase: 
                                )
                            )
                        }
+                       is HqResponseModel.AbdmError -> {
+                           uiState.emit(
+                               GenerateAbhaUiState.AbdmError(
+                                   it.value,
+                                   RequestType.ABHA_AVAILABILITY
+                               )
+                           )
+                       }
                        else -> {
                            //exhaustive block
                        }

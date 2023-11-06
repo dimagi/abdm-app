@@ -19,6 +19,9 @@ data class AbhaScanModel(
     )   {
 
     fun getAbha(): String? {
+        hid?.let {
+            return it
+        }
         hidn?.let {
             return it.replace("-", "")
         } ?: run {

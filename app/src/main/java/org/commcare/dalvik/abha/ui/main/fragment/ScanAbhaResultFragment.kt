@@ -73,6 +73,19 @@ class ScanAbhaResultFragment : BaseFragment<ScanAbhaResultBinding>(ScanAbhaResul
                             )
                         }
 
+                        is GenerateAbhaUiState.AbdmError -> {
+                            binding.dispatchScanResult.isEnabled = true
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                            viewModel.abhaScanModel.validationState =  AbhaScanModel.AbhaValidationState.INVALID
+                            binding.verificationStatus.text = viewModel.abhaScanModel.validationState.value
+                            binding.verificationStatus.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.red
+                                )
+                            )
+                        }
+
                         else -> {
                             //exhaustive block
                         }
