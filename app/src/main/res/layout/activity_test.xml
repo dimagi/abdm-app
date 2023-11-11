@@ -52,6 +52,14 @@
             android:text="Link Care Context"
             />
 
+        <Button
+            android:id="@+id/notifyPatient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="Notify Patient"
+            />
+
 
         <TextView
             android:id="@+id/textView"

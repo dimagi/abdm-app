@@ -32,7 +32,8 @@ class AbdmViewModel @Inject constructor(
     private val confirmAadhaarOtpUsecase: ConfirmAadhaarOtpUsecase,
     private val confirmMobileOtpUsecase: ConfirmMobileOtpUsecase,
     private val abhaAvailbilityUsecase: AbhaAvailabilityUsecase,
-    private val fetchAbhaCardUseCase: FetchAbhaCardUseCase
+    private val fetchAbhaCardUseCase: FetchAbhaCardUseCase,
+    private val notifyPatientUsecase: NotifyPatientUsecase
 ) : BaseViewModel() {
     var selectedAuthMethod: String? = null
     var checkAbhaResponseModel:MutableLiveData<CheckAbhaResponseModel> = MutableLiveData()
@@ -715,6 +716,38 @@ class AbdmViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun notifyPatient(patientNotificationModel: PatientNotificationModel) {
+      viewModelScope.launch {
+          notifyPatientUsecase.execute(patientNotificationModel).collect{
+              when (it) {
+                  HqResponseModel.Loading -> {
+                      uiState.emit(GenerateAbhaUiState.InvalidState)
+                      uiState.emit(GenerateAbhaUiState.Loading(true))
+                  }
+                  is HqResponseModel.Success -> {
+                      uiState.emit(
+                          GenerateAbhaUiState.Success(
+                              it.value,
+                              RequestType.NOTIFY_PATIENT
+                          )
+                      )
+                  }
+                  is HqResponseModel.Error -> {
+                      uiState.emit(
+                          GenerateAbhaUiState.Error(
+                              it.value,
+                              RequestType.NOTIFY_PATIENT
+                          )
+                      )
+                  }
+                  else -> {
+                      //exhaustive block
+                  }
+              }
+          }
+      }
     }
 
 }

@@ -49,5 +49,10 @@ data class CCDetail(val referenceNumber:String,val display: String,val hiTypes:L
 data class AdditionalInfo(val domain:String,var record_date:String)
 
 
+data class PatientNotificationModel(val phoneNo:String, val hip:HipModel)
+
+data class HipModel(val id:String)
+
+
 
 

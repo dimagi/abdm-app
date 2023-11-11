@@ -60,5 +60,6 @@ enum class RequestType {
     CC_AUTH_METHODS,
     CC_AUTH_INIT,
     CC_AUTH_CONFIRM,
-    CC_LINK
+    CC_LINK,
+    NOTIFY_PATIENT
 }

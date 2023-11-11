@@ -19,6 +19,7 @@ class TestActivity : AppCompatActivity() {
     val REQ_CODE_C = 102
     val REQ_CODE_D = 103
     val REQ_CODE_E = 104
+    val REQ_NOTIFY_PATIENT = 105
 
     val action = "org.commcare.dalvik.abha.abdm.app"
 
@@ -27,6 +28,7 @@ class TestActivity : AppCompatActivity() {
     val ACTION_VERIFY_ABHA = "verify_abha"
     val ACTION_SCAN_ABHA = "scan_abha"
     val ACTION_GET_CONSENT = "get_consent"
+    val ACTION_NOTIFY_PATIENT = "notify_patient"
     val ACTION_CARE_CONTEXT_LINK = "link_care_context"
 
 
@@ -54,8 +56,27 @@ class TestActivity : AppCompatActivity() {
             linkCareContext()
         }
 
+        findViewById<Button>(R.id.notifyPatient).setOnClickListener {
+            notifyPatient()
+        }
+
         HeaderInterceptor.API_KEY = ""
 
+    }
+
+    private fun notifyPatient() {
+        val intent = Intent(action).apply {
+            putExtras(
+                bundleOf(
+                    "phoneNo" to "9560833229",
+                    "hip" to "6004",
+                    "lang_code" to lang,
+                    "abdm_api_token" to token,
+                    "action" to ACTION_NOTIFY_PATIENT
+                )
+            )
+        }
+        startActivityForResult(intent, REQ_NOTIFY_PATIENT)
     }
 
     val lang = "en"
@@ -141,7 +162,8 @@ class TestActivity : AppCompatActivity() {
 
                     val additionalInfo =  JSONObject().apply {
                         put("domain","domain  data")
-                        put("record_date","2011-11-02T05:30:12.208Z")
+                        put("record_date","2023-10-31T21:37:41.786Z")
+                        // 2023-10-31T21:37:41.786Z
                     }
 
                     put("additionalInfo",additionalInfo)
@@ -180,6 +202,10 @@ class TestActivity : AppCompatActivity() {
             }
 
             REQ_CODE_B -> {
+
+            }
+
+            REQ_NOTIFY_PATIENT -> {
 
             }
         }

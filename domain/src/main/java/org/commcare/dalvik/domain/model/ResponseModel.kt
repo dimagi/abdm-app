@@ -45,6 +45,7 @@ data class CheckAbhaResponseModel(
 )
 
 data class HealthCardResponseModel(@SerializedName("health_card") var healthCard: String)
+data class NotifyPatientResponseModel(var status: Boolean)
 
 
 data class PatientHealthDataModel(

@@ -57,6 +57,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     val ACTION_SCAN_ABHA = "scan_abha"
     val ACTION_GET_CONSENT = "get_consent"
     val ACTION_CARE_CONTEXT_LINK = "link_care_context"
+    val ACTION_NOTIFY_PATIENT = "notify_patient"
 
     lateinit var scanCallback : (result:String?)->Unit
 
@@ -132,6 +133,11 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 ACTION_CARE_CONTEXT_LINK->{
                     supportActionBar?.title =
                         LanguageManager.getTranslatedValue(this, R.string.linkCareContext)
+                }
+
+                ACTION_NOTIFY_PATIENT ->{
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this, R.string.notifyPatient)
                 }
             }
 
@@ -363,6 +369,10 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
                 ACTION_CARE_CONTEXT_LINK ->{
                     R.navigation.link_care_context
+                }
+
+                ACTION_NOTIFY_PATIENT ->{
+                    R.navigation.notify_patient
                 }
                 else -> {
                     -1

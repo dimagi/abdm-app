@@ -75,5 +75,7 @@ interface HqServices {
     suspend fun confirmCareContextAuth(@Body confirmAuthModel: ConfirmAuthModel):Response<JsonObject>
     @POST("hip/link_care_context")
     suspend fun  linkCareContext(@Body careContextLinkModel:CCLinkModel):Response<JsonObject>
+    @POST("hip/patients/sms/notify2")
+    suspend fun notifyPatient(@Body patientNotificationModel: PatientNotificationModel):Response<JsonObject>
 
 }
