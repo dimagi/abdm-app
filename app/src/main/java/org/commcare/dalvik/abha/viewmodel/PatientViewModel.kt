@@ -88,7 +88,7 @@ class PatientViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
-            submitPatientConsentUseCase.execute(patientConsentModel).collect {
+            submitPatientConsentUseCase.execute(serverCopyPatientModel).collect {
                 when (it) {
                     HqResponseModel.Loading -> {
                         uiState.emit(GenerateAbhaUiState.InvalidState)
