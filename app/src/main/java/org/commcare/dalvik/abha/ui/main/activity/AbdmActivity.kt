@@ -88,9 +88,6 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
-//        binding.toolbarContainer.toolbar.setNavigationOnClickListener { view ->
-//            Toast.makeText(this, "BACK", Toast.LENGTH_SHORT).show()
-//        }
 
         observeLoader()
         observerPatientViewModel()
@@ -192,16 +189,19 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
      * Verify intent data
      */
     private fun verifyIntentData() {
+        Timber.d("Verifying intet data.")
         intent.extras?.containsKey("abdm_api_token")?.let { tokenPresent ->
             if (tokenPresent) {
                 intent.extras?.getString("abdm_api_token")?.let {
                     if (it.isEmpty()) {
+                        Timber.d("Token is empty.")
                         showMessageAndDispatchResult(TranslationKey.TOKEN_MISSING.toString())
                     } else {
                         AbdmApplication.API_TOKEN = it
                     }
                 }
             } else {
+                Timber.d("Token not present.")
                 showMessageAndDispatchResult(TranslationKey.TOKEN_MISSING.toString())
             }
         }
@@ -215,9 +215,6 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                     }
                  }
 
-                ACTION_SCAN_ABHA -> {
-
-                }
             }
 
         }
@@ -337,6 +334,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
 
     private fun inflateNavGraph() {
+        Timber.d("Initializing nav graph.")
         val bundle = intent.extras ?: bundleOf()
 
         bundle.getString("abdm_api_token")?.let {
@@ -372,9 +370,11 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 }
 
                 ACTION_NOTIFY_PATIENT ->{
+                    Timber.d("Action = notify_patient.")
                     R.navigation.notify_patient
                 }
                 else -> {
+                    Timber.d("ACTION = -1")
                     -1
                 }
             }
@@ -384,7 +384,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 graph.addInDefaultArgs(intent.extras)
                 navController.setGraph(graph, bundle)
             } else {
-                Timber.d("Action not present. Navgra ")
+                Timber.d("Action not present.")
             }
 
         }
