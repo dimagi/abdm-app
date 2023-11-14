@@ -42,7 +42,7 @@ class AbhaDisclaimerFragment : BaseFragment<DisclaimerBinding>(DisclaimerBinding
                 binding.abhaNumberEt.isEnabled = false
                 binding.checkABHA.isEnabled = false
                 binding.skipCheckABHA.isEnabled = false
-                viewModel.checkForAbhaAvailability(abhaAddress+"@abdm")
+                viewModel.checkForAbhaAvailability(abhaAddress)
             }
             R.id.skipCheckABHA ->{
                 navigateToAadhaarOtpVerificationScreen(null)
@@ -107,7 +107,7 @@ class AbhaDisclaimerFragment : BaseFragment<DisclaimerBinding>(DisclaimerBinding
     }
 
     private fun navigateToAadhaarOtpVerificationScreen(healthId:String?) {
-        arguments?.putString("healthId",if(healthId == null) null else healthId+"@abdm")
+        arguments?.putString("healthId",if(healthId == null) null else healthId)
         findNavController().navigate(
             R.id.action_disclaimerFragment_to_enterAbhaCreationDetailsFragment, arguments
         )
@@ -116,7 +116,7 @@ class AbhaDisclaimerFragment : BaseFragment<DisclaimerBinding>(DisclaimerBinding
     private fun showAbhaAddressAvailableDialog(){
         DialogUtility.showDialog(
             requireContext(),
-            "\"${binding.abhaNumberEt.text.toString()}@abdm\" address is available.",
+            "\"${binding.abhaNumberEt.text.toString()}\" address is available.",
             { onAbhaAddressPresent() },
             {  }
         )
