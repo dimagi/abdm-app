@@ -66,15 +66,15 @@ class PatientConsentAdapter(val callback :(patientConsentModel:PatientConsentMod
             binding.model = model
             renderHealthInfoTypes()
             model.healthInfoFromDate?.let {
-                binding.fromDate.text = CommonUtil.getUtcTimeFromDate(it)
+                binding.fromDate.text = CommonUtil.getUtcTimeFromDate(it, DATE_FORMAT.CONSENT_LIST_TIME)
             }
 
             model.healthInfoToDate?.let {
-                binding.toDate.text = CommonUtil.getUtcTimeFromDate(it)
+                binding.toDate.text = CommonUtil.getUtcTimeFromDate(it,DATE_FORMAT.CONSENT_LIST_TIME)
             }
 
             model.expiryDate?.let {
-                binding.expiryDate.text = CommonUtil.getUtcTimeFromDate(it)
+                binding.expiryDate.text = CommonUtil.getUtcTimeFromDate(it,DATE_FORMAT.CONSENT_LIST_TIME)
             }
 
         }

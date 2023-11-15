@@ -62,11 +62,6 @@ class CCFetchAuthModeFragment : BaseFragment<CCAuthModeBinding>(CCAuthModeBindin
                         CommonUtil.getUtcTimeFromDate(recordDate)?.let {
                             ccDetail.additionalInfo.record_date = it
                         }
-//                        val UTC_DIFF = (30 * 60 * 1000) + (5 * 60 * 60 * 1000)
-//                        val finalRecordDate = CommonUtil.getTimeInMillis(recordDate) - UTC_DIFF
-//                        CommonUtil.getFormattedDateTime(finalRecordDate , DATE_FORMAT.SERVER.format)?.let {
-//                            ccDetail.additionalInfo.record_date = it
-//                        }
                     }
                 }
             }

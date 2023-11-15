@@ -676,6 +676,14 @@ class AbdmViewModel @Inject constructor(
                            )
                        )
                    }
+                   is HqResponseModel.AbdmError -> {
+                       uiState.emit(
+                           GenerateAbhaUiState.AbdmError(
+                               it.value,
+                               RequestType.ABHA_AVAILABILITY
+                           )
+                       )
+                   }
                    else -> {
                        //exhaustive block
                    }
@@ -737,6 +745,14 @@ class AbdmViewModel @Inject constructor(
                   is HqResponseModel.Error -> {
                       uiState.emit(
                           GenerateAbhaUiState.Error(
+                              it.value,
+                              RequestType.NOTIFY_PATIENT
+                          )
+                      )
+                  }
+                  is HqResponseModel.AbdmError -> {
+                      uiState.emit(
+                          GenerateAbhaUiState.AbdmError(
                               it.value,
                               RequestType.NOTIFY_PATIENT
                           )

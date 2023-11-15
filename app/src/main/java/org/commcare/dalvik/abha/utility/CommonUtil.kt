@@ -1,6 +1,7 @@
 package org.commcare.dalvik.abha.utility
 
 import org.commcare.dalvik.domain.model.DATE_FORMAT
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,9 +31,22 @@ object CommonUtil {
         }
     }
 
-    fun getUtcTimeFromDate(date: String): String? {
-        val UTC_DIFF = (30 * 60 * 1000) + (5 * 60 * 60 * 1000)
-        val finalRecordDate = getTimeInMillis(date) - UTC_DIFF
-        return getFormattedDateTime(finalRecordDate , DATE_FORMAT.SERVER.format)
+    fun getUtcTimeFromDate(date: String, dateFormat: DATE_FORMAT = DATE_FORMAT.SERVER): String? {
+        try {
+            Timber.d("Server Date --> ${date}")
+            val sdf = SimpleDateFormat(DATE_FORMAT.SERVER.format, Locale.getDefault())
+            sdf.timeZone = TimeZone.getTimeZone("UTC")
+            var date = sdf.parse(date)
+
+            Timber.d("UTC   Date --> ${date}")
+
+            val ndf = SimpleDateFormat(dateFormat.format, Locale.getDefault())
+            val newDate = ndf.format(date)
+            Timber.d("FORMATTED UTC   Date --> ${newDate}")
+            return newDate
+        } catch (e: Exception) {
+            Timber.d("EXCEPTION --> ${e.message}")
+            return ""
+        }
     }
 }
