@@ -51,6 +51,8 @@ class CCFetchAuthModeFragment : BaseFragment<CCAuthModeBinding>(CCAuthModeBindin
                 linkCareContextModel.hipId = it
             }
 
+            val UTC_DIFF = (30 * 60 * 1000) + (5 * 60 * 60 * 1000)
+
             it.getString("patientDetail")?.let {
                 linkCareContextModel.patient = Gson().fromJson(
                     it,
@@ -59,8 +61,11 @@ class CCFetchAuthModeFragment : BaseFragment<CCAuthModeBinding>(CCAuthModeBindin
 
                 linkCareContextModel.patient.careContexts[0].let { ccDetail ->
                     ccDetail.additionalInfo.record_date?.let { recordDate ->
-                        CommonUtil.getUtcTimeFromDate(recordDate)?.let {
+                        Timber.d("+++ ORG Record Date == ${recordDate}")
+                        val recordDateMs = CommonUtil.getTimeInMillis(recordDate) - UTC_DIFF
+                        CommonUtil.getGMTFormattedDateTime(recordDateMs , DATE_FORMAT.SERVER.format)?.let {
                             ccDetail.additionalInfo.record_date = it
+                            Timber.d("+++ Final Record Date = ${it}")
                         }
                     }
                 }
