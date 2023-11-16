@@ -12,6 +12,7 @@ import org.commcare.dalvik.abha.ui.main.fragment.PURPOSE
 import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.abha.utility.PropMutableLiveData
 import org.commcare.dalvik.domain.model.ConsentPermission
+import org.commcare.dalvik.domain.model.DATE_FORMAT
 import org.commcare.dalvik.domain.model.HealthContentModel
 import org.commcare.dalvik.domain.model.HqResponseModel
 import org.commcare.dalvik.domain.model.IdNameModel
@@ -63,22 +64,33 @@ class PatientViewModel @Inject constructor(
     }
 
     fun submitPatientConsent() {
-
+        val UTC_DIFF = (30 * 60 * 1000) + (5 * 60 * 60 * 1000)
         val serverCopyPatientModel = Gson().fromJson(Gson().toJson(patientConsentModel),PatientConsentDetailModel::class.java)
+
         serverCopyPatientModel.permission.expiryDate?.let {
-            CommonUtil.getUtcTimeFromDate(it)?.let {utcDate->
-                serverCopyPatientModel.setPermissionExpiryDate(utcDate)
+            Timber.d("+++ ORG Expiry Date == ${it}")
+            val expiryMs = CommonUtil.getTimeInMillis(it) - UTC_DIFF
+            CommonUtil.getGMTFormattedDateTime(expiryMs , DATE_FORMAT.SERVER.format)?.let {
+                serverCopyPatientModel.setPermissionExpiryDate(it)
+                Timber.d("+++ Final Expiry Date == ${it}")
             }
         }
 
         serverCopyPatientModel.permission.dateRange.startDate?.let {
-            CommonUtil.getUtcTimeFromDate(it)?.let { utcDate ->
-                serverCopyPatientModel.permission.dateRange.startDate = utcDate
+            Timber.d("+++ ORG Start Date == ${it}")
+            val startMs = CommonUtil.getTimeInMillis(it) - UTC_DIFF
+            CommonUtil.getGMTFormattedDateTime(startMs , DATE_FORMAT.SERVER.format)?.let {
+                serverCopyPatientModel.permission.dateRange.startDate = it
+                Timber.d("+++ Final Start Date == ${it}")
             }
         }
+
         serverCopyPatientModel.permission.dateRange.endDate?.let {
-            CommonUtil.getUtcTimeFromDate(it)?.let { utcDate ->
-                serverCopyPatientModel.permission.dateRange.endDate = utcDate
+            Timber.d("+++ ORG End Date == ${it}")
+            val endMs = CommonUtil.getTimeInMillis(it) - UTC_DIFF
+            CommonUtil.getGMTFormattedDateTime(endMs , DATE_FORMAT.SERVER.format)?.let {
+                serverCopyPatientModel.permission.dateRange.endDate = it
+                Timber.d("+++ Final End Date == ${it}")
             }
         }
 

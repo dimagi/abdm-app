@@ -177,7 +177,7 @@ class CreatePatientConsentFragment :
 
                     val dateValidatorEnd =
                         DateValidatorPointBackward.before(
-                            Calendar.getInstance().timeInMillis - 1.days.toLong(DurationUnit.MILLISECONDS)
+                            Calendar.getInstance().timeInMillis  //- 1.days.toLong(DurationUnit.MILLISECONDS)
                         )
 
                     val validatorList = mutableListOf<CalendarConstraints.DateValidator>()
@@ -295,18 +295,21 @@ class CreatePatientConsentFragment :
             when (timechip.id) {
                 R.id.startDateChip -> {
                     CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.SERVER.format)?.let {
+                        Timber.d("+++Start Date = ${it}")
                         viewmodel.patientConsentModel.setPermissionStartDate(it)
                     }
                 }
 
                 R.id.endDateChip -> {
                     CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.SERVER.format)?.let {
+                        Timber.d("+++End Date = ${it}")
                         viewmodel.patientConsentModel.setPermissionEndDate(it)
                     }
                 }
 
                 R.id.eraseDateChip -> {
                     CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.SERVER.format)?.let {
+                        Timber.d("+++Expiry Date = ${it}")
                         viewmodel.patientConsentModel.setPermissionExpiryDate(it)
                     }
                 }

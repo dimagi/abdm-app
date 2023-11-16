@@ -20,6 +20,11 @@ object CommonUtil {
         return getFormattedDateTime(date.time, DATE_FORMAT.USER.format)
     }
 
+    fun covertDateToServerFormat(date: String): String? {
+        val formatter = SimpleDateFormat(DATE_FORMAT.SERVER.format)
+        return formatter.parse(date).toString()
+    }
+
     fun getFormattedDateTime(ts: Long, dateFormat: String): String? {
         return try {
             val sdf = SimpleDateFormat(dateFormat, Locale.US)
@@ -31,21 +36,30 @@ object CommonUtil {
         }
     }
 
+    fun getGMTFormattedDateTime(ts: Long, dateFormat: String): String? {
+        return try {
+            val sdf = SimpleDateFormat(dateFormat, Locale.US)
+            sdf.format(Date(ts))
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     fun getUtcTimeFromDate(date: String, dateFormat: DATE_FORMAT = DATE_FORMAT.SERVER): String? {
         try {
-            Timber.d("Server Date --> ${date}")
+            Timber.d("+++Server Date --> ${date}")
             val sdf = SimpleDateFormat(DATE_FORMAT.SERVER.format, Locale.getDefault())
             sdf.timeZone = TimeZone.getTimeZone("UTC")
             var date = sdf.parse(date)
 
-            Timber.d("UTC   Date --> ${date}")
+            Timber.d("+++UTC   Date --> ${date}")
 
             val ndf = SimpleDateFormat(dateFormat.format, Locale.getDefault())
             val newDate = ndf.format(date)
-            Timber.d("FORMATTED UTC   Date --> ${newDate}")
+            Timber.d("+++FORMATTED UTC   Date --> ${newDate}")
             return newDate
         } catch (e: Exception) {
-            Timber.d("EXCEPTION --> ${e.message}")
+            Timber.d("+++EXCEPTION --> ${e.message}")
             return ""
         }
     }
