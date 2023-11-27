@@ -84,6 +84,7 @@ class ScanAbhaResultFragment : BaseFragment<ScanAbhaResultBinding>(ScanAbhaResul
                                     R.color.red
                                 )
                             )
+                            (activity as AbdmActivity).showBlockerDialog(it.data.message)
                         }
 
                         else -> {

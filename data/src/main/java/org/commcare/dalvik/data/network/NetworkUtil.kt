@@ -114,7 +114,7 @@ fun <T> safeApiCall(call: suspend () -> Response<T>) = flow {
 
                 }
 
-                400, 422, 554, 555 -> {
+                400,401, 422, 554, 555 -> {
                     it.errorBody()?.string()?.let { errResponse ->
                         Timber.d("Network : ===> ${errResponse}")
                         val gson = GsonBuilder().serializeNulls().create()

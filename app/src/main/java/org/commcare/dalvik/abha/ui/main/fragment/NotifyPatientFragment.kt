@@ -64,6 +64,8 @@ class NotifyPatientFragment : BaseFragment<NotifyPatientBinding>(NotifyPatientBi
                         is GenerateAbhaUiState.AbdmError -> {
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                             binding.notifyStatus.text ="FALSE"
+                            (activity as AbdmActivity).showBlockerDialog(it.data.message)
+
                         }
 
                         else -> {
