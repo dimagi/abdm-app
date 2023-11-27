@@ -13,8 +13,6 @@ import org.commcare.dalvik.abha.ui.main.fragment.HITYPES
 import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.domain.model.DATE_FORMAT
 import org.commcare.dalvik.domain.model.PatientConsentModel
-import java.text.SimpleDateFormat
-import java.util.Date
 
 class PatientConsentAdapter(val callback :(patientConsentModel:PatientConsentModel)->Unit) :
     PagingDataAdapter<PatientConsentModel, PatientConsentAdapter.PatientConsentViewHolder>(

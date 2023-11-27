@@ -29,6 +29,7 @@ import org.commcare.dalvik.abha.ui.main.adapters.PatientConsentAdapter
 import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.abha.utility.hideKeyboard
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
+import org.commcare.dalvik.data.paging.AbdmException
 import org.commcare.dalvik.domain.model.DATE_FORMAT
 import org.commcare.dalvik.domain.model.PatientConsentModel
 import timber.log.Timber
@@ -110,31 +111,6 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
             consentAdapter.submitData(lifecycle, it)
         }
 
-        //PAGING
-//        lifecycleScope.launch {
-//            consentAdapter.loadStateFlow.collectLatest { loadStates ->
-//
-//                if (loadStates.refresh is LoadState.Loading) {
-//                    binding.loadingLayout.padeLoaderHolder.isVisible = true
-//                    binding.loadingLayout.errMsg.isVisible = false
-//                    binding.loadingLayout.retry.isVisible = false
-//                    binding.loadingLayout.loadingProgress.isVisible = true
-//                }
-//
-//                if (loadStates.refresh is LoadState.Error) {
-//                    binding.loadingLayout.padeLoaderHolder.isVisible = true
-//                    binding.loadingLayout.errMsg.isVisible = true
-//                    binding.loadingLayout.retry.isVisible = true
-//                    binding.loadingLayout.loadingProgress.isVisible = false
-//                }
-//
-//                if (loadStates.refresh is LoadState.NotLoading) {
-//                    binding.loadingLayout.padeLoaderHolder.isVisible = false
-//                    binding.loadingLayout.loadingProgress.isVisible = false
-//                }
-//
-//            }
-//        }
 
         //PAGE RETRY
         binding.loadingLayout.retry.setOnClickListener {
@@ -150,11 +126,18 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
                 binding.statusView.isVisible = false
             }
 
-
             if (loadState.refresh is LoadState.Error) {
                 binding.statusView.isVisible = true
-                binding.statusView.text = resources.getText(R.string.loadErrorMsg)
+
+                val abdmException: AbdmException? = (loadState.refresh as LoadState.Error).error as? AbdmException
+                abdmException?.let {
+                    it.message?.let { msg -> (activity as AbdmActivity).showBlockerDialog(msg) }
+                } ?: run {
+                    binding.statusView.text = resources.getText(R.string.loadErrorMsg)
+                }
+
             }
+
             if (loadState.append.endOfPaginationReached) {
                 if (consentAdapter.itemCount < 1) {
                     binding.statusView.isVisible = true
