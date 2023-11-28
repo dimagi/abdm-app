@@ -85,6 +85,11 @@ class AbhaVerificationResultFragment :
                         is GenerateAbhaUiState.Error -> {
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }
+
+                        is GenerateAbhaUiState.AbdmError -> {
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                            (activity as AbdmActivity).showBlockerDialog(it.data.getActualMessage())
+                        }
                         else -> {
                             //exhaustive block
                         }

@@ -718,6 +718,14 @@ class AbdmViewModel @Inject constructor(
                             )
                         )
                     }
+                    is HqResponseModel.AbdmError -> {
+                        uiState.emit(
+                            GenerateAbhaUiState.AbdmError(
+                                it.value,
+                                RequestType.FETCH_ABHA_CARD
+                            )
+                        )
+                    }
                     else -> {
                         //exhaustive block
                     }

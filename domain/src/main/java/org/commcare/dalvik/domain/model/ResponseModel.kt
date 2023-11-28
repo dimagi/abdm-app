@@ -34,7 +34,7 @@ data class OtpResponseModel(val txnId: String)
 
 data class AbhaVerificationResultModel(
     val status: String = "",
-    var healthIdNumber: String,
+    var healthIdNumber: String?,
     var healthId: String,
     @SerializedName("user_token") var userToken: String? = null
 ) : Serializable
