@@ -14,7 +14,7 @@ import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.domain.model.DATE_FORMAT
 import org.commcare.dalvik.domain.model.PatientConsentModel
 
-class PatientConsentAdapter(val callback :(patientConsentModel:PatientConsentModel)->Unit) :
+class PatientConsentAdapter(val patientName:String? , val callback :(patientConsentModel:PatientConsentModel)->Unit) :
     PagingDataAdapter<PatientConsentModel, PatientConsentAdapter.PatientConsentViewHolder>(
         COMPARATOR
     ) {
@@ -63,6 +63,8 @@ class PatientConsentAdapter(val callback :(patientConsentModel:PatientConsentMod
         fun bindModel(model: PatientConsentModel){
             binding.model = model
             renderHealthInfoTypes()
+            binding.patientName.text = patientName
+
             model.healthInfoFromDate?.let {
                 binding.fromDate.text = CommonUtil.getUtcTimeFromDate(it, DATE_FORMAT.CONSENT_LIST_TIME)
             }
@@ -73,6 +75,18 @@ class PatientConsentAdapter(val callback :(patientConsentModel:PatientConsentMod
 
             model.expiryDate?.let {
                 binding.expiryDate.text = CommonUtil.getUtcTimeFromDate(it,DATE_FORMAT.CONSENT_LIST_TIME)
+            }
+
+            model.creationDate?.let {
+                binding.consentCreationDate.text = CommonUtil.getUtcTimeFromDate(it, DATE_FORMAT.CONSENT_LIST_TIME)
+            }
+            model.lastModified?.let {
+                if (model.status != "GRANTED") {
+                    binding.consentGrantedDate.text = ""
+                } else {
+                    binding.consentGrantedDate.text =
+                        CommonUtil.getUtcTimeFromDate(it, DATE_FORMAT.CONSENT_LIST_TIME)
+                }
             }
 
         }

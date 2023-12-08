@@ -87,7 +87,8 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        consentAdapter = PatientConsentAdapter(this::onPatientConsentClicked)
+        val patientName = arguments?.getString("patient_name")
+        consentAdapter = PatientConsentAdapter(patientName ,this::onPatientConsentClicked)
 
         binding.consentList.apply {
             setHasFixedSize(true)

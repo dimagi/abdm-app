@@ -80,15 +80,16 @@ class TestActivity : AppCompatActivity() {
     }
 
     val lang = "en"
-    private val token = "d4710c17af8c9b752f10626fb068d1cae3dfd76f"//"5dbafa33270b7b07ae1e8a088f55d62ad5b4daf6"
+    private val token = "7ac00d1a71d01d2d1297a225447c94318ccaacdb"
+
 
 
     private fun startIntentA() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "mobile_number" to "9560833229",
-                    "abha_id" to "66543673407500",
+                    "mobile_number" to "9929440663",
+                    "abha_id" to "harish23@sbx",
                     "lang_code" to lang,
                     "abdm_api_token" to token,
                     "action" to ACTION_CREATE_ABHA
@@ -104,6 +105,7 @@ class TestActivity : AppCompatActivity() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
+                    "abha_id" to "harish23@sbx",
                     "mobile_number" to "9560833229",
                     "abdm_api_token" to token,
                     "lang_code" to lang,
@@ -133,7 +135,8 @@ class TestActivity : AppCompatActivity() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "abha_id" to "ashish.yogi@sbx",
+                    "patient_name" to "Test Patient",
+                    "abha_id" to "ashishkyogi1@sbx",
                     "hiu_id" to "Ashish-HIU-Registered",
                     "abdm_api_token" to token,
                     "lang_code" to lang,
