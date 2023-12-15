@@ -80,7 +80,7 @@ class TestActivity : AppCompatActivity() {
     }
 
     val lang = "en"
-    private val token = "7ac00d1a71d01d2d1297a225447c94318ccaacdb"
+    private val token = "cba903c996da17ca535d4bbb1b04d8e0eb7127ce"//"7ac00d1a71d01d2d1297a225447c94318ccaacdb"
 
 
 
@@ -136,7 +136,7 @@ class TestActivity : AppCompatActivity() {
             putExtras(
                 bundleOf(
                     "patient_name" to "Test Patient",
-                    "abha_id" to "ashishkyogi1@sbx",
+                    "abha_id" to "ajeet2042@sbx",
                     "hiu_id" to "Ashish-HIU-Registered",
                     "abdm_api_token" to token,
                     "lang_code" to lang,
