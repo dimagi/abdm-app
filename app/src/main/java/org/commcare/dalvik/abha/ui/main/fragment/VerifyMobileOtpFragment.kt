@@ -230,6 +230,7 @@ class VerifyMobileOtpFragment :
                                         it.data,
                                         AbhaVerificationResultModel::class.java
                                     )
+                                    abhaVerificationResultModel.putAadharData(it.data)
 //                                    arguments?.getString("abhaId")?.let {
 //                                        abhaVerificationResultModel.healthId = it
 //                                    }

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import com.google.gson.JsonObject
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.data.network.HeaderInterceptor
 import org.json.JSONArray
@@ -37,11 +36,11 @@ class TestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_test)
 
         findViewById<Button>(R.id.intentA).setOnClickListener {
-            startIntentB()
+            verifyABHAIntent()
         }
 
         findViewById<Button>(R.id.intentB).setOnClickListener {
-            startIntentA()
+            createABHAIntent()
         }
 
         findViewById<Button>(R.id.intentC).setOnClickListener {
@@ -80,15 +79,15 @@ class TestActivity : AppCompatActivity() {
     }
 
     val lang = "en"
-    private val token = "cba903c996da17ca535d4bbb1b04d8e0eb7127ce"//"7ac00d1a71d01d2d1297a225447c94318ccaacdb"
+    private val token = "33ec318e4ea1261d1e200c4eff017ea696fedaa9" //"cba903c996da17ca535d4bbb1b04d8e0eb7127ce"
 
 
 
-    private fun startIntentA() {
+    private fun createABHAIntent() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "mobile_number" to "9929440663",
+                    "mobile_number" to "9560833229",
                     "abha_id" to "harish23@sbx",
                     "lang_code" to lang,
                     "abdm_api_token" to token,
@@ -100,7 +99,7 @@ class TestActivity : AppCompatActivity() {
 
     }
 
-    private fun startIntentB() {
+    private fun verifyABHAIntent() {
 
         val intent = Intent(action).apply {
             putExtras(

@@ -59,6 +59,7 @@ class AbhaVerificationResultFragment :
             putExtra("abha_address", binding.model?.healthId)
             putExtra("code", AbdmResponseCode.SUCCESS.value)
             putExtra("verified", binding.model?.status)
+            putExtra("aadhaarData", binding.model?.aadharData?.toString())
             putExtra("message", "ABHA verification completed.")
         }
 

@@ -1,5 +1,6 @@
 package org.commcare.dalvik.domain.model
 
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -36,8 +37,23 @@ data class AbhaVerificationResultModel(
     val status: String = "",
     var healthIdNumber: String?,
     var healthId: String,
-    @SerializedName("user_token") var userToken: String? = null
-) : Serializable
+    @SerializedName("user_token") var userToken: String? = null,
+    var aadharData: JsonObject
+
+) : Serializable{
+
+    fun putAadharData(responseJsonObject: JsonObject){
+        aadharData = responseJsonObject
+        try {
+            aadharData.remove("user_token")
+            aadharData.remove("status")
+            aadharData.remove("txnId")
+            aadharData.remove("authMethods")
+        }catch (e:Exception){
+            //
+        }
+    }
+}
 
 data class CheckAbhaResponseModel(
     @SerializedName("health_id") var healthId: String,
