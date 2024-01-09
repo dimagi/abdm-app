@@ -50,7 +50,7 @@ class ConsentPagingSource(
                 }
 
                 is HqResponseModel.AbdmError -> {
-                    LoadResult.Error(AbdmException(response.value.message))
+                    LoadResult.Error(AbdmException(response.value.getErrorMsg()))
                 }
 
                 else -> LoadResult.Error(RuntimeException("Error while loading..."))
