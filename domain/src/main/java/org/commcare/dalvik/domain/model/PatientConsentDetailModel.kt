@@ -141,7 +141,7 @@ enum class ConsentValidation(val msg: String) {
 
 enum class DATE_FORMAT(val format: String) {
     SERVER("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
-    USER("dd MMM YYYY , hh:mm a"),
+    USER("dd MMM yyyy , HH:mm a"),
     CONSENT_LIST_TIME("dd/MMM/YYYY  hh:mm a"),
     ONLY_DATE("YYYY-MM-dd")
 }
