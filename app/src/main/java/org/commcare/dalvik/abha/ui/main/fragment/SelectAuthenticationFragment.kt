@@ -82,7 +82,11 @@ class SelectAuthenticationFragment :
                                         setAdapter(adapter)
                                         setOnItemClickListener(this@SelectAuthenticationFragment)
                                         if (authList.size == 1) {
-                                            setText(adapter.getItem(0).toString(), false)
+                                            val selAuthValue = adapter.getItem(0).toString()
+                                            setText(selAuthValue, false)
+                                            binding.startVerfication.isEnabled = true
+                                            viewModel.selectedAuthMethod = if (selAuthValue.contains("mobile",true))
+                                                "MOBILE_OTP" else "AADHAAR_OTP"
                                         }
                                     }
 
