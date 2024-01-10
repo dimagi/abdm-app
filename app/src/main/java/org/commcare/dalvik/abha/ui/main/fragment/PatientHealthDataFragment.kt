@@ -7,13 +7,19 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.PatientHealthDataBinding
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.ui.main.adapters.FileData
 import org.commcare.dalvik.abha.ui.main.adapters.FileType
 import org.commcare.dalvik.abha.ui.main.adapters.HealthDataAdapter
+import org.commcare.dalvik.abha.utility.DialogType
+import org.commcare.dalvik.abha.utility.DialogUtility
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
 import org.commcare.dalvik.domain.model.HealthContentModel
@@ -77,8 +83,15 @@ class PatientHealthDataFragment :
                                 )
                             } ?: run {
                                 viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                                if(healthDataModel.results.isEmpty()){
+                                        DialogUtility.showDialog(
+                                            activity as AbdmActivity,
+                                            resources.getString(R.string.no_health_data_available),
+                                            { findNavController().popBackStack()},
+                                            DialogType.General
+                                        )
+                                }
                             }
-
                         }
 
                         is GenerateAbhaUiState.Error -> {

@@ -165,4 +165,5 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="creation_date">Creation Date</string>
     <string name="granted_date">Granted Date</string>
     <string name="patient_name">Patient Name</string>
+    <string name="no_health_data_available">No health record available</string>
 </resources>

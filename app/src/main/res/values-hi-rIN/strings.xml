@@ -127,4 +127,5 @@
     <string name="creation_date">निर्माण तिथि</string>
     <string name="granted_date">स्वीकृत तिथि</string>
     <string name="patient_name">रोगी का नाम</string>
+    <string name="no_health_data_available">No health record available</string>
 </resources>
