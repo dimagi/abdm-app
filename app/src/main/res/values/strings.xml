@@ -79,7 +79,16 @@ I, hereby declare that I am voluntarily sharing my Aadhaar Number and demographi
     <string name="checkABHA">Check ABHA</string>
     <string name="note">Note:</string>
     <string name="check_abha_note">ABHA input is optional while creating a new ABHA. When left blank, an auto generated ABHA will be created.
-Please fill this field if the beneficiary is interested in a custom ABHA address.</string>
+Please fill this field if the beneficiary is interested in a custom ABHA address.\n\n
+        1. Minimum length - 8 characters.\n
+2. Maximum length - 18 characters.\n
+3. Special characters allowed - 1 dot (.) and/or 1 underscore (_).\n
+4. Special character dot and underscore should be in between. Special characters cannot be in the beginning or at the end.\n
+5. Alphanumeric - only numbers, only letters or any combination of numbers and letters is allowed.\n
+
+    </string>
+
+
     <string name="ABHA_IN_USE">ABHA address already in use.</string>
     <string name="abha_to_check">Enter ABHA to check</string>
     <string name="custom_abha_suffix">\@abdm</string>

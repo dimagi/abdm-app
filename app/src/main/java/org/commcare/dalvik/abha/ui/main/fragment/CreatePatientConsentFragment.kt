@@ -55,6 +55,10 @@ class CreatePatientConsentFragment :
                     viewmodel.init(abhaId, hiuId,   bundle.getString("requester") ?: "")
                 }
             }
+            bundle.getString("patient_name")?.let { patientName ->
+                binding.patientName.setText(patientName)
+            }
+
         }
 
         binding.model = viewmodel.patientConsentModel

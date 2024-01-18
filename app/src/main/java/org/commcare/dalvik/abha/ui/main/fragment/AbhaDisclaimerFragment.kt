@@ -89,7 +89,7 @@ class AbhaDisclaimerFragment : BaseFragment<DisclaimerBinding>(DisclaimerBinding
                             binding.abhaNumberEt.isEnabled = true
                             binding.skipCheckABHA.isEnabled = true
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
-                            (activity as AbdmActivity).showBlockerDialog(it.data.message)
+                            (activity as AbdmActivity).showBlockerDialog(it.data.getErrorMsg())
                         }
                         else -> {
                             //exhaustive block
