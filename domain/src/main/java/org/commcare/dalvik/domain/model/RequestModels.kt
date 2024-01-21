@@ -40,7 +40,7 @@ data class ConfirmAuthModel(val transactionId:String,val credential: Credential)
 data class Credential(var authCode:String?)
 
 // CARE CONTEXT LINKING API
-data class CCLinkModel(val accessToken:String,@SerializedName("hip_id") val hipId:String,val patient:CCPatientDetails)
+data class CCLinkModel(val accessToken:String,@SerializedName("hip_id") val hipId:String,val patient:CCPatientDetails,val healthId: String)
 
 data class CCPatientDetails(val referenceNumber:String,val display:String,val careContexts:List<CCDetail>)
 
