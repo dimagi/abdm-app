@@ -8,7 +8,6 @@ import org.commcare.dalvik.domain.model.CCRequesterModel
 class LinkCareContextModel {
     lateinit var patientAbhaId: String
     lateinit var hipId: String
-    lateinit var healthId: String
     lateinit var purpose: String
     lateinit var patient: CCPatientDetails
 
@@ -20,7 +19,7 @@ class LinkCareContextModel {
     }
 
     fun getCCLinkRequestModel(accessToken:String):CCLinkModel{
-        return CCLinkModel(accessToken,hipId,patient,healthId)
+        return CCLinkModel(accessToken,hipId,patient,patientAbhaId)
     }
 
 }

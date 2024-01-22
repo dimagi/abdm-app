@@ -51,9 +51,6 @@ class CCFetchAuthModeFragment : BaseFragment<CCAuthModeBinding>(CCAuthModeBindin
                 linkCareContextModel.hipId = it
             }
 
-            it.getString("healthId")?.let {
-                linkCareContextModel.healthId = it
-            }
 
             val UTC_DIFF = (30 * 60 * 1000) + (5 * 60 * 60 * 1000)
 
