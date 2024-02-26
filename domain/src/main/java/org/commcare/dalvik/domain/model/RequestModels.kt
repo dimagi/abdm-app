@@ -2,6 +2,7 @@ package org.commcare.dalvik.domain.model
 
 import android.hardware.SensorAdditionalInfo
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 abstract class BaseModel
 
@@ -28,7 +29,7 @@ data class AbhaVerificationRequestModel(@SerializedName("health_id") val healthI
 // CARE CONTEXT AUTH FETCH AND INIT
 data class CCAuthModesRequestModel(val id:String,
     val purpose:String = "LINK",
-    val authMethod: String?,
+    val authMode: String?,
     val requester:CCRequesterModel){
 }
 
@@ -37,12 +38,15 @@ data class CCRequesterModel(val type: String = "HIP", val id: String)
 // CONFIRM AUTH API
 data class ConfirmAuthModel(val transactionId:String,val credential: Credential)
 
-data class Credential(var authCode:String?)
+data class Credential(var authCode:String? = null,var demographic: Demographic?  = null)
 
 // CARE CONTEXT LINKING API
 data class CCLinkModel(val accessToken:String,@SerializedName("hip_id") val hipId:String,val patient:CCPatientDetails,val healthId: String)
 
-data class CCPatientDetails(val referenceNumber:String,val display:String,val careContexts:List<CCDetail>)
+data class CCPatientDetails(val referenceNumber:String,val display:String,val careContexts:List<CCDetail>,val demographics:Demographic)
+
+
+data class Demographic(val name:String ,val gender:String ,val dateOfBirth:String):Serializable
 
 data class CCDetail(val referenceNumber:String,val display: String,val hiTypes:List<String>,val additionalInfo: AdditionalInfo)
 

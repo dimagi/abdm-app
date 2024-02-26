@@ -6,6 +6,7 @@
     <string name="START_VERIFICATION">Start Verification</string>
     <string name="VERIFY_OTP">Verify OTP</string>
     <string name="GEN_OTP">Generate OTP</string>
+    <string name="start_auth">Start Auth</string>
 
     <string name="RESEND_OTP">Resend OTP</string>
     <string name="ENTER_ADHR_OTP">Enter Aadhaar OTP</string>
@@ -175,4 +176,6 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="granted_date">Granted Date</string>
     <string name="patient_name">Patient Name</string>
     <string name="no_health_data_available">No health record available</string>
+
+    <string name="demographics">Demographics</string>
 </resources>

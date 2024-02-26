@@ -26,6 +26,7 @@ import org.commcare.dalvik.domain.model.CCGenerateOtpResponseModel
 import org.commcare.dalvik.domain.model.CCVerifyOtpResponseModel
 import org.commcare.dalvik.domain.model.ConfirmAuthModel
 import org.commcare.dalvik.domain.model.Credential
+import org.commcare.dalvik.domain.model.Demographic
 
 class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBinding::inflate) {
 
@@ -35,6 +36,20 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
         super.onViewCreated(view, savedInstanceState)
 
         binding.clickHandler = this
+
+        arguments?.let {
+            it.getBoolean("verifyWithDemographics").let {
+                binding.isVerifyWithDemoGraphics = it
+                if(it) {
+                    (activity as AbdmActivity).setToolbarTitle(R.string.demographics)
+                }
+            }
+
+            it.getSerializable("demographic")?.let { model ->
+                binding.demograhicModel = model as Demographic
+            }
+
+        }
 
         lifecycleScope.launch(Dispatchers.Main) {
             binding.otpEt.observeText().collect {
@@ -70,7 +85,7 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
 
     private fun requestOtp() {
         lifecycleScope.launch {
-            viewModel.linkCareContextModel.hipId.let {hipId ->
+            viewModel.linkCareContextModel.hipId.let { hipId ->
                 viewModel.checkForBlockedState(hipId).collect {
                     when (it) {
                         OtpCallState.OtpReqAvailable -> {
@@ -98,6 +113,7 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
                             binding.otpEt.isEnabled = false
                             binding.resendCCOtp.isEnabled = false
                             binding.verifyCCOtp.isEnabled = false
+                            binding.startAuth.isEnabled = false
                             viewModel.uiState.emit(GenerateAbhaUiState.InvalidState)
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(true))
                         }
@@ -106,6 +122,7 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
                             binding.otpEt.isEnabled = false
                             binding.resendCCOtp.isEnabled = false
                             binding.verifyCCOtp.isEnabled = false
+                            binding.startAuth.isEnabled = false
                             binding.timeProgress.startTimer()
                             viewModel.uiState.emit(GenerateAbhaUiState.InvalidState)
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(true))
@@ -118,16 +135,18 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
                                 RequestType.CC_AUTH_INIT -> {
                                     binding.otpEt.requestFocus()
                                     binding.otpEt.isEnabled = true
+                                    binding.startAuth.isEnabled = true
 
                                     val ccGenerateOtpResponseModel = Gson().fromJson(
                                         it.data,
                                         CCGenerateOtpResponseModel::class.java
                                     )
 
+
                                     viewModel.confirmAuthModel =
                                         ConfirmAuthModel(
                                             ccGenerateOtpResponseModel.transactionId,
-                                            Credential(null)
+                                            Credential()
                                         )
 
                                 }
@@ -153,8 +172,10 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
                             when (it.requestType) {
                                 RequestType.CC_AUTH_CONFIRM -> {
                                     binding.verifyCCOtp.isEnabled = true
+                                    binding.startAuth.isEnabled = true
                                 }
-                                else ->{
+
+                                else -> {
 
                                 }
                             }
@@ -167,8 +188,10 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
                             when (it.requestType) {
                                 RequestType.CC_AUTH_CONFIRM -> {
                                     binding.verifyCCOtp.isEnabled = true
+                                    binding.startAuth.isEnabled = true
                                 }
-                                else ->{
+
+                                else -> {
 
                                 }
                             }
@@ -198,10 +221,16 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
                 viewModel.confirmAuthModel.credential.authCode = binding.otpEt.text.toString()
                 viewModel.confirmCareContextOtp()
             }
+
+            R.id.startAuth -> {
+                viewModel.confirmAuthModel.credential.demographic =
+                    viewModel.linkCareContextModel.patient.demographics
+                viewModel.confirmCareContextOtp()
+            }
         }
     }
 
-    private fun navigateToLinkCCScreen(accessToken:String){
+    private fun navigateToLinkCCScreen(accessToken: String) {
         val bundle = bundleOf(
             "accessToken" to accessToken
         )
