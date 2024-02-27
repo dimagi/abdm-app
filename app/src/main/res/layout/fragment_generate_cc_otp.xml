@@ -150,7 +150,7 @@
                 android:layout_margin="@dimen/_10dp"
                 android:layout_marginBottom="16dp"
                 android:onClickListener="@{clickHandler}"
-                android:text="@string/start_auth"
+                android:text="@string/verify"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

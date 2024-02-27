@@ -225,6 +225,23 @@ class CCVerifyOtpFragment : BaseFragment<GenerateCCOtpBinding>(GenerateCCOtpBind
             R.id.startAuth -> {
                 viewModel.confirmAuthModel.credential.demographic =
                     viewModel.linkCareContextModel.patient.demographics
+
+                viewModel.confirmAuthModel.credential.demographic?.let {
+                    when(it.gender.lowercase()){
+                        "male" ->{
+                            it.gender = "M"
+                        }
+                        "female" ->{
+                            it.gender = "F"
+                        }
+                        "other" ->{
+                            it.gender = "O"
+                        }
+                        "unknown" ->{
+                            it.gender = "U"
+                        }
+                    }
+                }
                 viewModel.confirmCareContextOtp()
             }
         }
