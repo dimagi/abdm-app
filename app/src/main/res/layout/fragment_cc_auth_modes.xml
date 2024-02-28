@@ -60,80 +60,6 @@
                     android:gravity="center_vertical|start"
                     android:paddingStart="@dimen/_2dp"
                     android:paddingLeft="@dimen/_2dp"
-                    android:text="@string/abha_num" />
-
-                <TextView
-                    style="@style/Headline2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="@dimen/_2dp"
-                    android:paddingRight="@dimen/_2dp"
-                    android:text="@{reqModel.patientAbhaId}" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:minHeight="@dimen/_32dp">
-
-                <TextView
-                    style="@style/Headline2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|start"
-                    android:paddingStart="@dimen/_2dp"
-                    android:paddingLeft="@dimen/_2dp"
-                    android:text="@string/purpose" />
-
-                <TextView
-                    style="@style/Headline2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="@dimen/_2dp"
-                    android:paddingRight="@dimen/_2dp"
-                    android:text="@{reqModel.purpose}" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:minHeight="@dimen/_32dp">
-
-                <TextView
-                    style="@style/Headline2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|start"
-                    android:paddingStart="@dimen/_2dp"
-                    android:paddingLeft="@dimen/_2dp"
-                    android:text="@string/patietDetails"
-                    android:textColor="@color/blue"
-                    android:textStyle="bold" />
-
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:minHeight="@dimen/_32dp">
-
-                <TextView
-                    style="@style/Headline2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|start"
-                    android:paddingStart="@dimen/_2dp"
-                    android:paddingLeft="@dimen/_2dp"
                     android:text="@string/referenceNum" />
 
                 <TextView
@@ -175,6 +101,217 @@
 
             </TableRow>
 
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/abha_num" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.patientAbhaId}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/abha_number" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.abhaNumber}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/purpose" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.purpose}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/patietDetails"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold" />
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/name" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.patient.demographics.name}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/gender" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.patient.demographics.gender}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/dateOfBirth" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.patient.demographics.dateOfBirth}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/phone" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{reqModel.patient.demographics.phoneNumber}" />
+
+            </TableRow>
+
+
         </TableLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -211,9 +348,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
-            android:visibility="gone"
             android:onClickListener="@{clickHandler}"
             android:text="@string/start_auth"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -228,9 +365,9 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:enabled="false"
-            android:visibility="gone"
             android:onClickListener="@{clickHandler}"
             android:text="@string/GEN_OTP"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

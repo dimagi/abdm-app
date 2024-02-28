@@ -7,6 +7,7 @@ import org.commcare.dalvik.domain.model.CCRequesterModel
 
 class LinkCareContextModel {
     lateinit var patientAbhaId: String
+    lateinit var abhaNumber: String
     lateinit var hipId: String
     lateinit var purpose: String
     lateinit var patient: CCPatientDetails

@@ -46,7 +46,7 @@ data class CCLinkModel(val accessToken:String,@SerializedName("hip_id") val hipI
 data class CCPatientDetails(val referenceNumber:String,val display:String,val careContexts:List<CCDetail>,val demographics:Demographic)
 
 
-data class Demographic(val name:String ,var gender:String ,val dateOfBirth:String):Serializable
+data class Demographic(val name:String ,var gender:String ,val dateOfBirth:String ,var phoneNumber :String?):Serializable
 
 data class CCDetail(val referenceNumber:String,val display: String,val hiTypes:List<String>,val additionalInfo: AdditionalInfo)
 
