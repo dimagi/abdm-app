@@ -179,4 +179,5 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="no_health_data_available">No health record available</string>
 
     <string name="demographics">Demographics</string>
+    <string name="abha_address">ABHA Address</string>
 </resources>

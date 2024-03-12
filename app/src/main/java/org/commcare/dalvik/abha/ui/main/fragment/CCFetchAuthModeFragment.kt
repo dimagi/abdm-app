@@ -43,7 +43,7 @@ class CCFetchAuthModeFragment : BaseFragment<CCAuthModeBinding>(CCAuthModeBindin
     private fun populateIntentData() {
         arguments?.let {
             val linkCareContextModel = LinkCareContextModel()
-            it.getString("abha_num")?.let {
+            it.getString("abha_number")?.let {
                 linkCareContextModel.abhaNumber = it
             }
             it.getString("abhaId")?.let {
