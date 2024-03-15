@@ -54,4 +54,6 @@ interface AbdmRepository {
 
     fun linkCareContext(ccLinkModel:CCLinkModel):Flow<HqResponseModel>
 
+    fun notifyPatient(patientNotificationModel: PatientNotificationModel):Flow<HqResponseModel>
+
 }

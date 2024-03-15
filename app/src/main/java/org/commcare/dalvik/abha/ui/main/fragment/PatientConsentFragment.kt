@@ -23,11 +23,13 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.PatientConsentBinding
+import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.ui.main.adapters.ConsentPageLoaderAdapter
 import org.commcare.dalvik.abha.ui.main.adapters.PatientConsentAdapter
 import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.abha.utility.hideKeyboard
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
+import org.commcare.dalvik.data.paging.AbdmException
 import org.commcare.dalvik.domain.model.DATE_FORMAT
 import org.commcare.dalvik.domain.model.PatientConsentModel
 import timber.log.Timber
@@ -45,7 +47,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getString("abha_id")?.let {abhaId ->
+        arguments?.getString("abha_id")?.let { abhaId ->
             viewModel.initPatientAbhaId(abhaId)
         }
 
@@ -85,7 +87,8 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        consentAdapter = PatientConsentAdapter(this::onPatientConsentClicked)
+        val patientName = arguments?.getString("patient_name")
+        consentAdapter = PatientConsentAdapter(patientName, this::onPatientConsentClicked)
 
         binding.consentList.apply {
             setHasFixedSize(true)
@@ -109,31 +112,6 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
             consentAdapter.submitData(lifecycle, it)
         }
 
-        //PAGING
-//        lifecycleScope.launch {
-//            consentAdapter.loadStateFlow.collectLatest { loadStates ->
-//
-//                if (loadStates.refresh is LoadState.Loading) {
-//                    binding.loadingLayout.padeLoaderHolder.isVisible = true
-//                    binding.loadingLayout.errMsg.isVisible = false
-//                    binding.loadingLayout.retry.isVisible = false
-//                    binding.loadingLayout.loadingProgress.isVisible = true
-//                }
-//
-//                if (loadStates.refresh is LoadState.Error) {
-//                    binding.loadingLayout.padeLoaderHolder.isVisible = true
-//                    binding.loadingLayout.errMsg.isVisible = true
-//                    binding.loadingLayout.retry.isVisible = true
-//                    binding.loadingLayout.loadingProgress.isVisible = false
-//                }
-//
-//                if (loadStates.refresh is LoadState.NotLoading) {
-//                    binding.loadingLayout.padeLoaderHolder.isVisible = false
-//                    binding.loadingLayout.loadingProgress.isVisible = false
-//                }
-//
-//            }
-//        }
 
         //PAGE RETRY
         binding.loadingLayout.retry.setOnClickListener {
@@ -145,15 +123,23 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
             val isLoading = loadState.refresh is LoadState.Loading
             binding.statusLoading.isVisible = isLoading
-            if(isLoading){
+            if (isLoading) {
                 binding.statusView.isVisible = false
             }
 
-
             if (loadState.refresh is LoadState.Error) {
                 binding.statusView.isVisible = true
-                binding.statusView.text = resources.getText(R.string.loadErrorMsg)
+
+                val abdmException: AbdmException? =
+                    (loadState.refresh as LoadState.Error).error as? AbdmException
+                abdmException?.let {
+                    it.message?.let { msg -> (activity as AbdmActivity).showBlockerDialog(msg) }
+                } ?: run {
+                    binding.statusView.text = resources.getText(R.string.loadErrorMsg)
+                }
+
             }
+
             if (loadState.append.endOfPaginationReached) {
                 if (consentAdapter.itemCount < 1) {
                     binding.statusView.isVisible = true
@@ -166,8 +152,12 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
         }
 
-        binding.createConsentBtn.setOnClickListener{
+        binding.createConsentBtn.setOnClickListener {
             navigateToCreateConsentScreen()
+        }
+
+        binding.backBt.setOnClickListener {
+            (activity as AbdmActivity).finish()
         }
     }
 
@@ -302,10 +292,14 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
     private fun onPatientConsentClicked(patientConsentModel: PatientConsentModel) {
         Timber.d("Clicked : ${patientConsentModel.id}")
         patientConsentModel.status?.let {
-            if(it == "GRANTED") {
+            if (it == "GRANTED") {
                 navigateToConsentArtefactScreen(patientConsentModel.consentRequestId)
-            }else{
-                Toast.makeText(requireContext(),resources.getString(R.string.notGrantedMsg),Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.notGrantedMsg),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -313,10 +307,9 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
     private fun navigateToConsentArtefactScreen(consentReqId: String) {
         activity?.runOnUiThread {
+            arguments?.putString("contentRequestId", consentReqId)
             findNavController().navigate(
-                R.id.action_patientConsentFragment_to_consentArtefactFragment, bundleOf(
-                    "contentRequestId" to consentReqId
-                )
+                R.id.action_patientConsentFragment_to_consentArtefactFragment, arguments
             )
         }
     }

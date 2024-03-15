@@ -5,13 +5,14 @@ import androidx.paging.cachedIn
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.model.FilterModel
 import org.commcare.dalvik.abha.ui.main.fragment.ACCESS_MODE
 import org.commcare.dalvik.abha.ui.main.fragment.PURPOSE
+import org.commcare.dalvik.abha.utility.CommonUtil
 import org.commcare.dalvik.abha.utility.PropMutableLiveData
 import org.commcare.dalvik.domain.model.ConsentPermission
+import org.commcare.dalvik.domain.model.DATE_FORMAT
 import org.commcare.dalvik.domain.model.HealthContentModel
 import org.commcare.dalvik.domain.model.HqResponseModel
 import org.commcare.dalvik.domain.model.IdNameModel
@@ -42,12 +43,12 @@ class PatientViewModel @Inject constructor(
     lateinit var patientHealthData:Pair<String,MutableList<HealthContentModel>>
 
 
-    fun init(patientId: String, hiuId: String) {
+    fun init(patientId: String, hiuId: String ,requesterValue:String) {
         this.patientConsentModel =
             PatientConsentDetailModel(Purpose(PURPOSE.CAREMGT.name)).apply {
                 hiu = IdNameModel(hiuId)
                 patient = Patient(patientId)
-                requester = Requester("Dr. Manju")
+                requester = Requester(requesterValue)
                 permission = ConsentPermission(ACCESS_MODE.VIEW.value)
             }
     }
@@ -63,13 +64,43 @@ class PatientViewModel @Inject constructor(
     }
 
     fun submitPatientConsent() {
-        val consentJson = Gson().toJson(patientConsentModel)
+        val UTC_DIFF = (30 * 60 * 1000) + (5 * 60 * 60 * 1000)
+        val serverCopyPatientModel = Gson().fromJson(Gson().toJson(patientConsentModel),PatientConsentDetailModel::class.java)
+
+        serverCopyPatientModel.permission.expiryDate?.let {
+            Timber.d("+++ ORG Expiry Date == ${it}")
+            val expiryMs = CommonUtil.getTimeInMillis(it) - UTC_DIFF
+            CommonUtil.getGMTFormattedDateTime(expiryMs , DATE_FORMAT.SERVER.format)?.let {
+                serverCopyPatientModel.setPermissionExpiryDate(it)
+                Timber.d("+++ Final Expiry Date == ${it}")
+            }
+        }
+
+        serverCopyPatientModel.permission.dateRange.startDate?.let {
+            Timber.d("+++ ORG Start Date == ${it}")
+            val startMs = CommonUtil.getTimeInMillis(it) - UTC_DIFF
+            CommonUtil.getGMTFormattedDateTime(startMs , DATE_FORMAT.SERVER.format)?.let {
+                serverCopyPatientModel.permission.dateRange.startDate = it
+                Timber.d("+++ Final Start Date == ${it}")
+            }
+        }
+
+        serverCopyPatientModel.permission.dateRange.endDate?.let {
+            Timber.d("+++ ORG End Date == ${it}")
+            val endMs = CommonUtil.getTimeInMillis(it) - UTC_DIFF
+            CommonUtil.getGMTFormattedDateTime(endMs , DATE_FORMAT.SERVER.format)?.let {
+                serverCopyPatientModel.permission.dateRange.endDate = it
+                Timber.d("+++ Final End Date == ${it}")
+            }
+        }
+
+        val consentJson = Gson().toJson(serverCopyPatientModel)
         Timber.d(
             "Consent JSON ===>  ${consentJson} "
         )
 
         viewModelScope.launch {
-            submitPatientConsentUseCase.execute(patientConsentModel).collect {
+            submitPatientConsentUseCase.execute(serverCopyPatientModel).collect {
                 when (it) {
                     HqResponseModel.Loading -> {
                         uiState.emit(GenerateAbhaUiState.InvalidState)
@@ -88,6 +119,15 @@ class PatientViewModel @Inject constructor(
                     is HqResponseModel.Error -> {
                         uiState.emit(
                             GenerateAbhaUiState.Error(
+                                it.value,
+                                RequestType.CREATE_PATIENT_CONSENT
+                            )
+                        )
+                    }
+
+                    is HqResponseModel.AbdmError -> {
+                        uiState.emit(
+                            GenerateAbhaUiState.AbdmError(
                                 it.value,
                                 RequestType.CREATE_PATIENT_CONSENT
                             )

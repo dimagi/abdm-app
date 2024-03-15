@@ -6,6 +6,7 @@
     <string name="START_VERIFICATION">Start Verification</string>
     <string name="VERIFY_OTP">Verify OTP</string>
     <string name="GEN_OTP">Generate OTP</string>
+    <string name="start_auth">Start Auth</string>
 
     <string name="RESEND_OTP">Resend OTP</string>
     <string name="ENTER_ADHR_OTP">Enter Aadhaar OTP</string>
@@ -58,6 +59,7 @@
     <string name="returnn">Return</string>
     <string name="adhar_consent">Use Aadhaar data in Commcare</string>
     <string name="abha_num">ABHA</string>
+    <string name="abha_number">ABHA No.</string>
     <string name="aadhar_data">Aadhaar Data</string>
     <string name="start_verification">Start Verification</string>
     <string name="select_auth">Select auth method</string>
@@ -79,7 +81,16 @@ I, hereby declare that I am voluntarily sharing my Aadhaar Number and demographi
     <string name="checkABHA">Check ABHA</string>
     <string name="note">Note:</string>
     <string name="check_abha_note">ABHA input is optional while creating a new ABHA. When left blank, an auto generated ABHA will be created.
-Please fill this field if the beneficiary is interested in a custom ABHA address.</string>
+Please fill this field if the beneficiary is interested in a custom ABHA address.\n\n
+        1. Minimum length - 8 characters.\n
+2. Maximum length - 18 characters.\n
+3. Special characters allowed - 1 dot (.) and/or 1 underscore (_).\n
+4. Special character dot and underscore should be in between. Special characters cannot be in the beginning or at the end.\n
+5. Alphanumeric - only numbers, only letters or any combination of numbers and letters is allowed.\n
+
+    </string>
+
+
     <string name="ABHA_IN_USE">ABHA address already in use.</string>
     <string name="abha_to_check">Enter ABHA to check</string>
     <string name="custom_abha_suffix">\@abdm</string>
@@ -118,14 +129,14 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="permission">Permission</string>
     <string name="accessMode">Access Mode</string>
     <string name="dateRange">Consent Date Range</string>
-    <string name="startDate">Start Date</string>
-    <string name="endDate">End Date</string>
+    <string name="startDate">From Date</string>
+    <string name="endDate">To Date</string>
     <string name="expiryDate">Expiry Date</string>
     <string name="select_time">Select Time</string>
     <string name="create_consent">Create Consent</string>
     <string name="healthInfo">Health Info</string>
     <string name="helthInfoType">Health Info Type</string>
-    <string name="healthInfoType">Health Info Type</string>
+    <string name="healthInfoType">FHIR Data</string>
     <string name="patient_consent">Patient Consents</string>
     <string name="filter">Filter</string>
     <string name="searchText">Enter text to search</string>
@@ -157,4 +168,17 @@ Please fill this field if the beneficiary is interested in a custom ABHA address
     <string name="linking_cc_success">Context care linked successfully.</string>
     <string name="linking_cc_error">Context care not linked.</string>
     <string name="cc_not_linked">NOT LINKED</string>
+    <string name="scanAbhaResult">ABHA Details</string>
+    <string name="place_barcode_inside">Place barcode at the center of the screen.</string>
+    <string name="back">Back</string>
+    <string name="notifyPatient">Notify Patient</string>
+    <string name="phone">Phone No.</string>
+    <string name="creation_date">Creation Date</string>
+    <string name="granted_date">Granted Date</string>
+    <string name="patient_name">Patient Name</string>
+    <string name="no_health_data_available">No health record available</string>
+
+    <string name="demographics">Demographics</string>
+    <string name="abha_address">ABHA Address</string>
+    <string name="age">Age</string>
 </resources>

@@ -31,6 +31,7 @@ class ScanAbhaViewModel @Inject constructor(private val abhaAvailbilityUsecase: 
                abhaAvailbilityUsecase.execute(AbhaVerificationRequestModel(abhaId)).collect {
                    when (it) {
                        HqResponseModel.Loading -> {
+                           uiState.emit(GenerateAbhaUiState.InvalidState)
                            uiState.emit(GenerateAbhaUiState.Loading(true))
                        }
 
@@ -46,6 +47,14 @@ class ScanAbhaViewModel @Inject constructor(private val abhaAvailbilityUsecase: 
                        is HqResponseModel.Error -> {
                            uiState.emit(
                                GenerateAbhaUiState.Error(
+                                   it.value,
+                                   RequestType.ABHA_AVAILABILITY
+                               )
+                           )
+                       }
+                       is HqResponseModel.AbdmError -> {
+                           uiState.emit(
+                               GenerateAbhaUiState.AbdmError(
                                    it.value,
                                    RequestType.ABHA_AVAILABILITY
                                )

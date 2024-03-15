@@ -11,20 +11,15 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import com.google.gson.Gson
-import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.ConsentArtefactBinding
+import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.ui.main.adapters.ConsentArtefactAdapter
 import org.commcare.dalvik.abha.ui.main.adapters.ConsentPageLoaderAdapter
-import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
-import org.commcare.dalvik.domain.model.PatientHealthDataModel
-import timber.log.Timber
+import org.commcare.dalvik.data.paging.AbdmException
 
 class ConsentArtefactFragment :
     BaseFragment<ConsentArtefactBinding>(ConsentArtefactBinding::inflate) {
@@ -87,7 +82,13 @@ class ConsentArtefactFragment :
 
             if (loadState.refresh is LoadState.Error) {
                 binding.statusView.isVisible = true
-                binding.statusView.text = resources.getText(R.string.loadErrorMsg)
+                val abdmException: AbdmException? =
+                    (loadState.refresh as LoadState.Error).error as? AbdmException
+                abdmException?.let {
+                    it.message?.let { msg -> (activity as AbdmActivity).showBlockerDialog(msg) }
+                } ?: run {
+                    binding.statusView.text = resources.getText(R.string.loadErrorMsg)
+                }
             }
             if (loadState.append.endOfPaginationReached) {
                 if (artefactAdapter.itemCount < 1) {
@@ -102,10 +103,9 @@ class ConsentArtefactFragment :
     }
 
     private fun navigateToPatientHealthData(artefactId: String) {
+        arguments?.putString("artefactId", artefactId)
         findNavController().navigate(
-            R.id.action_consentArtefactFragment_to_patientHealthDataFragment, bundleOf(
-                "artefactId" to artefactId
-            )
+            R.id.action_consentArtefactFragment_to_patientHealthDataFragment, arguments
         )
 
     }

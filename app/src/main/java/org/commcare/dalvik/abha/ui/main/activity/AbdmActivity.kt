@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
@@ -16,6 +17,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.snackbar.Snackbar
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +32,7 @@ import org.commcare.dalvik.abha.viewmodel.AbdmViewModel
 import org.commcare.dalvik.abha.viewmodel.CareContextViewModel
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
+import org.commcare.dalvik.abha.viewmodel.ScanAbhaViewModel
 import org.commcare.dalvik.data.network.HeaderInterceptor
 import org.commcare.dalvik.domain.model.LanguageManager
 import org.commcare.dalvik.domain.model.TranslationKey
@@ -43,6 +48,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     val viewmodel: AbdmViewModel by viewModels()
     val patientViewModel: PatientViewModel by viewModels()
     val careContextViewModel: CareContextViewModel by viewModels()
+    val scanAbhaViewModel: ScanAbhaViewModel by viewModels()
 
     private var showMenu = true
 
@@ -51,6 +57,19 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
     val ACTION_SCAN_ABHA = "scan_abha"
     val ACTION_GET_CONSENT = "get_consent"
     val ACTION_CARE_CONTEXT_LINK = "link_care_context"
+    val ACTION_NOTIFY_PATIENT = "notify_patient"
+
+    lateinit var scanCallback : (result:String?)->Unit
+
+    private val barcodeLauncher = registerForActivityResult<ScanOptions, ScanIntentResult>(
+        ScanContract()
+    ) { result: ScanIntentResult ->
+        if (result.contents == null) {
+            Toast.makeText(this@AbdmActivity, "Scan cancelled", Toast.LENGTH_LONG).show()
+        } else {
+            scanCallback.invoke( result.contents)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,14 +88,12 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
-//        binding.toolbarContainer.toolbar.setNavigationOnClickListener { view ->
-//            Toast.makeText(this, "BACK", Toast.LENGTH_SHORT).show()
-//        }
 
         observeLoader()
         observerPatientViewModel()
         observerCCViewModel()
         observeBlockedOtpRequest()
+        observerScanabhaViewModel()
 
         intent.extras?.getString("lang_code")?.let { langId ->
             val config = Configuration(resources.configuration)
@@ -109,14 +126,15 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                         LanguageManager.getTranslatedValue(this, R.string.ABHA_CREATION)
                 }
 
-                ACTION_SCAN_ABHA -> {
-                    supportActionBar?.title =
-                        LanguageManager.getTranslatedValue(this, R.string.scanAbha)
-                }
 
                 ACTION_CARE_CONTEXT_LINK->{
                     supportActionBar?.title =
                         LanguageManager.getTranslatedValue(this, R.string.linkCareContext)
+                }
+
+                ACTION_NOTIFY_PATIENT ->{
+                    supportActionBar?.title =
+                        LanguageManager.getTranslatedValue(this, R.string.notifyPatient)
                 }
             }
 
@@ -171,16 +189,19 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
      * Verify intent data
      */
     private fun verifyIntentData() {
+        Timber.d("Verifying intet data.")
         intent.extras?.containsKey("abdm_api_token")?.let { tokenPresent ->
             if (tokenPresent) {
                 intent.extras?.getString("abdm_api_token")?.let {
                     if (it.isEmpty()) {
+                        Timber.d("Token is empty.")
                         showMessageAndDispatchResult(TranslationKey.TOKEN_MISSING.toString())
                     } else {
                         AbdmApplication.API_TOKEN = it
                     }
                 }
             } else {
+                Timber.d("Token not present.")
                 showMessageAndDispatchResult(TranslationKey.TOKEN_MISSING.toString())
             }
         }
@@ -193,14 +214,8 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                         showMessageAndDispatchResult(TranslationKey.REQ_DATA_MISSING.toString())
                     }
                  }
-
-                ACTION_SCAN_ABHA -> {
-
-                }
             }
-
         }
-
     }
 
     /**
@@ -252,6 +267,22 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
         }
     }
 
+    private fun observerScanabhaViewModel(){
+        lifecycleScope.launch(Dispatchers.Main) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                scanAbhaViewModel.uiState.collect {
+                    when (it) {
+                        is GenerateAbhaUiState.Loading -> {
+                            Timber.d("LOADER VISIBILITY ${it.isLoading}")
+                            binding.loader.visibility =
+                                if (it.isLoading) View.VISIBLE else View.GONE
+                        }
+                        else -> false
+                    }
+                }
+            }
+        }
+    }
     private fun observerCCViewModel(){
         lifecycleScope.launch(Dispatchers.Main) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -300,6 +331,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
 
 
     private fun inflateNavGraph() {
+        Timber.d("Initializing nav graph.")
         val bundle = intent.extras ?: bundleOf()
 
         bundle.getString("abdm_api_token")?.let {
@@ -333,7 +365,13 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 ACTION_CARE_CONTEXT_LINK ->{
                     R.navigation.link_care_context
                 }
+
+                ACTION_NOTIFY_PATIENT ->{
+                    Timber.d("Action = notify_patient.")
+                    R.navigation.notify_patient
+                }
                 else -> {
+                    Timber.d("ACTION = -1")
                     -1
                 }
             }
@@ -343,7 +381,7 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                 graph.addInDefaultArgs(intent.extras)
                 navController.setGraph(graph, bundle)
             } else {
-                Timber.d("Action not present. Navgra ")
+                Timber.d("Action not present.")
             }
 
         }
@@ -416,6 +454,19 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
             { dispatchResult(getErrorIntent(msg)) },
             DialogType.Blocking
         )
+    }
+
+
+    fun scanBarcode(callback : (result:String?)->Unit){
+        scanCallback = callback
+        val options = ScanOptions()
+        options.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES)
+        options.setPrompt(resources.getString(R.string.place_barcode_inside))
+        options.setCameraId(0)
+        options.setBeepEnabled(true)
+        options.setBarcodeImageEnabled(true)
+        options.captureActivity = BarcodeCaptureAct::class.java
+        barcodeLauncher.launch(options)
     }
 
 

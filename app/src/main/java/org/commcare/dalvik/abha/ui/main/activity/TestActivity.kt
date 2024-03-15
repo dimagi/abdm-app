@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import com.google.gson.JsonObject
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.data.network.HeaderInterceptor
 import org.json.JSONArray
@@ -19,6 +18,7 @@ class TestActivity : AppCompatActivity() {
     val REQ_CODE_C = 102
     val REQ_CODE_D = 103
     val REQ_CODE_E = 104
+    val REQ_NOTIFY_PATIENT = 105
 
     val action = "org.commcare.dalvik.abha.abdm.app"
 
@@ -27,6 +27,7 @@ class TestActivity : AppCompatActivity() {
     val ACTION_VERIFY_ABHA = "verify_abha"
     val ACTION_SCAN_ABHA = "scan_abha"
     val ACTION_GET_CONSENT = "get_consent"
+    val ACTION_NOTIFY_PATIENT = "notify_patient"
     val ACTION_CARE_CONTEXT_LINK = "link_care_context"
 
 
@@ -35,11 +36,11 @@ class TestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_test)
 
         findViewById<Button>(R.id.intentA).setOnClickListener {
-            startIntentB()
+            verifyABHAIntent()
         }
 
         findViewById<Button>(R.id.intentB).setOnClickListener {
-            startIntentA()
+            createABHAIntent()
         }
 
         findViewById<Button>(R.id.intentC).setOnClickListener {
@@ -54,19 +55,40 @@ class TestActivity : AppCompatActivity() {
             linkCareContext()
         }
 
+        findViewById<Button>(R.id.notifyPatient).setOnClickListener {
+            notifyPatient()
+        }
+
         HeaderInterceptor.API_KEY = ""
 
     }
 
-    val lang = "en"
-    private val token = "0c0a3fbbacc0922192a1b4e63be5d6f511790a31"
+    private fun notifyPatient() {
+        val intent = Intent(action).apply {
+            putExtras(
+                bundleOf(
+                    "phoneNo" to "9560833229",
+                    "hip" to "6004",
+                    "lang_code" to lang,
+                    "abdm_api_token" to token,
+                    "action" to ACTION_NOTIFY_PATIENT
+                )
+            )
+        }
+        startActivityForResult(intent, REQ_NOTIFY_PATIENT)
+    }
 
-    private fun startIntentA() {
+    val lang = "en"
+    private val token = "33ec318e4ea1261d1e200c4eff017ea696fedaa9" //"cba903c996da17ca535d4bbb1b04d8e0eb7127ce"
+
+
+
+    private fun createABHAIntent() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
                     "mobile_number" to "9560833229",
-                    "abha_id" to "ashish.yogi",
+                    "abha_id" to "harish23@sbx",
                     "lang_code" to lang,
                     "abdm_api_token" to token,
                     "action" to ACTION_CREATE_ABHA
@@ -77,11 +99,12 @@ class TestActivity : AppCompatActivity() {
 
     }
 
-    private fun startIntentB() {
+    private fun verifyABHAIntent() {
 
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
+                    "abha_id" to "harish23@sbx",
                     "mobile_number" to "9560833229",
                     "abdm_api_token" to token,
                     "lang_code" to lang,
@@ -111,11 +134,13 @@ class TestActivity : AppCompatActivity() {
         val intent = Intent(action).apply {
             putExtras(
                 bundleOf(
-                    "abha_id" to "ajeet2040@sbx",
+                    "patient_name" to "Test Patient",
+                    "abha_id" to "ajeet2042@sbx",
                     "hiu_id" to "Ashish-HIU-Registered",
                     "abdm_api_token" to token,
                     "lang_code" to lang,
-                    "action" to ACTION_GET_CONSENT
+                    "action" to ACTION_GET_CONSENT,
+                    "requester" to "Dr xyz"
                 )
             )
         }
@@ -137,6 +162,15 @@ class TestActivity : AppCompatActivity() {
                         put("Prescription")
                     }
                     put("hiTypes",hiTypes)
+
+                    val additionalInfo =  JSONObject().apply {
+                        put("domain","domain  data")
+                        put("record_date","2023-10-31T21:37:41.786Z")
+                        // 2023-10-31T21:37:41.786Z
+                    }
+
+                    put("additionalInfo",additionalInfo)
+
                 }
 
 
@@ -148,7 +182,7 @@ class TestActivity : AppCompatActivity() {
             }
             putExtras(
                 bundleOf(
-                    "abhaId" to "ajeet2040@sbx",
+                    "abhaId" to "91766261606756@sbx",
                     "purpose" to "LINK",
                     "hipId" to "6004",
                     "patientDetail" to patientJson.toString(),
@@ -171,6 +205,10 @@ class TestActivity : AppCompatActivity() {
             }
 
             REQ_CODE_B -> {
+
+            }
+
+            REQ_NOTIFY_PATIENT -> {
 
             }
         }

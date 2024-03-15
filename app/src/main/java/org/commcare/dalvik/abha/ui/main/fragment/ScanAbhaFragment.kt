@@ -11,12 +11,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.budiyev.android.codescanner.AutoFocusMode
-import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.DecodeCallback
-import com.budiyev.android.codescanner.ErrorCallback
-import com.budiyev.android.codescanner.ScanMode
+
 import com.google.gson.Gson
+import com.journeyapps.barcodescanner.ScanOptions
 import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.ScanAbhaBinding
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
@@ -27,7 +24,7 @@ import timber.log.Timber
 
 class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate) {
 
-    private lateinit var codeScanner: CodeScanner
+//    private lateinit var codeScanner: CodeScanner
     val viewmodel: ScanAbhaViewModel by activityViewModels()
     lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
@@ -35,6 +32,8 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
         super.onViewCreated(view, savedInstanceState)
 
         binding.clickHandler = this
+
+
 
 
         val callback = object : OnBackPressedCallback(true) {
@@ -61,22 +60,22 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
     }
 
     private fun initScanner() {
-        codeScanner = CodeScanner(requireContext(), binding.scannerView).apply {
-            camera = CodeScanner.CAMERA_BACK
-            formats = CodeScanner.ALL_FORMATS
-            autoFocusMode = AutoFocusMode.CONTINUOUS
-            scanMode = ScanMode.SINGLE
-            isAutoFocusEnabled = true
-            isFlashEnabled = false
-            decodeCallback = DecodeCallback {
-                releaseScanner()
-                validateScannedData(it.text)
-            }
-            errorCallback = ErrorCallback {
-                Timber.d("scan===> ${it.message}")
-                releaseScanner()
-            }
-        }
+//        codeScanner = CodeScanner(requireContext(), binding.scannerView).apply {
+//            camera = CodeScanner.CAMERA_BACK
+//            formats = CodeScanner.ALL_FORMATS
+//            autoFocusMode = AutoFocusMode.CONTINUOUS
+//            scanMode = ScanMode.SINGLE
+//            isAutoFocusEnabled = true
+//            isFlashEnabled = false
+//            decodeCallback = DecodeCallback {
+//                releaseScanner()
+//                validateScannedData(it.text)
+//            }
+//            errorCallback = ErrorCallback {
+//                Timber.d("scan===> ${it.message}")
+//                releaseScanner()
+//            }
+//        }
     }
 
 
@@ -103,12 +102,13 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
 
     private fun startScanner() {
         binding.scanViewHolder.visibility = View.VISIBLE
-        codeScanner.startPreview()
+//        codeScanner.startPreview()
+        (activity as AbdmActivity).scanBarcode(this::onBarcodeDataReceived)
     }
 
     private fun releaseScanner() {
-        codeScanner.stopPreview()
-        codeScanner.releaseResources()
+//        codeScanner.stopPreview()
+//        codeScanner.releaseResources()
         activity?.runOnUiThread {
             binding.scanViewHolder.visibility = View.GONE
         }
@@ -175,6 +175,10 @@ class ScanAbhaFragment : BaseFragment<ScanAbhaBinding>(ScanAbhaBinding::inflate)
                 Manifest.permission.CAMERA);
         }
 
+    }
+
+     fun onBarcodeDataReceived(scannedDate: String?){
+         validateScannedData(scannedDate)
     }
 
 }

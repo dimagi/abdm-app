@@ -18,6 +18,7 @@ import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.ui.main.activity.AbdmResponseCode
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.ScanAbhaViewModel
+import timber.log.Timber
 
 class ScanAbhaResultFragment : BaseFragment<ScanAbhaResultBinding>(ScanAbhaResultBinding::inflate) {
 
@@ -70,6 +71,20 @@ class ScanAbhaResultFragment : BaseFragment<ScanAbhaResultBinding>(ScanAbhaResul
                                     R.color.red
                                 )
                             )
+                        }
+
+                        is GenerateAbhaUiState.AbdmError -> {
+                            binding.dispatchScanResult.isEnabled = true
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                            viewModel.abhaScanModel.validationState =  AbhaScanModel.AbhaValidationState.INVALID
+                            binding.verificationStatus.text = viewModel.abhaScanModel.validationState.value
+                            binding.verificationStatus.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.red
+                                )
+                            )
+                            (activity as AbdmActivity).showBlockerDialog(it.data.message)
                         }
 
                         else -> {

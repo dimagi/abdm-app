@@ -89,8 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_24dp"
-                android:hint="@string/hipId"
-                android:visibility="gone"
+                android:hint="@string/patient_name"
                 app:layout_constraintBottom_toTopOf="@+id/hiuIdInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -98,9 +97,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/patientIdInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/hipId"
+                    android:id="@+id/patientName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:textColor="@color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>

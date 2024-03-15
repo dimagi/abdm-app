@@ -45,7 +45,14 @@
     <string name="tnc">लाभार्थी की सहमति</string>
     <string name="note">टिप्पणी:</string>
     <string name="check_abha_note">नया ABHA बनाते समय आभा इनपुट वैकल्पिक है। खाली छोड़े जाने पर, एक ऑटो जनरेट किया गया ABHA बनाया जाएगा।
-यदि लाभार्थी कस्टम ABHA पते में रुचि रखता है तो कृपया इस फ़ील्ड को भरें।</string>
+यदि लाभार्थी कस्टम ABHA पते में रुचि रखता है तो कृपया इस फ़ील्ड को भरें।\n\n
+        1. Minimum length - 8 characters.\n
+2. Maximum length - 18 characters.\n
+3. Special characters allowed - 1 dot (.) and/or 1 underscore (_).\n
+4. Special character dot and underscore should be in between. Special characters cannot be in the beginning or at the end.\n
+5. Alphanumeric - only numbers, only letters or any combination of numbers and letters is allowed.\n
+    </string>
+
     <string name="ABHA_IN_USE">ABHA पता पहले से ही उपयोग में है।</string>
     <string name="checkABHA">ABHA की जाँच करें</string>
     <string name="abha_to_check">जाँच करने के लिए ABHA दर्ज करें</string>
@@ -87,7 +94,7 @@
     <string name="create_consent">Create Consent</string>
     <string name="healthInfo">Health Info</string>
     <string name="helthInfoType">Health Info Type</string>
-    <string name="healthInfoType">Health Info Type</string>
+    <string name="healthInfoType">FHIR डेटा</string>
     <string name="patient_consent">Patient Consents</string>
     <string name="filter">Filter</string>
     <string name="searchText">Enter text to search</string>
@@ -119,4 +126,15 @@
     <string name="linking_cc_success">Context care linked successfully.</string>
     <string name="linking_cc_error">Context care not linked.</string>
     <string name="cc_not_linked">NOT LINKED</string>
+    <string name="scanAbhaResult">ABHA Details</string>
+    <string name="place_barcode_inside">Place barcode at the center of the screen.</string>
+    <string name="back">Back</string>
+    <string name="notifyPatient">Notify Patient</string>
+    <string name="phone">Phone No.</string>
+    <string name="creation_date">निर्माण तिथि</string>
+    <string name="granted_date">स्वीकृत तिथि</string>
+    <string name="patient_name">रोगी का नाम</string>
+    <string name="no_health_data_available">No health record available</string>
+    <string name="abha_address">ABHA Address</string>
+    <string name="age">Age</string>
 </resources>

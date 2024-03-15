@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notify_patient"
+    app:startDestination="@id/notifyPatientFragment">
+
+    <fragment
+        android:id="@+id/notifyPatientFragment"
+        android:name="org.commcare.dalvik.abha.ui.main.fragment.NotifyPatientFragment"
+        android:label="NotifyPatientFragment" />
+</navigation>

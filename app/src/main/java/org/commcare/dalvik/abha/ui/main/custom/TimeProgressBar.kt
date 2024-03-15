@@ -32,7 +32,7 @@ class TimeProgressBar @JvmOverloads constructor(
             ).apply {
                 try {
                     pb.max =
-                        getInt(R.styleable.custom_number_progress_attributes_maxCounter, 60)
+                        getInt(R.styleable.custom_number_progress_attributes_maxCounter, 90)
                     pb.progress = pb.max
                 } finally {
                     recycle()

@@ -19,6 +19,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
 import org.commcare.dalvik.abha.R
@@ -51,9 +52,13 @@ class CreatePatientConsentFragment :
         arguments?.let { bundle ->
             bundle.getString("abha_id")?.let { abhaId ->
                 bundle.getString("hiu_id")?.let { hiuId ->
-                    viewmodel.init(abhaId, hiuId)
+                    viewmodel.init(abhaId, hiuId,   bundle.getString("requester") ?: "")
                 }
             }
+            bundle.getString("patient_name")?.let { patientName ->
+                binding.patientName.setText(patientName)
+            }
+
         }
 
         binding.model = viewmodel.patientConsentModel
@@ -176,7 +181,7 @@ class CreatePatientConsentFragment :
 
                     val dateValidatorEnd =
                         DateValidatorPointBackward.before(
-                            Calendar.getInstance().timeInMillis - 1.days.toLong(DurationUnit.MILLISECONDS)
+                            Calendar.getInstance().timeInMillis  //- 1.days.toLong(DurationUnit.MILLISECONDS)
                         )
 
                     val validatorList = mutableListOf<CalendarConstraints.DateValidator>()
@@ -285,7 +290,8 @@ class CreatePatientConsentFragment :
             val minutes = timePicker.minute * 60 * 1000
             val hours = timePicker.hour * 60 * 60 * 1000
 
-            val finalTime = selectedDate + hours + minutes
+            var finalTime = selectedDate + hours + minutes
+
 
             timechip.text = CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.USER.format)
             timechip.visibility = View.VISIBLE
@@ -293,18 +299,21 @@ class CreatePatientConsentFragment :
             when (timechip.id) {
                 R.id.startDateChip -> {
                     CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.SERVER.format)?.let {
+                        Timber.d("+++Start Date = ${it}")
                         viewmodel.patientConsentModel.setPermissionStartDate(it)
                     }
                 }
 
                 R.id.endDateChip -> {
                     CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.SERVER.format)?.let {
+                        Timber.d("+++End Date = ${it}")
                         viewmodel.patientConsentModel.setPermissionEndDate(it)
                     }
                 }
 
                 R.id.eraseDateChip -> {
                     CommonUtil.getFormattedDateTime(finalTime, DATE_FORMAT.SERVER.format)?.let {
+                        Timber.d("+++Expiry Date = ${it}")
                         viewmodel.patientConsentModel.setPermissionExpiryDate(it)
                     }
                 }

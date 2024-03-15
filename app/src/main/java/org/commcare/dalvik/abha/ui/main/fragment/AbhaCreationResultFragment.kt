@@ -71,6 +71,11 @@ class AbhaCreationResultFragment : BaseFragment<AbhaDetailBinding>(AbhaDetailBin
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
                         }
 
+                        is GenerateAbhaUiState.AbdmError -> {
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                            (activity as AbdmActivity).showBlockerDialog(it.data.getActualMessage())
+                        }
+
                         else -> {
                             //exhaustive block
                         }
@@ -121,9 +126,8 @@ class AbhaCreationResultFragment : BaseFragment<AbhaDetailBinding>(AbhaDetailBin
             putExtra("message", "ABHA creation completed.")
             putExtra("exists_on_abdm", binding.model?.existsOnAbdm.toString())
             putExtra("exists_on_hq", binding.model?.existsOnHq.toString())
-            if (binding.shareWithCC.isChecked) {
-                putExtra("aadhaarData", binding.model?.data?.toString())
-            }
+            putExtra("aadhaarData", binding.model?.data?.toString())
+
         }
         (activity as AbdmActivity).onAbhaNumberReceived(intent)
     }

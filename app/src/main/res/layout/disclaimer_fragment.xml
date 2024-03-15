@@ -125,7 +125,6 @@
                 android:layout_marginTop="16dp"
                 android:hint="@string/abha_to_check"
                 app:endIconMode="clear_text"
-                app:suffixText="@string/custom_abha_suffix"
                 app:helperTextTextColor="@color/red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -185,7 +184,7 @@
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="0dp"
-                android:layout_height="74dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"

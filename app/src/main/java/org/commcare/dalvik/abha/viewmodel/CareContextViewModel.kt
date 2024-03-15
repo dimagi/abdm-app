@@ -98,7 +98,7 @@ class CareContextViewModel @Inject constructor(
         viewModelScope.launch {
             selectedAuthMethod.let { authMethod ->
                 linkCareContextModel.getAuthModesRequestModel(authMethod)?.let { ccAuthReqModel ->
-                    //save otp req call count
+                    //save otp req call count only if not via demographic option here
                     saveOtpRequestCallCount(linkCareContextModel.hipId)
 
                     generateCareContextOtpUsecase.execute(ccAuthReqModel).collect { hqRespModel ->

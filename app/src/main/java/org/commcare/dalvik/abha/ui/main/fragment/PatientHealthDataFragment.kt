@@ -7,18 +7,23 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.commcare.dalvik.abha.R
 import org.commcare.dalvik.abha.databinding.PatientHealthDataBinding
 import org.commcare.dalvik.abha.ui.main.activity.AbdmActivity
 import org.commcare.dalvik.abha.ui.main.adapters.FileData
 import org.commcare.dalvik.abha.ui.main.adapters.FileType
 import org.commcare.dalvik.abha.ui.main.adapters.HealthDataAdapter
+import org.commcare.dalvik.abha.utility.DialogType
+import org.commcare.dalvik.abha.utility.DialogUtility
 import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
 import org.commcare.dalvik.domain.model.HealthContentModel
 import org.commcare.dalvik.domain.model.PatientHealthDataModel
-import timber.log.Timber
 
 class PatientHealthDataFragment :
     BaseFragment<PatientHealthDataBinding>(PatientHealthDataBinding::inflate) {
@@ -29,6 +34,14 @@ class PatientHealthDataFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.name =  arguments?.getString("patient_name")
+        binding.dob =  arguments?.getString("dob")
+        binding.age =  arguments?.getString("age")
+        binding.gender =  arguments?.getString("gender")
+        binding.phone =  arguments?.getString("phone_number")
+        binding.abhaId =  arguments?.getString("abha_id")
+        binding.abhaNum =  arguments?.getString("abha_number")
 
         arguments?.getString("artefactId")?.let { artefactId ->
 
@@ -77,8 +90,15 @@ class PatientHealthDataFragment :
                                 )
                             } ?: run {
                                 viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                                if(healthDataModel.results.isEmpty()){
+                                        DialogUtility.showDialog(
+                                            activity as AbdmActivity,
+                                            resources.getString(R.string.no_health_data_available),
+                                            { findNavController().popBackStack()},
+                                            DialogType.General
+                                        )
+                                }
                             }
-
                         }
 
                         is GenerateAbhaUiState.Error -> {

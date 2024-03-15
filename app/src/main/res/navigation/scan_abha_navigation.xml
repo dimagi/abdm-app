@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/scanAbhaFragment"
         android:name="org.commcare.dalvik.abha.ui.main.fragment.ScanAbhaFragment"
-        android:label="ScanAbhaFragment" >
+        android:label="@string/scanAbha" >
         <action
             android:id="@+id/action_scanAbhaFragment_to_scanAbhaResultFragment"
             app:destination="@id/scanAbhaResultFragment" />
@@ -16,5 +16,5 @@
     <fragment
         android:id="@+id/scanAbhaResultFragment"
         android:name="org.commcare.dalvik.abha.ui.main.fragment.ScanAbhaResultFragment"
-        android:label="ScanAbhaResultFragment" />
+        android:label="@string/scanAbhaResult" />
 </navigation>

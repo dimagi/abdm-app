@@ -59,6 +59,7 @@ class AbhaVerificationResultFragment :
             putExtra("abha_address", binding.model?.healthId)
             putExtra("code", AbdmResponseCode.SUCCESS.value)
             putExtra("verified", binding.model?.status)
+            putExtra("aadhaarData", binding.model?.aadharData?.toString())
             putExtra("message", "ABHA verification completed.")
         }
 
@@ -84,6 +85,11 @@ class AbhaVerificationResultFragment :
 
                         is GenerateAbhaUiState.Error -> {
                             viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                        }
+
+                        is GenerateAbhaUiState.AbdmError -> {
+                            viewModel.uiState.emit(GenerateAbhaUiState.Loading(false))
+                            (activity as AbdmActivity).showBlockerDialog(it.data.getActualMessage())
                         }
                         else -> {
                             //exhaustive block

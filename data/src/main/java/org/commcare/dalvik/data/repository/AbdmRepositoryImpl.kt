@@ -23,6 +23,7 @@ import org.commcare.dalvik.domain.model.HqResponseModel
 import org.commcare.dalvik.domain.model.MobileOtpRequestModel
 import org.commcare.dalvik.domain.model.PatientConsentDetailModel
 import org.commcare.dalvik.domain.model.PatientConsentList
+import org.commcare.dalvik.domain.model.PatientNotificationModel
 import org.commcare.dalvik.domain.model.VerifyOtpRequestModel
 import org.commcare.dalvik.domain.repositories.AbdmRepository
 import org.commcare.dalvik.domain.usecases.FetchConsentArtefactsUsecase
@@ -112,6 +113,10 @@ class AbdmRepositoryImpl @Inject constructor(val hqServices: HqServices) : AbdmR
         hqServices.linkCareContext(ccLinkModel)
     }
 
+    override fun notifyPatient(patientNotificationModel: PatientNotificationModel)= safeApiCall {
+        hqServices.notifyPatient(patientNotificationModel)
+    }
+
     override suspend fun getPatientConsents(
         abhaId: String,
         page:Int?,
@@ -141,9 +146,15 @@ class AbdmRepositoryImpl @Inject constructor(val hqServices: HqServices) : AbdmR
     ): ConsentArtefactsList {
         val result = hqServices.getConsentArtefacts(consentRequestId, searchText,page)
         Timber.d("RESULT : ${result.body().toString()}")
-        return Gson().fromJson(result.body(), ConsentArtefactsList::class.java)
+        val consentArtefactsList =  Gson().fromJson(result.body(), ConsentArtefactsList::class.java)
+        return filterConsentArtefactsList(consentArtefactsList)
     }
 
+    private fun filterConsentArtefactsList(list: ConsentArtefactsList): ConsentArtefactsList {
+        val filteredList = list.results.filterNot { it.isArtefactRequested() }
+        list.results = filteredList
+        return list
+    }
 
     override fun getConsentArtefactPagerData(fetchPatientConsentUsecase: FetchConsentArtefactsUsecase) =
         Pager(

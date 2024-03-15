@@ -6,6 +6,16 @@
     <data class="GenerateCCOtpBinding">
 
         <import type="org.commcare.dalvik.domain.model.TranslationKey" />
+        <import type="android.view.View"/>
+
+
+        <variable
+            name="isVerifyWithDemoGraphics"
+            type="Boolean"
+            />
+        <variable
+            name="demograhicModel"
+            type="org.commcare.dalvik.domain.model.Demographic" />
 
         <variable
             name="model"
@@ -20,100 +30,240 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/otpInputLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/ENTER_OTP"
-            android:orientation="vertical"
-            app:endIconMode="clear_text"
-            app:helperTextEnabled="true"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/otpEt"
-                style="@style/EditTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/ENTER_OTP"
-                android:inputType="number"
-                android:maxLength="6" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guidelineMargin" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guidelineMargin" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/resentOtpContainer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_32dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/otpInputLayout">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{isVerifyWithDemoGraphics ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
 
-            <Button
-                android:id="@+id/resendCCOtp"
-                style="@style/RoundStyleButton"
+            <TableLayout
+                android:id="@+id/demographicDataLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:onClickListener="@{clickHandler}"
-                android:text="@string/RESEND_OTP"
-                android:enabled="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/timeProgress"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5"
-                tools:text="Resend" />
-
-            <org.commcare.dalvik.abha.ui.main.custom.TimeProgressBar
-                android:id="@+id/timeProgress"
-                android:layout_width="@dimen/_32dp"
-                android:layout_height="32dp"
-                android:visibility="gone"
+                android:orientation="vertical"
+                android:padding="1dp"
+                android:layout_margin="@dimen/_10dp"
+                android:stretchColumns="*"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/resendCCOtp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5" />
+                app:layout_constraintVertical_bias="0.5">
 
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/bgColor"
+                    android:minHeight="32dp">
+
+                    <TextView
+                        style="@style/Headline1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingStart="2dp"
+                        android:paddingLeft="2dp"
+                        android:text="@string/name" />
+
+                    <TextView
+                        style="@style/Headline2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingEnd="2dp"
+                        android:paddingRight="2dp"
+                        android:text="@{demograhicModel.name}"
+                        />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:minHeight="32dp">
+
+                    <TextView
+                        style="@style/Headline1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingStart="2dp"
+                        android:paddingLeft="2dp"
+                        android:text="@string/gender" />
+
+                    <TextView
+                        style="@style/Headline1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingEnd="2dp"
+                        android:paddingRight="2dp"
+                        android:text="@{demograhicModel.gender}"
+                        android:textStyle="bold"
+                        tools:text="SUCCESS" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/bgColor"
+                    android:minHeight="32dp">
+
+                    <TextView
+                        style="@style/Headline1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingStart="2dp"
+                        android:paddingLeft="2dp"
+                        android:text="@string/dateOfBirth" />
+
+                    <TextView
+                        style="@style/Headline1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingEnd="2dp"
+                        android:paddingRight="2dp"
+                        android:text="@{demograhicModel.dateOfBirth}"
+                        android:textStyle="bold"
+                        tools:text="SUCCESS" />
+
+                </TableRow>
+
+
+            </TableLayout>
+
+            <Button
+                android:id="@+id/startAuth"
+                style="@style/RoundStyleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10dp"
+                android:layout_marginBottom="16dp"
+                android:onClickListener="@{clickHandler}"
+                android:text="@string/verify"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            android:visibility="@{isVerifyWithDemoGraphics ? View.GONE : View.VISIBLE}"
+            >
 
-        <Button
-            android:id="@+id/verifyCCOtp"
-            style="@style/RoundStyleButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16dp"
-            android:enabled="false"
-            android:onClickListener="@{clickHandler}"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/resentOtpContainer"
-            android:text="@string/VERIFY"
-            />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/otpInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/ENTER_OTP"
+                android:orientation="vertical"
+                app:endIconMode="clear_text"
+                app:helperTextEnabled="true"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/otpEt"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/ENTER_OTP"
+                    android:inputType="number"
+                    android:maxLength="6" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guidelineMargin" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guidelineMargin" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/resentOtpContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_32dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/otpInputLayout">
+
+                <Button
+                    android:id="@+id/resendCCOtp"
+                    style="@style/RoundStyleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:onClickListener="@{clickHandler}"
+                    android:text="@string/RESEND_OTP"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/timeProgress"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5"
+                    tools:text="Resend" />
+
+                <org.commcare.dalvik.abha.ui.main.custom.TimeProgressBar
+                    android:id="@+id/timeProgress"
+                    android:layout_width="@dimen/_32dp"
+                    android:layout_height="32dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/resendCCOtp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <Button
+                android:id="@+id/verifyCCOtp"
+                style="@style/RoundStyleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16dp"
+                android:enabled="false"
+                android:onClickListener="@{clickHandler}"
+                android:text="@string/VERIFY"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/resentOtpContainer" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -27,7 +27,7 @@ ext {
 
     DATA_STORE_VERSION ="1.0.0"
 
-    SCANNER_VER="2.3.2"
+    ZXING_VER="4.3.0"
     SQUARE_OKIO_VER="3.2.0"
 
     GLIDE_VER="4.13.2"

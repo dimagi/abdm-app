@@ -53,12 +53,35 @@ class NetworkUtil {
                             }
                         }
 
-                        400, 422 -> {
+                        400,401, 422 -> {
                             it.errorBody()?.string()?.let {
                                 val gson = GsonBuilder().serializeNulls().create()
-                                val adbmError: AbdmErrorModel =
-                                    gson.fromJson(it, AbdmErrorModel::class.java)
-                                return HqResponseModel.AbdmError(500, adbmError)
+                                val errorJson = JSONObject(it)
+                                if (errorJson.has("error")) {
+                                    val actualError: AbdmErrorModel =
+                                        gson.fromJson(
+                                            errorJson.getString("error"),
+                                            AbdmErrorModel::class.java
+                                        )
+
+                                    try {
+                                        if (actualError.details[0].message.isEmpty()) {
+
+                                            errorJson.getJSONObject("error").getJSONArray("details").getJSONObject(0)
+                                                ?.let { detailJson ->
+                                                    actualError.details[0].message = detailJson.getString("detail")
+                                                }
+                                        }
+                                    } catch (e: Exception) {
+
+                                    }
+                                    return HqResponseModel.AbdmError(500, actualError)
+
+                                }else {
+                                    val adbmError: AbdmErrorModel =
+                                        gson.fromJson(it, AbdmErrorModel::class.java)
+                                    return HqResponseModel.AbdmError(500, adbmError)
+                                }
                             }
 
                         }
@@ -114,7 +137,7 @@ fun <T> safeApiCall(call: suspend () -> Response<T>) = flow {
 
                 }
 
-                400, 422, 554, 555 -> {
+                400,401, 422, 554, 555 -> {
                     it.errorBody()?.string()?.let { errResponse ->
                         Timber.d("Network : ===> ${errResponse}")
                         val gson = GsonBuilder().serializeNulls().create()
