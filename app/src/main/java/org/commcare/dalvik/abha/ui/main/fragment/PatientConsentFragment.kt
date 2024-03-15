@@ -47,7 +47,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getString("abha_id")?.let {abhaId ->
+        arguments?.getString("abha_id")?.let { abhaId ->
             viewModel.initPatientAbhaId(abhaId)
         }
 
@@ -88,7 +88,7 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         val patientName = arguments?.getString("patient_name")
-        consentAdapter = PatientConsentAdapter(patientName ,this::onPatientConsentClicked)
+        consentAdapter = PatientConsentAdapter(patientName, this::onPatientConsentClicked)
 
         binding.consentList.apply {
             setHasFixedSize(true)
@@ -123,14 +123,15 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
             val isLoading = loadState.refresh is LoadState.Loading
             binding.statusLoading.isVisible = isLoading
-            if(isLoading){
+            if (isLoading) {
                 binding.statusView.isVisible = false
             }
 
             if (loadState.refresh is LoadState.Error) {
                 binding.statusView.isVisible = true
 
-                val abdmException: AbdmException? = (loadState.refresh as LoadState.Error).error as? AbdmException
+                val abdmException: AbdmException? =
+                    (loadState.refresh as LoadState.Error).error as? AbdmException
                 abdmException?.let {
                     it.message?.let { msg -> (activity as AbdmActivity).showBlockerDialog(msg) }
                 } ?: run {
@@ -151,11 +152,11 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
         }
 
-        binding.createConsentBtn.setOnClickListener{
+        binding.createConsentBtn.setOnClickListener {
             navigateToCreateConsentScreen()
         }
 
-        binding.backBt.setOnClickListener{
+        binding.backBt.setOnClickListener {
             (activity as AbdmActivity).finish()
         }
     }
@@ -291,10 +292,14 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
     private fun onPatientConsentClicked(patientConsentModel: PatientConsentModel) {
         Timber.d("Clicked : ${patientConsentModel.id}")
         patientConsentModel.status?.let {
-            if(it == "GRANTED") {
+            if (it == "GRANTED") {
                 navigateToConsentArtefactScreen(patientConsentModel.consentRequestId)
-            }else{
-                Toast.makeText(requireContext(),resources.getString(R.string.notGrantedMsg),Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.notGrantedMsg),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -302,10 +307,9 @@ class PatientConsentFragment : BaseFragment<PatientConsentBinding>(PatientConsen
 
     private fun navigateToConsentArtefactScreen(consentReqId: String) {
         activity?.runOnUiThread {
+            arguments?.putString("contentRequestId", consentReqId)
             findNavController().navigate(
-                R.id.action_patientConsentFragment_to_consentArtefactFragment, bundleOf(
-                    "contentRequestId" to consentReqId
-                )
+                R.id.action_patientConsentFragment_to_consentArtefactFragment, arguments
             )
         }
     }

@@ -24,7 +24,6 @@ import org.commcare.dalvik.abha.viewmodel.GenerateAbhaUiState
 import org.commcare.dalvik.abha.viewmodel.PatientViewModel
 import org.commcare.dalvik.domain.model.HealthContentModel
 import org.commcare.dalvik.domain.model.PatientHealthDataModel
-import timber.log.Timber
 
 class PatientHealthDataFragment :
     BaseFragment<PatientHealthDataBinding>(PatientHealthDataBinding::inflate) {
@@ -35,6 +34,14 @@ class PatientHealthDataFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.name =  arguments?.getString("patient_name")
+        binding.dob =  arguments?.getString("dob")
+        binding.age =  arguments?.getString("age")
+        binding.gender =  arguments?.getString("gender")
+        binding.phone =  arguments?.getString("phone_number")
+        binding.abhaId =  arguments?.getString("abha_id")
+        binding.abhaNum =  arguments?.getString("abha_number")
 
         arguments?.getString("artefactId")?.let { artefactId ->
 

@@ -214,11 +214,8 @@ class AbdmActivity : BaseActivity<AbdmActivityBinding>(AbdmActivityBinding::infl
                         showMessageAndDispatchResult(TranslationKey.REQ_DATA_MISSING.toString())
                     }
                  }
-
             }
-
         }
-
     }
 
     /**

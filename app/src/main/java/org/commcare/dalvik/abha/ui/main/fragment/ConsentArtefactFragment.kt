@@ -82,7 +82,8 @@ class ConsentArtefactFragment :
 
             if (loadState.refresh is LoadState.Error) {
                 binding.statusView.isVisible = true
-                val abdmException: AbdmException? = (loadState.refresh as LoadState.Error).error as? AbdmException
+                val abdmException: AbdmException? =
+                    (loadState.refresh as LoadState.Error).error as? AbdmException
                 abdmException?.let {
                     it.message?.let { msg -> (activity as AbdmActivity).showBlockerDialog(msg) }
                 } ?: run {
@@ -102,10 +103,9 @@ class ConsentArtefactFragment :
     }
 
     private fun navigateToPatientHealthData(artefactId: String) {
+        arguments?.putString("artefactId", artefactId)
         findNavController().navigate(
-            R.id.action_consentArtefactFragment_to_patientHealthDataFragment, bundleOf(
-                "artefactId" to artefactId
-            )
+            R.id.action_consentArtefactFragment_to_patientHealthDataFragment, arguments
         )
 
     }

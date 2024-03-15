@@ -136,4 +136,5 @@
     <string name="patient_name">रोगी का नाम</string>
     <string name="no_health_data_available">No health record available</string>
     <string name="abha_address">ABHA Address</string>
+    <string name="age">Age</string>
 </resources>

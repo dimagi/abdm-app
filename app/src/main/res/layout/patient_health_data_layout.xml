@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data class="PatientHealthDataBinding">
 
+        <variable
+            name="name"
+            type="String" />
+
+        <variable
+            name="age"
+            type="String" />
+
+        <variable
+            name="gender"
+            type="String" />
+
+        <variable
+            name="phone"
+            type="String" />
+
+        <variable
+            name="abhaId"
+            type="String" />
+
+        <variable
+            name="abhaNum"
+            type="String" />
+
+        <variable
+            name="dob"
+            type="String" />
 
     </data>
 
@@ -10,16 +39,244 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TableLayout
+            android:id="@+id/patientDataLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightest_grey"
+            android:orientation="vertical"
+            android:padding="@dimen/_8dp"
+            android:stretchColumns="*"
+            app:layout_constraintBottom_toTopOf="@+id/patientHealthDataList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/abha_address" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{abhaId}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/abha_number" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{abhaNum}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/name" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{name}" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/age" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{age}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/patietDetails"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold" />
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/gender" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{gender}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/dateOfBirth" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{dob}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/_32dp">
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/_2dp"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="@string/phone" />
+
+                <TextView
+                    style="@style/Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
+                    android:text="@{phone}" />
+
+            </TableRow>
+
+
+        </TableLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/patientHealthDataList"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/healthDataErLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/patientDataLayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/healthDataErLayout"
@@ -30,7 +287,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/patientHealthDataList">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
 
             <TextView
                 android:id="@+id/healthDataErrMsg"
